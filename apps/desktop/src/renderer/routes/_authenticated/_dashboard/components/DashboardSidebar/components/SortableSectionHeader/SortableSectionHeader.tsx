@@ -24,7 +24,10 @@ interface SortableSectionHeaderProps {
 	sortableId: string;
 	section: DashboardSidebarSection;
 	/** Column of the lane's ungrouped rows; the header lines up with them. */
-	indentation?: Exclude<DashboardSidebarWorkspaceIndentation, "grouped">;
+	indentation?: Exclude<
+		DashboardSidebarWorkspaceIndentation,
+		"grouped" | "nested"
+	>;
 	onDelete: (sectionId: string) => void;
 	onRename: (sectionId: string, name: string) => void;
 	onToggleCollapse: (sectionId: string) => void;

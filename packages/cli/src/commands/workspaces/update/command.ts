@@ -21,6 +21,8 @@ export default command({
 				"Replace the workspace's tag set. Repeatable. Each tag files the workspace into a sidebar folder of the same name",
 			),
 		clearTags: boolean().desc("Remove every tag from the workspace"),
+		parent: string().desc("Workspace ID to nest this one under in the sidebar"),
+		clearParent: boolean().desc("Stop nesting the workspace under a parent"),
 	},
 	run: async ({ ctx, args, options }) => {
 		const id = args.id as string;
@@ -42,6 +44,14 @@ export default command({
 			);
 		}
 
+		if (options.parent !== undefined && options.clearParent) {
+			throw new CLIError(
+				"Cannot combine --parent and --clear-parent",
+				"Pass one or the other",
+			);
+		}
+		const parentWorkspaceId = options.clearParent ? null : options.parent;
+
 		const taskId = options.clearTask
 			? null
 			: options.taskId !== undefined
@@ -58,11 +68,12 @@ export default command({
 		if (
 			options.name === undefined &&
 			taskId === undefined &&
-			tags === undefined
+			tags === undefined &&
+			parentWorkspaceId === undefined
 		) {
 			throw new CLIError(
 				"No fields to update",
-				"Pass --name, --task-id, --clear-task, --tag, or --clear-tags",
+				"Pass --name, --task-id, --clear-task, --tag, --clear-tags, --parent, or --clear-parent",
 			);
 		}
 
@@ -74,10 +85,14 @@ export default command({
 		if (!hostId) {
 			// A cloud workspace's name lives in the API; tasks and tags are
 			// host-side rows it does not have.
-			if (taskId !== undefined || tags !== undefined) {
+			if (
+				taskId !== undefined ||
+				tags !== undefined ||
+				parentWorkspaceId !== undefined
+			) {
 				throw new CLIError(
 					"Only --name applies to a cloud workspace",
-					"Pass --local or --host <id> to update tasks or tags on a host workspace",
+					"Pass --local or --host <id> to update tasks, tags or the parent on a host workspace",
 				);
 			}
 			const renamed = await ctx.api.cloudWorkspace.rename.mutate({
@@ -101,6 +116,7 @@ export default command({
 			...(options.name !== undefined ? { name: options.name } : {}),
 			...(taskId !== undefined ? { taskId } : {}),
 			...(tags !== undefined ? { tags } : {}),
+			...(parentWorkspaceId !== undefined ? { parentWorkspaceId } : {}),
 		});
 
 		return {

@@ -544,3 +544,56 @@ describe("buildDashboardSidebarProjects with tag-derived folders", () => {
 		expect(folder.section.workspaces[0]?.accentColor).toBe("#ff0000");
 	});
 });
+
+describe("buildDashboardSidebarProjects with worker workspaces", () => {
+	it("nests workers right after their master, in the master's folder", () => {
+		const [project] = build({
+			sidebarSections: [makeSection({ id: "section-1", tabOrder: 2 })],
+			visibleSidebarWorkspaces: [
+				makeWorkspace({
+					id: "worker-1",
+					tabOrder: 1,
+					parentWorkspaceId: "master",
+				}),
+				makeWorkspace({ id: "other", tabOrder: 3 }),
+				makeWorkspace({ id: "master", sectionId: "section-1", tabOrder: 4 }),
+				makeWorkspace({
+					id: "worker-2",
+					tabOrder: 5,
+					parentWorkspaceId: "master",
+				}),
+				makeWorkspace({
+					id: "sub-worker",
+					tabOrder: 6,
+					parentWorkspaceId: "worker-1",
+				}),
+				makeWorkspace({
+					id: "orphan",
+					tabOrder: 7,
+					parentWorkspaceId: "archived",
+				}),
+			],
+		});
+
+		const rows = project.children.flatMap((child) =>
+			child.type === "section"
+				? child.section.workspaces.map((row) => ({ ...row, section: true }))
+				: [{ ...child.workspace, section: false }],
+		);
+		expect(
+			rows.map(({ id, parentWorkspaceId, section, accentColor }) => [
+				id,
+				parentWorkspaceId,
+				section,
+				accentColor,
+			]),
+		).toEqual([
+			["master", null, true, "#abcdef"],
+			["worker-1", "master", true, "#abcdef"],
+			["sub-worker", "worker-1", true, "#abcdef"],
+			["worker-2", "master", true, "#abcdef"],
+			["other", null, false, null],
+			["orphan", null, false, null],
+		]);
+	});
+});

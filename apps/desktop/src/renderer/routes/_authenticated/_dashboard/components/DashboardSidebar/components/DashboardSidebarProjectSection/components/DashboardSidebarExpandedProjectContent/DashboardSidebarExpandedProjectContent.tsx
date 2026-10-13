@@ -21,6 +21,16 @@ import { SortableWorkspaceItem } from "../../../SortableWorkspaceItem";
 const isBulkSelectable = (workspace: DashboardSidebarWorkspace) =>
 	workspace.pendingTransaction?.type !== "insert";
 
+const ONE_LEVEL_DEEPER: Record<
+	DashboardSidebarWorkspaceIndentation,
+	DashboardSidebarWorkspaceIndentation
+> = {
+	"top-level": "workspace",
+	workspace: "grouped",
+	grouped: "nested",
+	nested: "nested",
+};
+
 interface DashboardSidebarExpandedProjectContentProps {
 	/** DnD container: a project id, or SESSIONS_CONTAINER for the Sessions lane. */
 	containerId: string;
@@ -34,7 +44,7 @@ interface DashboardSidebarExpandedProjectContentProps {
 	 */
 	topLevelIndentation?: Exclude<
 		DashboardSidebarWorkspaceIndentation,
-		"grouped"
+		"grouped" | "nested"
 	>;
 	groupedIndentation?: DashboardSidebarWorkspaceIndentation;
 	workspaceShortcutLabels: Map<string, string>;
@@ -151,6 +161,9 @@ export function DashboardSidebarExpandedProjectContent({
 									const inDraggedSection =
 										isInSection && group.sectionId === activeSectionId;
 									const canBulkSelect = isBulkSelectable(workspace);
+									const indentation =
+										(isInSection ? groupedIndentation : topLevelIndentation) ??
+										(isInSection ? "grouped" : "workspace");
 
 									// The zero-height collapse lives inside the sortable wrapper
 									// (see SortableWorkspaceItem) so the clip box moves with the
@@ -165,7 +178,9 @@ export function DashboardSidebarExpandedProjectContent({
 											accentColor={group?.color}
 											isInSection={isInSection}
 											indentation={
-												isInSection ? groupedIndentation : topLevelIndentation
+												workspace.parentWorkspaceId
+													? ONE_LEVEL_DEEPER[indentation]
+													: indentation
 											}
 											onHoverCardOpen={onWorkspaceHover}
 											shortcutLabel={workspaceShortcutLabels.get(parsed.realId)}

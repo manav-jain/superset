@@ -67,9 +67,11 @@ export function DashboardSidebarWorkspaceChips({
 				"flex h-7 items-center gap-1 pr-2",
 				indentation === "top-level"
 					? "pl-[26px]"
-					: indentation === "grouped" || isInSection
-						? "pl-[50px]"
-						: "pl-[42px]",
+					: indentation === "nested"
+						? "pl-[66px]"
+						: indentation === "grouped" || isInSection
+							? "pl-[50px]"
+							: "pl-[42px]",
 				onClick && "cursor-pointer",
 			)}
 			onMouseDown={stopChipDragStart}

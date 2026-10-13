@@ -66,6 +66,8 @@ export interface SidebarWorkspaceInput {
 	sectionId: string | null;
 	/** Host tag set; absent when served by an older host. */
 	tags?: readonly string[] | null;
+	/** The workspace that spawned this one; absent from an older host. */
+	parentWorkspaceId?: string | null;
 	pinnedAt: number | null;
 	pendingTransaction: WorkspaceTransactionSnapshot | null;
 }
@@ -122,6 +124,7 @@ function decorateSidebarWorkspace(
 		updatedAt: workspace.updatedAt,
 		lastActivityAt: workspace.lastActivityAt,
 		taskId: workspace.taskId,
+		parentWorkspaceId: workspace.parentWorkspaceId ?? null,
 		isPinned: workspace.pinnedAt != null,
 		pendingTransaction: workspace.pendingTransaction,
 	};
@@ -180,6 +183,65 @@ export function buildDashboardSidebarPinnedWorkspaces({
 			];
 		},
 	);
+}
+
+/**
+ * Moves each child workspace (a worker) right after its parent (the master),
+ * in the parent's folder, recursively. A row whose parent is not in this list
+ * (archived, pinned, hidden, another project) stays where it was and loses
+ * its parent link, so it renders as a plain row.
+ */
+export function nestChildWorkspaces(
+	children: DashboardSidebarProjectChild[],
+): DashboardSidebarProjectChild[] {
+	const rows = children.flatMap((child) =>
+		child.type === "workspace" ? [child.workspace] : child.section.workspaces,
+	);
+	const parentById = new Map(
+		rows.map((row) => [row.id, row.parentWorkspaceId ?? null]),
+	);
+	const nestedParentId = (id: string): string | null => {
+		const parentId = parentById.get(id) ?? null;
+		const seen = new Set([id]);
+		let cursor = parentId;
+		while (cursor && parentById.has(cursor)) {
+			if (seen.has(cursor)) return null;
+			seen.add(cursor);
+			cursor = parentById.get(cursor) ?? null;
+		}
+		return seen.size > 1 ? parentId : null;
+	};
+	const kidsByParentId = new Map<string, DashboardSidebarWorkspace[]>();
+	for (const row of rows) {
+		const parentId = nestedParentId(row.id);
+		if (parentId)
+			kidsByParentId.set(parentId, [
+				...(kidsByParentId.get(parentId) ?? []),
+				row,
+			]);
+	}
+	const withKids = (
+		row: DashboardSidebarWorkspace,
+		accentColor: string | null,
+	): DashboardSidebarWorkspace[] => [
+		{ ...row, accentColor, parentWorkspaceId: nestedParentId(row.id) },
+		...(kidsByParentId.get(row.id) ?? []).flatMap((kid) =>
+			withKids(kid, accentColor),
+		),
+	];
+
+	return children.flatMap((child): DashboardSidebarProjectChild[] => {
+		if (child.type === "section") {
+			const workspaces = child.section.workspaces
+				.filter((row) => !nestedParentId(row.id))
+				.flatMap((row) => withKids(row, row.accentColor));
+			return [{ type: "section", section: { ...child.section, workspaces } }];
+		}
+		if (nestedParentId(child.workspace.id)) return [];
+		return withKids(child.workspace, child.workspace.accentColor).map(
+			(workspace) => ({ type: "workspace", workspace }),
+		);
+	});
 }
 
 /**
@@ -267,7 +329,7 @@ export function buildDashboardSidebarSessions({
 		});
 	}
 
-	const children: DashboardSidebarProjectChild[] = childEntries
+	let children: DashboardSidebarProjectChild[] = childEntries
 		.sort((left, right) => left.tabOrder - right.tabOrder)
 		.map(({ child }) => child);
 	if (orphaned.length > 0) {
@@ -285,6 +347,7 @@ export function buildDashboardSidebarSessions({
 		);
 	}
 
+	children = nestChildWorkspaces(children);
 	const workspaces = children.flatMap((child) =>
 		child.type === "workspace" ? [child.workspace] : child.section.workspaces,
 	);
@@ -455,7 +518,7 @@ export function buildDashboardSidebarProjects({
 			);
 		}
 
-		sidebarProject.children = children;
+		sidebarProject.children = nestChildWorkspaces(children);
 		return [sidebarProject];
 	});
 }

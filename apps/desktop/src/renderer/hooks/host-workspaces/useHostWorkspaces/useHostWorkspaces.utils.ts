@@ -32,6 +32,8 @@ export type HostShapedWorkspace = Omit<
 	 * items (`HostWorkspaceItem`) always carry it, normalized to null.
 	 */
 	lastActivityAt?: number | null;
+	/** The workspace that spawned this one. Absent from older hosts. */
+	parentWorkspaceId?: string | null;
 };
 
 /**
@@ -282,6 +284,10 @@ export function applyWorkspaceChangedEvent(
 		// Same runtime-optionality as tags: an older host's events omit it, so
 		// keep the row's last known stamp rather than wiping it.
 		lastActivityAt: snapshot.lastActivityAt ?? existing?.lastActivityAt ?? null,
+		parentWorkspaceId:
+			snapshot.parentWorkspaceId !== undefined
+				? snapshot.parentWorkspaceId
+				: existing?.parentWorkspaceId,
 		worktreePath: snapshot.worktreePath,
 		// A host broadcasting created/updated just acted on the worktree;
 		// keep a known value over assuming.
