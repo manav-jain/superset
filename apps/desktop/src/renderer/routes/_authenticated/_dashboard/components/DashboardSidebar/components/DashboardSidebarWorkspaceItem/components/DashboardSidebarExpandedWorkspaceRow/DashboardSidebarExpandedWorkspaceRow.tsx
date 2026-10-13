@@ -18,6 +18,7 @@ import { WorkspaceNameMarquee } from "renderer/components/WorkspaceNameMarquee";
 import type { DiffStats } from "renderer/hooks/host-service/useDiffStats";
 import { useFocusVisible } from "renderer/hooks/useFocusVisible";
 import { HotkeyLabel } from "renderer/hotkeys";
+import { pullRequestClickProps } from "renderer/lib/github/pullRequestClickProps";
 import { pullRequestRefFromUrl } from "renderer/lib/github/pullRequestRef";
 import { navigateToV2Workspace } from "renderer/routes/_authenticated/_dashboard/utils/workspace-navigation";
 import { ProjectThumbnail } from "renderer/routes/_authenticated/components/ProjectThumbnail";
@@ -211,7 +212,7 @@ export const DashboardSidebarExpandedWorkspaceRow = forwardRef<
 								{pullRequest ? (
 									<button
 										type="button"
-										onClick={(event) => {
+										{...pullRequestClickProps(pullRequest.url, (event) => {
 											event.stopPropagation();
 											// Lands in the workspace with its PR pane open, rather
 											// than on GitHub; the pane keeps the GitHub link.
@@ -225,7 +226,7 @@ export const DashboardSidebarExpandedWorkspaceRow = forwardRef<
 												...ref,
 											});
 											void navigateToV2Workspace(workspace.id, navigate);
-										}}
+										})}
 										onKeyDown={(event) => {
 											if (event.key === "Enter" || event.key === " ") {
 												event.stopPropagation();

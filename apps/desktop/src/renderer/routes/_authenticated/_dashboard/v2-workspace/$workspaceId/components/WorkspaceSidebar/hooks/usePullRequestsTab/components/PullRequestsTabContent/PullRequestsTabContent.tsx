@@ -4,6 +4,7 @@ import { Input } from "@superset/ui/input";
 import { workspaceTrpc } from "@superset/workspace-client";
 import { useState } from "react";
 import { LuGitPullRequest } from "react-icons/lu";
+import { pullRequestClickProps } from "renderer/lib/github/pullRequestClickProps";
 import {
 	type PullRequestRef,
 	pullRequestRefFromUrl,
@@ -77,7 +78,9 @@ export function PullRequestsTabContent({
 									<PullRequestLinkRow
 										key={pullRequest.id}
 										pullRequest={pullRequest}
-										onOpen={() => open(pullRequest.url)}
+										openProps={pullRequestClickProps(pullRequest.url, () =>
+											open(pullRequest.url),
+										)}
 										onUnlink={() =>
 											unlink.mutate({
 												workspaceId: section.id,

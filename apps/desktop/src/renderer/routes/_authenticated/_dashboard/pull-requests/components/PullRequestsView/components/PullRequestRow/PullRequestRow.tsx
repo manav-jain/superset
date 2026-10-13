@@ -1,6 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@superset/ui/avatar";
 import { cn } from "@superset/ui/utils";
 import { formatRelativeTime } from "renderer/lib/formatRelativeTime";
+import { pullRequestClickProps } from "renderer/lib/github/pullRequestClickProps";
 import { PullRequestChecksSummary } from "renderer/routes/_authenticated/_dashboard/pull-requests/components/PullRequestChecksSummary";
 import type { PullRequestCheck } from "renderer/routes/_authenticated/_dashboard/pull-requests/components/pull-request-checks";
 import {
@@ -15,6 +16,7 @@ import {
 export interface PullRequestRowData {
 	projectId: string;
 	prNumber: number;
+	url: string;
 	title: string;
 	state: "open" | "closed" | "merged";
 	isDraft: boolean;
@@ -51,7 +53,7 @@ export function PullRequestRow({
 				"flex cursor-pointer items-center gap-3 rounded-lg p-2 hover:bg-accent/50 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-ring",
 				isSelected && "bg-accent",
 			)}
-			onClick={onClick}
+			{...pullRequestClickProps(pr.url, onClick)}
 			onKeyDown={(e) => {
 				if (e.target !== e.currentTarget) return;
 				if (e.key === "Enter" || e.key === " ") {
