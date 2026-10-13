@@ -808,6 +808,9 @@ msgstr "{count} star GitHub"
 msgid "{count} hosts run an older host service than this app"
 msgstr "{count} host menjalankan layanan host yang lebih lama dari aplikasi ini"
 
+msgid "{count} linked pull requests"
+msgstr "{count} pull request tertaut"
+
 msgid "{count}/day"
 msgstr "{count}/hari"
 
@@ -973,6 +976,9 @@ msgstr "{noun, select, repository {Tentukan minimal satu repositori.} channel {T
 
 msgid "{openCount} open"
 msgstr "{openCount} terbuka"
+
+msgid "{openCount} open · {linkedCount} linked"
+msgstr "{openCount} terbuka · {linkedCount} tertaut"
 
 msgid "{pageTitle} can read and change data in your {pluginLabel} account as you, including in future versions of this page. It can send what it reads to other websites. Only allow pages you trust."
 msgstr "{pageTitle} dapat membaca dan mengubah data di akun {pluginLabel} Anda atas nama Anda, termasuk di versi halaman ini yang akan datang. Halaman ini dapat mengirim apa yang dibacanya ke situs web lain. Izinkan hanya halaman yang Anda percayai."
@@ -5368,6 +5374,9 @@ msgstr "Dibuat oleh saya"
 msgid "Created ENG-142 Login fails on Safari"
 msgstr "ENG-142 dibuat: Login gagal di Safari"
 
+msgid "Created in an agent session in this workspace"
+msgstr "Dibuat dalam sesi agen di workspace ini"
+
 msgid "Created team \"{trimmedName}\""
 msgstr "Membuat tim \"{trimmedName}\""
 
@@ -9341,6 +9350,12 @@ msgstr "Tautkan tugas ini"
 msgid "Linked {slug} to workspace"
 msgstr "{slug} ditautkan ke workspace"
 
+msgid "Linked by you"
+msgstr "Ditautkan oleh Anda"
+
+msgid "Linking…"
+msgstr "Menautkan…"
+
 msgid "List"
 msgstr "Daftar"
 
@@ -9741,6 +9756,9 @@ msgstr "Ikuti pola yang ada"
 
 msgid "Match shortcuts to the labels on your keyboard (e.g. ⌘Z always fires on the key labeled \"Z\" — physical KeyY on QWERTZ). When off, shortcuts are anchored to physical key positions and ignore the current input source."
 msgstr "Cocokkan pintasan dengan label pada keyboard Anda (mis. ⌘Z selalu aktif pada tombol berlabel \"Z\" — KeyY fisik di QWERTZ). Saat mati, pintasan terikat pada posisi tombol fisik dan mengabaikan sumber input saat ini."
+
+msgid "Matched by this workspace's branch"
+msgstr "Cocok dengan branch workspace ini"
 
 msgid "Max"
 msgstr "Maks"
@@ -10654,6 +10672,9 @@ msgstr "Tanpa label"
 
 msgid "No lead"
 msgstr "Tanpa pemimpin"
+
+msgid "No linked pull requests"
+msgstr "Tidak ada pull request tertaut"
 
 msgid "No listening agents"
 msgstr "Tidak ada agen pendengar"
@@ -12430,6 +12451,11 @@ msgstr "PR #{0} ({1})"
 msgid "PR #{0} created"
 msgstr "PR #{0} dibuat"
 
+#. placeholder {0}: first.number
+#. placeholder {1}: first.title
+msgid "PR #{0}: {1}"
+msgstr "PR #{0}: {1}"
+
 #. placeholder {0}: i18n._(LABEL[state])
 msgid "PR #{number} — {0}"
 msgstr "PR #{number} — {0}"
@@ -12778,6 +12804,10 @@ msgstr "Penyedia: {0}"
 msgid "Provisioning failed and the sandbox was torn down. Nothing is running, and this workspace can't be opened — create a new one to try again."
 msgstr "Provisioning gagal dan sandbox-nya dibongkar. Tidak ada yang berjalan, dan workspace ini tidak bisa dibuka — buat yang baru untuk mencoba lagi."
 
+msgctxt "workspace sidebar tab"
+msgid "PRs"
+msgstr "PR"
+
 msgid "PRs a week"
 msgstr "PR per minggu"
 
@@ -12832,6 +12862,9 @@ msgstr "Pull request tidak ditemukan"
 msgid "Pull request title"
 msgstr "Judul pull request"
 
+msgid "Pull request URL or #123"
+msgstr "URL pull request atau #123"
+
 msgid "Pull request…"
 msgstr "Pull request…"
 
@@ -12840,6 +12873,9 @@ msgstr "Pull request"
 
 msgid "Pull Requests"
 msgstr "Pull Request"
+
+msgid "Pull requests an agent opens from this workspace, or its workers, land here. Link others by URL or number."
+msgstr "Pull request yang dibuka agen dari workspace ini, atau dari worker-nya, muncul di sini. Tautkan yang lain dengan URL atau nomor."
 
 msgid "Purple"
 msgstr "Ungu"
@@ -17794,6 +17830,13 @@ msgstr "Tanpa batas"
 
 msgid "Unlimited users"
 msgstr "Pengguna tanpa batas"
+
+msgid "Unlink"
+msgstr "Lepas tautan"
+
+#. placeholder {0}: pullRequest.number
+msgid "Unlink pull request #{0}"
+msgstr "Lepas tautan pull request #{0}"
 
 msgid "Unlink task"
 msgstr "Lepaskan tautan tugas"

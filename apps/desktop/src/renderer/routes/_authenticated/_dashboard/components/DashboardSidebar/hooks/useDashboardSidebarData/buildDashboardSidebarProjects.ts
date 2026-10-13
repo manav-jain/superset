@@ -10,13 +10,17 @@ import type {
 	DashboardSidebarPinnedWorkspace,
 	DashboardSidebarProject,
 	DashboardSidebarProjectChild,
+	DashboardSidebarPullRequestLink,
 	DashboardSidebarSection,
 	DashboardSidebarSessions,
 	DashboardSidebarWorkspace,
 	DashboardSidebarWorkspaceType,
 } from "../../types";
 
-type SidebarPullRequest = DashboardSidebarWorkspace["pullRequest"];
+export interface SidebarPullRequestEntry {
+	pullRequest: DashboardSidebarWorkspace["pullRequest"];
+	links: DashboardSidebarPullRequestLink[];
+}
 
 export interface SidebarProjectInput {
 	id: string;
@@ -95,7 +99,7 @@ function decorateSidebarWorkspace(
 	workspace: SidebarWorkspaceInput,
 	project: Pick<SidebarProjectInput, "githubOwner" | "githubRepoName">,
 	machineId: string,
-	pullRequestsByWorkspaceId: Map<string, SidebarPullRequest>,
+	pullRequestsByWorkspaceId: Map<string, SidebarPullRequestEntry>,
 ): DashboardSidebarWorkspace {
 	const hostType: DashboardSidebarWorkspace["hostType"] =
 		workspace.hostId === machineId ? "local-device" : "remote-device";
@@ -110,7 +114,9 @@ function decorateSidebarWorkspace(
 		accentColor: null,
 		name: getV2WorkspaceDisplayName(workspace),
 		branch: workspace.branch,
-		pullRequest: pullRequestsByWorkspaceId.get(workspace.id) ?? null,
+		pullRequest:
+			pullRequestsByWorkspaceId.get(workspace.id)?.pullRequest ?? null,
+		pullRequestLinks: pullRequestsByWorkspaceId.get(workspace.id)?.links ?? [],
 		repoUrl:
 			project.githubOwner && project.githubRepoName
 				? `https://github.com/${project.githubOwner}/${project.githubRepoName}`
@@ -145,7 +151,7 @@ export function buildDashboardSidebarPinnedWorkspaces({
 	pinnedSidebarWorkspaces: SidebarWorkspaceInput[];
 	sidebarProjects: SidebarProjectInput[];
 	machineId: string;
-	pullRequestsByWorkspaceId: Map<string, SidebarPullRequest>;
+	pullRequestsByWorkspaceId: Map<string, SidebarPullRequestEntry>;
 }): DashboardSidebarPinnedWorkspace[] {
 	const projectsById = new Map(
 		sidebarProjects.map((project) => [project.id, project]),
@@ -223,12 +229,24 @@ export function nestChildWorkspaces(
 	const withKids = (
 		row: DashboardSidebarWorkspace,
 		accentColor: string | null,
-	): DashboardSidebarWorkspace[] => [
-		{ ...row, accentColor, parentWorkspaceId: nestedParentId(row.id) },
-		...(kidsByParentId.get(row.id) ?? []).flatMap((kid) =>
+	): DashboardSidebarWorkspace[] => {
+		const descendants = (kidsByParentId.get(row.id) ?? []).flatMap((kid) =>
 			withKids(kid, accentColor),
-		),
-	];
+		);
+		const linkUrls = new Set<string>();
+		const pullRequestLinks = [row, ...descendants]
+			.flatMap((member) => member.pullRequestLinks ?? [])
+			.filter((link) => !linkUrls.has(link.url) && linkUrls.add(link.url));
+		return [
+			{
+				...row,
+				accentColor,
+				parentWorkspaceId: nestedParentId(row.id),
+				pullRequestLinks,
+			},
+			...descendants,
+		];
+	};
 
 	return children.flatMap((child): DashboardSidebarProjectChild[] => {
 		if (child.type === "section") {
@@ -261,7 +279,7 @@ export function buildDashboardSidebarSessions({
 	sessionSidebarWorkspaces: SidebarWorkspaceInput[];
 	sidebarSections: SidebarSectionInput[];
 	machineId: string;
-	pullRequestsByWorkspaceId: Map<string, SidebarPullRequest>;
+	pullRequestsByWorkspaceId: Map<string, SidebarPullRequestEntry>;
 }): DashboardSidebarSessions {
 	const sectionMap = new Map<string, DashboardSidebarSection>();
 	const childEntries: Array<{
@@ -359,7 +377,7 @@ export interface BuildDashboardSidebarProjectsParams {
 	sidebarSections: SidebarSectionInput[];
 	visibleSidebarWorkspaces: SidebarWorkspaceInput[];
 	machineId: string;
-	pullRequestsByWorkspaceId: Map<string, SidebarPullRequest>;
+	pullRequestsByWorkspaceId: Map<string, SidebarPullRequestEntry>;
 }
 
 export function buildDashboardSidebarProjects({

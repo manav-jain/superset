@@ -30,6 +30,13 @@ export interface DashboardSidebarWorkspacePullRequest {
 	checks: DashboardSidebarWorkspacePullRequestCheck[];
 }
 
+export interface DashboardSidebarPullRequestLink {
+	number: number;
+	url: string;
+	title: string;
+	state: DashboardSidebarWorkspacePullRequest["state"];
+}
+
 export interface DashboardSidebarWorkspace {
 	id: string;
 	/** Null for project-less "session" workspaces. */
@@ -61,6 +68,8 @@ export interface DashboardSidebarWorkspace {
 	 * workspace and its workers). Null when the parent is not in the list.
 	 */
 	parentWorkspaceId?: string | null;
+	/** Linked PRs, newest first; a master row also carries its workers'. */
+	pullRequestLinks?: DashboardSidebarPullRequestLink[];
 	isPinned: boolean;
 	pendingTransaction: WorkspaceTransactionSnapshot | null;
 }

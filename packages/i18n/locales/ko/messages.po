@@ -808,6 +808,9 @@ msgstr "GitHub 스타 {count}개"
 msgid "{count} hosts run an older host service than this app"
 msgstr "{count}개의 호스트가 이 앱보다 오래된 호스트 서비스를 실행 중입니다"
 
+msgid "{count} linked pull requests"
+msgstr "연결된 풀 리퀘스트 {count}개"
+
 msgid "{count}/day"
 msgstr "하루 {count}개"
 
@@ -973,6 +976,9 @@ msgstr "{noun, select, repository {리포지토리를 하나 이상 지정하세
 
 msgid "{openCount} open"
 msgstr "{openCount}개 열림"
+
+msgid "{openCount} open · {linkedCount} linked"
+msgstr "열림 {openCount}개 · 연결됨 {linkedCount}개"
 
 msgid "{pageTitle} can read and change data in your {pluginLabel} account as you, including in future versions of this page. It can send what it reads to other websites. Only allow pages you trust."
 msgstr "{pageTitle}은(는) 사용자 본인으로서 {pluginLabel} 계정의 데이터를 읽고 변경할 수 있으며, 이 페이지의 향후 버전에도 적용됩니다. 읽은 내용을 다른 웹사이트로 보낼 수 있습니다. 신뢰하는 페이지만 허용하세요."
@@ -5368,6 +5374,9 @@ msgstr "내가 만든 항목"
 msgid "Created ENG-142 Login fails on Safari"
 msgstr "ENG-142 'Safari에서 로그인 실패'를 만들었습니다"
 
+msgid "Created in an agent session in this workspace"
+msgstr "이 워크스페이스의 에이전트 세션에서 생성됨"
+
 msgid "Created team \"{trimmedName}\""
 msgstr "\"{trimmedName}\" 팀을 만들었습니다"
 
@@ -9341,6 +9350,12 @@ msgstr "이 작업 연결"
 msgid "Linked {slug} to workspace"
 msgstr "{slug}을(를) 워크스페이스에 연결했습니다"
 
+msgid "Linked by you"
+msgstr "직접 연결함"
+
+msgid "Linking…"
+msgstr "연결 중…"
+
 msgid "List"
 msgstr "목록"
 
@@ -9741,6 +9756,9 @@ msgstr "기존 패턴을 따라 주세요"
 
 msgid "Match shortcuts to the labels on your keyboard (e.g. ⌘Z always fires on the key labeled \"Z\" — physical KeyY on QWERTZ). When off, shortcuts are anchored to physical key positions and ignore the current input source."
 msgstr "키보드에 인쇄된 문자에 맞춰 단축키를 매핑합니다(예: ⌘Z는 항상 \"Z\"라고 적힌 키에서 동작하며, QWERTZ에서는 물리 키 KeyY입니다). 끄면 단축키가 물리적 키 위치에 고정되며 현재 입력 소스를 무시합니다."
+
+msgid "Matched by this workspace's branch"
+msgstr "이 워크스페이스의 브랜치와 일치"
 
 msgid "Max"
 msgstr "최대"
@@ -10654,6 +10672,9 @@ msgstr "레이블 없음"
 
 msgid "No lead"
 msgstr "리드 없음"
+
+msgid "No linked pull requests"
+msgstr "연결된 풀 리퀘스트가 없습니다"
 
 msgid "No listening agents"
 msgstr "댓글 수신 에이전트 없음"
@@ -12430,6 +12451,11 @@ msgstr "PR #{0} ({1})"
 msgid "PR #{0} created"
 msgstr "PR #{0} 생성됨"
 
+#. placeholder {0}: first.number
+#. placeholder {1}: first.title
+msgid "PR #{0}: {1}"
+msgstr "PR #{0}: {1}"
+
 #. placeholder {0}: i18n._(LABEL[state])
 msgid "PR #{number} — {0}"
 msgstr "PR #{number} — {0}"
@@ -12778,6 +12804,10 @@ msgstr "제공자: {0}"
 msgid "Provisioning failed and the sandbox was torn down. Nothing is running, and this workspace can't be opened — create a new one to try again."
 msgstr "프로비저닝에 실패해 샌드박스가 정리되었습니다. 실행 중인 것은 없으며 이 워크스페이스는 열 수 없습니다. 다시 시도하려면 새로 만드세요."
 
+msgctxt "workspace sidebar tab"
+msgid "PRs"
+msgstr "PR"
+
 msgid "PRs a week"
 msgstr "주당 PR"
 
@@ -12832,6 +12862,9 @@ msgstr "풀 리퀘스트를 찾을 수 없습니다"
 msgid "Pull request title"
 msgstr "풀 리퀘스트 제목"
 
+msgid "Pull request URL or #123"
+msgstr "풀 리퀘스트 URL 또는 #123"
+
 msgid "Pull request…"
 msgstr "풀 리퀘스트…"
 
@@ -12840,6 +12873,9 @@ msgstr "풀 리퀘스트"
 
 msgid "Pull Requests"
 msgstr "풀 리퀘스트"
+
+msgid "Pull requests an agent opens from this workspace, or its workers, land here. Link others by URL or number."
+msgstr "이 워크스페이스나 하위 워커에서 에이전트가 연 풀 리퀘스트가 여기에 표시됩니다. 다른 풀 리퀘스트는 URL이나 번호로 연결하세요."
 
 msgid "Purple"
 msgstr "보라"
@@ -17794,6 +17830,13 @@ msgstr "무제한"
 
 msgid "Unlimited users"
 msgstr "사용자 무제한"
+
+msgid "Unlink"
+msgstr "연결 해제"
+
+#. placeholder {0}: pullRequest.number
+msgid "Unlink pull request #{0}"
+msgstr "풀 리퀘스트 #{0} 연결 해제"
 
 msgid "Unlink task"
 msgstr "작업 연결 해제"

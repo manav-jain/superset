@@ -1,0 +1,1 @@
+export { DashboardSidebarWorkspacePullRequestsBadge } from "./DashboardSidebarWorkspacePullRequestsBadge";

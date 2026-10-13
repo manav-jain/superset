@@ -546,6 +546,41 @@ describe("buildDashboardSidebarProjects with tag-derived folders", () => {
 });
 
 describe("buildDashboardSidebarProjects with worker workspaces", () => {
+	it("gives a master its workers' pull request links too", () => {
+		const link = (number: number) => ({
+			number,
+			url: `https://github.com/acme/app/pull/${number}`,
+			title: `PR ${number}`,
+			state: "open" as const,
+		});
+		const [project] = buildDashboardSidebarProjects({
+			sidebarProjects: [makeProject()],
+			sidebarSections: [],
+			visibleSidebarWorkspaces: [
+				makeWorkspace({ id: "master", tabOrder: 1 }),
+				makeWorkspace({
+					id: "worker",
+					tabOrder: 2,
+					parentWorkspaceId: "master",
+				}),
+			],
+			machineId: MACHINE_ID,
+			pullRequestsByWorkspaceId: new Map([
+				["master", { pullRequest: null, links: [link(1)] }],
+				["worker", { pullRequest: null, links: [link(2), link(1)] }],
+			]),
+		});
+		const numbers = project?.children.map((child) =>
+			child.type === "workspace"
+				? child.workspace.pullRequestLinks?.map((pr) => pr.number)
+				: [],
+		);
+		expect(numbers).toEqual([
+			[1, 2],
+			[2, 1],
+		]);
+	});
+
 	it("nests workers right after their master, in the master's folder", () => {
 		const [project] = build({
 			sidebarSections: [makeSection({ id: "section-1", tabOrder: 2 })],
