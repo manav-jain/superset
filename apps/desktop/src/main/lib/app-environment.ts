@@ -6,7 +6,7 @@ import { getWorkspaceName } from "shared/env.shared";
 
 const SUPERSET_HOME_DIR_ENV = "SUPERSET_HOME_DIR";
 
-// A packaged fork build (SupersetJ) owns its home: started from a Superset
+// A packaged fork build (Superset MJ) owns its home: started from a Superset
 // terminal it would otherwise inherit the official app's SUPERSET_HOME_DIR.
 const ownsHomeDir =
 	process.env.NODE_ENV !== "development" && getWorkspaceName() !== undefined;

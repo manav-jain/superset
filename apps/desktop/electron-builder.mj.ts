@@ -1,5 +1,5 @@
 /**
- * Electron Builder Configuration - SupersetJ (fork build)
+ * Electron Builder Configuration - Superset MJ (fork build)
  *
  * Installs and runs beside the official app. Build with `bun run package:mj`,
  * which also bakes SUPERSET_WORKSPACE_NAME=mj (home ~/.superset-mj, scheme
@@ -12,7 +12,7 @@ import baseConfig from "./electron-builder";
 import pkg from "./package.json";
 
 // No "Superset (…)": upstream cleanup deletes app data dirs of that shape.
-const productName = "SupersetJ";
+const productName = "Superset MJ";
 
 const config: Configuration = {
 	...baseConfig,
@@ -25,7 +25,7 @@ const config: Configuration = {
 		...baseConfig.mac,
 		icon: join(pkg.resources, "build/icons/icon-dev.icns"),
 		notarize: false,
-		artifactName: `SupersetJ-\${version}-\${arch}.\${ext}`,
+		artifactName: `Superset-MJ-\${version}-\${arch}.\${ext}`,
 		extendInfo: {
 			...baseConfig.mac?.extendInfo,
 			CFBundleName: productName,
@@ -36,14 +36,14 @@ const config: Configuration = {
 	linux: {
 		...baseConfig.linux,
 		icon: join(pkg.resources, "build/icons/icon-dev.png"),
-		executableName: "supersetj",
-		artifactName: `supersetj-\${version}-\${arch}.\${ext}`,
+		executableName: "superset-mj",
+		artifactName: `superset-mj-\${version}-\${arch}.\${ext}`,
 	},
 
 	win: {
 		...baseConfig.win,
 		icon: join(pkg.resources, "build/icons/icon-dev.ico"),
-		artifactName: `SupersetJ-\${version}-\${arch}.\${ext}`,
+		artifactName: `Superset-MJ-\${version}-\${arch}.\${ext}`,
 	},
 };
 
