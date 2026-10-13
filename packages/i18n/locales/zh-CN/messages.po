@@ -808,6 +808,9 @@ msgstr "{count}个GitHub星标"
 msgid "{count} hosts run an older host service than this app"
 msgstr "{count} 台主机运行的主机服务比此应用旧"
 
+msgid "{count} linked pull requests"
+msgstr "{count} 个已关联的拉取请求"
+
 msgid "{count}/day"
 msgstr "{count}/天"
 
@@ -973,6 +976,9 @@ msgstr "{noun, select, repository {请至少指定一个仓库。} channel {请�
 
 msgid "{openCount} open"
 msgstr "{openCount}项已开启"
+
+msgid "{openCount} open · {linkedCount} linked"
+msgstr "{openCount} 个打开 · {linkedCount} 个已关联"
 
 msgid "{pageTitle} can read and change data in your {pluginLabel} account as you, including in future versions of this page. It can send what it reads to other websites. Only allow pages you trust."
 msgstr "{pageTitle} 可以以你的身份读取和更改你的 {pluginLabel} 账户中的数据，包括此页面的未来版本。它可以把读取的内容发送到其他网站。只允许你信任的页面。"
@@ -5368,6 +5374,9 @@ msgstr "我创建的"
 msgid "Created ENG-142 Login fails on Safari"
 msgstr "已创建 ENG-142 Safari 上登录失败"
 
+msgid "Created in an agent session in this workspace"
+msgstr "在此工作区的智能体会话中创建"
+
 msgid "Created team \"{trimmedName}\""
 msgstr "已创建团队“{trimmedName}”"
 
@@ -9341,6 +9350,12 @@ msgstr "关联此任务"
 msgid "Linked {slug} to workspace"
 msgstr "已将{slug}关联到工作区"
 
+msgid "Linked by you"
+msgstr "由你关联"
+
+msgid "Linking…"
+msgstr "正在关联…"
+
 msgid "List"
 msgstr "列表"
 
@@ -9741,6 +9756,9 @@ msgstr "沿用现有模式"
 
 msgid "Match shortcuts to the labels on your keyboard (e.g. ⌘Z always fires on the key labeled \"Z\" — physical KeyY on QWERTZ). When off, shortcuts are anchored to physical key positions and ignore the current input source."
 msgstr "让快捷键匹配键盘上的标签（例如⌘Z始终触发标有“Z”的按键——在QWERTZ上是物理KeyY）。关闭后，快捷键锚定在物理按键位置，忽略当前输入源。"
+
+msgid "Matched by this workspace's branch"
+msgstr "与此工作区的分支匹配"
 
 msgid "Max"
 msgstr "最大"
@@ -10654,6 +10672,9 @@ msgstr "无标签"
 
 msgid "No lead"
 msgstr "无负责人"
+
+msgid "No linked pull requests"
+msgstr "没有已关联的拉取请求"
 
 msgid "No listening agents"
 msgstr "没有监听智能体"
@@ -12430,6 +12451,11 @@ msgstr "PR #{0}（{1}）"
 msgid "PR #{0} created"
 msgstr "已创建PR #{0}"
 
+#. placeholder {0}: first.number
+#. placeholder {1}: first.title
+msgid "PR #{0}: {1}"
+msgstr "PR #{0}：{1}"
+
 #. placeholder {0}: i18n._(LABEL[state])
 msgid "PR #{number} — {0}"
 msgstr "PR #{number} — {0}"
@@ -12778,6 +12804,10 @@ msgstr "提供方：{0}"
 msgid "Provisioning failed and the sandbox was torn down. Nothing is running, and this workspace can't be opened — create a new one to try again."
 msgstr "预配失败，沙箱已被销毁。当前没有任何进程在运行，此工作区也无法打开 — 请新建一个再试。"
 
+msgctxt "workspace sidebar tab"
+msgid "PRs"
+msgstr "PR"
+
 msgid "PRs a week"
 msgstr "PR/周"
 
@@ -12832,6 +12862,9 @@ msgstr "未找到拉取请求"
 msgid "Pull request title"
 msgstr "拉取请求标题"
 
+msgid "Pull request URL or #123"
+msgstr "拉取请求 URL 或 #123"
+
 msgid "Pull request…"
 msgstr "拉取请求…"
 
@@ -12840,6 +12873,9 @@ msgstr "拉取请求"
 
 msgid "Pull Requests"
 msgstr "拉取请求"
+
+msgid "Pull requests an agent opens from this workspace, or its workers, land here. Link others by URL or number."
+msgstr "智能体在此工作区或其工作区中创建的拉取请求会显示在这里。其他拉取请求可通过 URL 或编号关联。"
 
 msgid "Purple"
 msgstr "紫色"
@@ -17794,6 +17830,13 @@ msgstr "无限"
 
 msgid "Unlimited users"
 msgstr "用户数不限"
+
+msgid "Unlink"
+msgstr "取消关联"
+
+#. placeholder {0}: pullRequest.number
+msgid "Unlink pull request #{0}"
+msgstr "取消关联拉取请求 #{0}"
 
 msgid "Unlink task"
 msgstr "取消关联任务"

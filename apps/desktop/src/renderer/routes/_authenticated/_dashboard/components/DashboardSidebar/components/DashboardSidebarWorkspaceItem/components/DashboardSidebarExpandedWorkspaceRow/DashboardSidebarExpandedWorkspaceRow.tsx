@@ -33,6 +33,7 @@ import { DashboardSidebarWorkspaceDiffStats } from "../DashboardSidebarWorkspace
 import { DashboardSidebarWorkspaceIcon } from "../DashboardSidebarWorkspaceIcon";
 import { DashboardSidebarWorkspaceQueuedBadge } from "../DashboardSidebarWorkspaceQueuedBadge";
 import { DashboardSidebarWorkspaceChips } from "./components/DashboardSidebarWorkspaceChips";
+import { DashboardSidebarWorkspacePullRequestsBadge } from "./components/DashboardSidebarWorkspacePullRequestsBadge";
 
 const PR_STATE_LABEL: Record<
 	DashboardSidebarWorkspacePullRequest["state"],
@@ -390,6 +391,9 @@ export const DashboardSidebarExpandedWorkspaceRow = forwardRef<
 								<div className="flex items-center gap-1.5">
 									<DashboardSidebarWorkspaceQueuedBadge
 										workspaceId={workspace.id}
+									/>
+									<DashboardSidebarWorkspacePullRequestsBadge
+										links={workspace.pullRequestLinks ?? []}
 									/>
 									{isActive &&
 										diffStats &&

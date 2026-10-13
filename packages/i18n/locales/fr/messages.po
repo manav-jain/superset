@@ -808,6 +808,9 @@ msgstr "{count} étoiles GitHub"
 msgid "{count} hosts run an older host service than this app"
 msgstr "{count} hôtes exécutent un service d'hôte plus ancien que cette application"
 
+msgid "{count} linked pull requests"
+msgstr "{count} pull requests liées"
+
 msgid "{count}/day"
 msgstr "{count}/jour"
 
@@ -973,6 +976,9 @@ msgstr "{noun, select, repository {Indiquez au moins un dépôt.} channel {Indiq
 
 msgid "{openCount} open"
 msgstr "{openCount} ouvertes"
+
+msgid "{openCount} open · {linkedCount} linked"
+msgstr "{openCount} ouvertes · {linkedCount} liées"
 
 msgid "{pageTitle} can read and change data in your {pluginLabel} account as you, including in future versions of this page. It can send what it reads to other websites. Only allow pages you trust."
 msgstr "{pageTitle} peut lire et modifier les données de votre compte {pluginLabel} en votre nom, y compris dans les futures versions de cette page. Elle peut envoyer ce qu’elle lit à d’autres sites web. N’autorisez que les pages de confiance."
@@ -5368,6 +5374,9 @@ msgstr "Créés par moi"
 msgid "Created ENG-142 Login fails on Safari"
 msgstr "ENG-142 créé : échec de la connexion sur Safari"
 
+msgid "Created in an agent session in this workspace"
+msgstr "Créée dans une session d'agent de cet espace de travail"
+
 msgid "Created team \"{trimmedName}\""
 msgstr "Équipe « {trimmedName} » créée"
 
@@ -9341,6 +9350,12 @@ msgstr "Lier cette tâche"
 msgid "Linked {slug} to workspace"
 msgstr "{slug} lié à l'espace de travail"
 
+msgid "Linked by you"
+msgstr "Liée par vous"
+
+msgid "Linking…"
+msgstr "Liaison…"
+
 msgid "List"
 msgstr "Liste"
 
@@ -9741,6 +9756,9 @@ msgstr "Suivre les modèles existants"
 
 msgid "Match shortcuts to the labels on your keyboard (e.g. ⌘Z always fires on the key labeled \"Z\" — physical KeyY on QWERTZ). When off, shortcuts are anchored to physical key positions and ignore the current input source."
 msgstr "Faire correspondre les raccourcis aux libellés de votre clavier (par ex. ⌘Z se déclenche toujours sur la touche marquée « Z » — physiquement KeyY sur un clavier QWERTZ). Lorsque cette option est désactivée, les raccourcis sont liés aux positions physiques des touches et ignorent la source de saisie actuelle."
+
+msgid "Matched by this workspace's branch"
+msgstr "Correspond à la branche de cet espace de travail"
 
 msgid "Max"
 msgstr "Max"
@@ -10654,6 +10672,9 @@ msgstr "Aucun label"
 
 msgid "No lead"
 msgstr "Aucun responsable"
+
+msgid "No linked pull requests"
+msgstr "Aucune pull request liée"
 
 msgid "No listening agents"
 msgstr "Aucun agent à l’écoute"
@@ -12430,6 +12451,11 @@ msgstr "PR #{0} ({1})"
 msgid "PR #{0} created"
 msgstr "PR #{0} créée"
 
+#. placeholder {0}: first.number
+#. placeholder {1}: first.title
+msgid "PR #{0}: {1}"
+msgstr "PR #{0} : {1}"
+
 #. placeholder {0}: i18n._(LABEL[state])
 msgid "PR #{number} — {0}"
 msgstr "PR #{number} — {0}"
@@ -12778,6 +12804,10 @@ msgstr "Fournisseur : {0}"
 msgid "Provisioning failed and the sandbox was torn down. Nothing is running, and this workspace can't be opened — create a new one to try again."
 msgstr "Le provisionnement a échoué et le bac à sable a été démantelé. Rien ne tourne, et cet espace de travail ne peut pas être ouvert — créez-en un nouveau pour réessayer."
 
+msgctxt "workspace sidebar tab"
+msgid "PRs"
+msgstr "PR"
+
 msgid "PRs a week"
 msgstr "PR par semaine"
 
@@ -12832,6 +12862,9 @@ msgstr "Pull request introuvable"
 msgid "Pull request title"
 msgstr "Titre de la pull request"
 
+msgid "Pull request URL or #123"
+msgstr "URL de la pull request ou #123"
+
 msgid "Pull request…"
 msgstr "Pull request…"
 
@@ -12840,6 +12873,9 @@ msgstr "Pull requests"
 
 msgid "Pull Requests"
 msgstr "Pull requests"
+
+msgid "Pull requests an agent opens from this workspace, or its workers, land here. Link others by URL or number."
+msgstr "Les pull requests ouvertes par un agent depuis cet espace de travail, ou ses workers, apparaissent ici. Liez-en d'autres par URL ou numéro."
 
 msgid "Purple"
 msgstr "Violet"
@@ -17794,6 +17830,13 @@ msgstr "Illimité"
 
 msgid "Unlimited users"
 msgstr "Utilisateurs illimités"
+
+msgid "Unlink"
+msgstr "Délier"
+
+#. placeholder {0}: pullRequest.number
+msgid "Unlink pull request #{0}"
+msgstr "Délier la pull request #{0}"
 
 msgid "Unlink task"
 msgstr "Dissocier la tâche"

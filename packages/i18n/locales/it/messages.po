@@ -808,6 +808,9 @@ msgstr "{count} star su GitHub"
 msgid "{count} hosts run an older host service than this app"
 msgstr "{count} host eseguono un servizio host più vecchio di questa app"
 
+msgid "{count} linked pull requests"
+msgstr "{count} pull request collegate"
+
 msgid "{count}/day"
 msgstr "{count}/giorno"
 
@@ -973,6 +976,9 @@ msgstr "{noun, select, repository {Specifica almeno un repository.} channel {Spe
 
 msgid "{openCount} open"
 msgstr "{openCount} aperti"
+
+msgid "{openCount} open · {linkedCount} linked"
+msgstr "{openCount} aperte · {linkedCount} collegate"
 
 msgid "{pageTitle} can read and change data in your {pluginLabel} account as you, including in future versions of this page. It can send what it reads to other websites. Only allow pages you trust."
 msgstr "{pageTitle} può leggere e modificare i dati del tuo account {pluginLabel} a tuo nome, anche nelle versioni future di questa pagina. Può inviare ciò che legge ad altri siti web. Consenti solo le pagine di cui ti fidi."
@@ -5368,6 +5374,9 @@ msgstr "Creati da me"
 msgid "Created ENG-142 Login fails on Safari"
 msgstr "Creato ENG-142 Accesso non riuscito su Safari"
 
+msgid "Created in an agent session in this workspace"
+msgstr "Creata in una sessione dell'agente di questo workspace"
+
 msgid "Created team \"{trimmedName}\""
 msgstr "Team \"{trimmedName}\" creato"
 
@@ -9341,6 +9350,12 @@ msgstr "Collega questa attività"
 msgid "Linked {slug} to workspace"
 msgstr "{slug} collegato al workspace"
 
+msgid "Linked by you"
+msgstr "Collegata da te"
+
+msgid "Linking…"
+msgstr "Collegamento…"
+
 msgid "List"
 msgstr "Elenco"
 
@@ -9741,6 +9756,9 @@ msgstr "Segui i pattern esistenti"
 
 msgid "Match shortcuts to the labels on your keyboard (e.g. ⌘Z always fires on the key labeled \"Z\" — physical KeyY on QWERTZ). When off, shortcuts are anchored to physical key positions and ignore the current input source."
 msgstr "Adatta le scorciatoie alle etichette della tua tastiera (es. ⌘Z si attiva sempre sul tasto etichettato \"Z\" — fisicamente KeyY su QWERTZ). Quando è disattivata, le scorciatoie sono ancorate alle posizioni fisiche dei tasti e ignorano la sorgente di input attuale."
+
+msgid "Matched by this workspace's branch"
+msgstr "Corrisponde al branch di questo workspace"
 
 msgid "Max"
 msgstr "Max"
@@ -10654,6 +10672,9 @@ msgstr "Nessuna etichetta"
 
 msgid "No lead"
 msgstr "Nessun responsabile"
+
+msgid "No linked pull requests"
+msgstr "Nessuna pull request collegata"
 
 msgid "No listening agents"
 msgstr "Nessun agente in ascolto"
@@ -12430,6 +12451,11 @@ msgstr "PR #{0} ({1})"
 msgid "PR #{0} created"
 msgstr "PR #{0} creata"
 
+#. placeholder {0}: first.number
+#. placeholder {1}: first.title
+msgid "PR #{0}: {1}"
+msgstr "PR #{0}: {1}"
+
 #. placeholder {0}: i18n._(LABEL[state])
 msgid "PR #{number} — {0}"
 msgstr "PR #{number} — {0}"
@@ -12778,6 +12804,10 @@ msgstr "Provider: {0}"
 msgid "Provisioning failed and the sandbox was torn down. Nothing is running, and this workspace can't be opened — create a new one to try again."
 msgstr "Il provisioning non è riuscito e la sandbox è stata smontata. Non è in esecuzione nulla e questo workspace non può essere aperto — creane uno nuovo per riprovare."
 
+msgctxt "workspace sidebar tab"
+msgid "PRs"
+msgstr "PR"
+
 msgid "PRs a week"
 msgstr "PR a settimana"
 
@@ -12832,6 +12862,9 @@ msgstr "Pull request non trovata"
 msgid "Pull request title"
 msgstr "Titolo della pull request"
 
+msgid "Pull request URL or #123"
+msgstr "URL della pull request o #123"
+
 msgid "Pull request…"
 msgstr "Pull request…"
 
@@ -12840,6 +12873,9 @@ msgstr "Pull request"
 
 msgid "Pull Requests"
 msgstr "Pull request"
+
+msgid "Pull requests an agent opens from this workspace, or its workers, land here. Link others by URL or number."
+msgstr "Qui compaiono le pull request che un agente apre da questo workspace o dai suoi worker. Collegane altre tramite URL o numero."
 
 msgid "Purple"
 msgstr "Viola"
@@ -17794,6 +17830,13 @@ msgstr "Illimitati"
 
 msgid "Unlimited users"
 msgstr "Utenti illimitati"
+
+msgid "Unlink"
+msgstr "Scollega"
+
+#. placeholder {0}: pullRequest.number
+msgid "Unlink pull request #{0}"
+msgstr "Scollega la pull request #{0}"
 
 msgid "Unlink task"
 msgstr "Scollega attività"

@@ -1,8 +1,9 @@
 import { randomUUID } from "node:crypto";
 import { existsSync } from "node:fs";
+import { open } from "node:fs/promises";
 import type { Octokit } from "@octokit/rest";
 import { parseGitHubRemote } from "@superset/shared/github-remote";
-import { and, eq, inArray, isNull } from "drizzle-orm";
+import { and, desc, eq, inArray, isNull, sql } from "drizzle-orm";
 import type { HostDb } from "../../db";
 import {
 	projects,
@@ -26,6 +27,8 @@ import {
 	fetchOpenPullRequestsFromGh,
 	fetchPullRequestByHead,
 	fetchPullRequestByHeadFromGh,
+	fetchPullRequestByNumber,
+	fetchPullRequestByNumberFromGh,
 	fetchPullRequestChecks,
 	fetchPullRequestChecksFromGh,
 	fetchPullRequestMergeQueueState,
@@ -40,6 +43,10 @@ import type {
 	GitHubPullRequestNode,
 	GitHubPullRequestReviewDecision,
 } from "./utils/github-query/types";
+import {
+	findCreatedPullRequestUrls,
+	parsePullRequestReference,
+} from "./utils/pull-request-links";
 import {
 	type ChecksStatus,
 	coerceChecksStatus,
@@ -106,14 +113,28 @@ export interface PullRequestStateSnapshot {
 	mergedAt: number | null;
 }
 
+/** How a PR came to be linked: the workspace's branch, `gh pr create` in one of its agent sessions, or the user. */
+export type PullRequestLinkSource = "branch" | "created" | "manual";
+
+export interface PullRequestLinkSummary {
+	number: number;
+	url: string;
+	title: string;
+	state: PullRequestState;
+}
+
 export interface PullRequestWorkspaceSnapshot {
 	workspaceId: string;
 	pullRequest: PullRequestStateSnapshot | null;
+	/** Every linked PR the user has not unlinked, newest first. */
+	links: PullRequestLinkSummary[];
 	error: string | null;
 	lastFetchedAt: string | null;
 }
 
 export interface WorkspacePullRequestHistoryEntry {
+	id: string;
+	source: PullRequestLinkSource;
 	repoOwner: string;
 	repoName: string;
 	number: number;
@@ -307,6 +328,7 @@ export class PullRequestRuntimeManager {
 		// activity has happened since the last process boot.
 		void this.syncWorkspaceBranches();
 		void this.refreshEligibleProjects();
+		void this.refreshLinkedPullRequests();
 
 		// Steady-state: react to real `.git/` activity per workspace. Per-workspace
 		// debounce lives in `GitWatcher` (300 ms), and concurrent project refreshes
@@ -337,6 +359,7 @@ export class PullRequestRuntimeManager {
 		}, SAFETY_NET_INTERVAL_MS);
 		this.projectRefreshTimer = setInterval(() => {
 			void this.refreshEligibleProjects();
+			void this.refreshLinkedPullRequests();
 		}, PROJECT_REFRESH_INTERVAL_MS);
 	}
 
@@ -400,9 +423,11 @@ export class PullRequestRuntimeManager {
 			.leftJoin(pullRequests, eq(workspaces.pullRequestId, pullRequests.id))
 			.where(inArray(workspaces.id, workspaceIds))
 			.all();
+		const linksByWorkspace = this.getLinkSummariesByWorkspace(workspaceIds);
 
 		return rows.map((row) => ({
 			workspaceId: row.workspaceId,
+			links: linksByWorkspace.get(row.workspaceId) ?? [],
 			pullRequest:
 				row.pullRequestUrl &&
 				row.pullRequestNumber !== null &&
@@ -452,6 +477,7 @@ export class PullRequestRuntimeManager {
 				linkedAt: workspacePullRequests.linkedAt,
 				currentPullRequestId: workspaces.pullRequestId,
 				pullRequestRowId: pullRequests.id,
+				source: workspacePullRequests.source,
 				repoOwner: pullRequests.repoOwner,
 				repoName: pullRequests.repoName,
 				prNumber: pullRequests.prNumber,
@@ -474,12 +500,19 @@ export class PullRequestRuntimeManager {
 				workspaces,
 				eq(workspacePullRequests.workspaceId, workspaces.id),
 			)
-			.where(inArray(workspacePullRequests.workspaceId, workspaceIds))
+			.where(
+				and(
+					inArray(workspacePullRequests.workspaceId, workspaceIds),
+					isNull(workspacePullRequests.hiddenAt),
+				),
+			)
 			.all();
 
 		const byWorkspace = new Map<string, WorkspacePullRequestHistoryEntry[]>();
 		for (const row of rows) {
 			const entry: WorkspacePullRequestHistoryEntry = {
+				id: row.pullRequestRowId,
+				source: row.source ?? "branch",
 				repoOwner: row.repoOwner,
 				repoName: row.repoName,
 				number: row.prNumber,
@@ -558,6 +591,283 @@ export class PullRequestRuntimeManager {
 			})
 			.where(eq(workspaces.id, workspaceId))
 			.run();
+		this.hidePullRequestLink(workspaceId, workspace.pullRequestId);
+	}
+
+	/** Remove one PR from a workspace's links; the current-branch PR is also suppressed. */
+	unlinkPullRequest(workspaceId: string, pullRequestId: string): void {
+		const workspace = this.db
+			.select({ pullRequestId: workspaces.pullRequestId })
+			.from(workspaces)
+			.where(eq(workspaces.id, workspaceId))
+			.get();
+		if (workspace?.pullRequestId === pullRequestId) {
+			this.unlinkWorkspacePullRequest(workspaceId);
+			return;
+		}
+		this.hidePullRequestLink(workspaceId, pullRequestId);
+	}
+
+	private hidePullRequestLink(
+		workspaceId: string,
+		pullRequestId: string,
+	): void {
+		this.db
+			.update(workspacePullRequests)
+			.set({ hiddenAt: Date.now() })
+			.where(
+				and(
+					eq(workspacePullRequests.workspaceId, workspaceId),
+					eq(workspacePullRequests.pullRequestId, pullRequestId),
+				),
+			)
+			.run();
+	}
+
+	/**
+	 * Link a PR given as a URL, `owner/repo#n` or a number in the workspace's
+	 * own repo. A manual link restores a PR the user unlinked; a `created`
+	 * link (seen in an agent transcript) never does.
+	 */
+	async linkPullRequest({
+		workspaceId,
+		reference,
+		source,
+	}: {
+		workspaceId: string;
+		reference: string;
+		source: "created" | "manual";
+	}): Promise<{ pullRequestId: string }> {
+		const workspace = this.db
+			.select({ projectId: workspaces.projectId })
+			.from(workspaces)
+			.where(eq(workspaces.id, workspaceId))
+			.get();
+		if (!workspace?.projectId) {
+			throw new Error("Only project workspaces can link pull requests");
+		}
+		const target = parsePullRequestReference(reference);
+		if (!target) {
+			throw new Error("Use a pull request URL, owner/repo#123, or #123");
+		}
+		const projectRepo = await this.getProjectRepository(workspace.projectId);
+		const owner = target.owner ?? projectRepo?.owner;
+		const name = target.name ?? projectRepo?.name;
+		if (!owner || !name) {
+			throw new Error(
+				"This project has no GitHub repository; paste the full pull request URL",
+			);
+		}
+		const repo: NormalizedRepoIdentity =
+			projectRepo &&
+			projectRepo.owner.toLowerCase() === owner.toLowerCase() &&
+			projectRepo.name.toLowerCase() === name.toLowerCase()
+				? projectRepo
+				: {
+						provider: "github",
+						owner,
+						name,
+						url: `https://github.com/${owner}/${name}`,
+						remoteName: "origin",
+						defaultBranch: null,
+					};
+		const node = await this.fetchFromGitHub(
+			"PR lookup by number",
+			{ owner, name, prNumber: target.number },
+			() => fetchPullRequestByNumberFromGh(this.execGh, repo, target.number),
+			async () =>
+				fetchPullRequestByNumber(await this.github(), repo, target.number),
+			{ probe: true },
+		);
+		if (!node) {
+			throw new Error(
+				`Pull request ${owner}/${name}#${target.number} not found`,
+			);
+		}
+		const pullRequestId = await this.fetchAndPersistPullRequestNode(
+			workspace.projectId,
+			repo,
+			node,
+		);
+		const now = Date.now();
+		this.db
+			.insert(workspacePullRequests)
+			.values({ workspaceId, pullRequestId, linkedAt: now, source })
+			.onConflictDoUpdate({
+				target: [
+					workspacePullRequests.workspaceId,
+					workspacePullRequests.pullRequestId,
+				],
+				set: {
+					source: sql`coalesce(${workspacePullRequests.source}, ${source})`,
+					...(source === "manual" ? { hiddenAt: null } : {}),
+				},
+			})
+			.run();
+		if (source === "manual") {
+			this.db
+				.update(workspaces)
+				.set({ suppressedPullRequestId: null })
+				.where(
+					and(
+						eq(workspaces.id, workspaceId),
+						eq(workspaces.suppressedPullRequestId, pullRequestId),
+					),
+				)
+				.run();
+		}
+		return { pullRequestId };
+	}
+
+	private readonly transcriptScans = new Map<
+		string,
+		{ offset: number; pendingToolUseIds: Set<string>; running: Promise<void> }
+	>();
+
+	/**
+	 * Links every PR that `gh pr create` printed in an agent transcript. Reads
+	 * only what was appended since the last scan; the first scan after a host
+	 * start reads the whole file, so earlier PRs of the session link too.
+	 */
+	linkPullRequestsCreatedInTranscript(
+		workspaceId: string,
+		transcriptPath: string,
+	): Promise<void> {
+		const scan = this.transcriptScans.get(transcriptPath) ?? {
+			offset: 0,
+			pendingToolUseIds: new Set<string>(),
+			running: Promise.resolve(),
+		};
+		this.transcriptScans.set(transcriptPath, scan);
+		scan.running = scan.running
+			.then(async () => {
+				const file = await open(transcriptPath, "r");
+				let chunk: Buffer;
+				try {
+					const { size } = await file.stat();
+					if (size < scan.offset) scan.offset = 0;
+					chunk = Buffer.alloc(size - scan.offset);
+					await file.read(chunk, 0, chunk.length, scan.offset);
+				} finally {
+					await file.close();
+				}
+				const end = chunk.lastIndexOf(10);
+				if (end === -1) return;
+				scan.offset += end + 1;
+				const urls = findCreatedPullRequestUrls(
+					chunk.subarray(0, end).toString("utf8").split("\n"),
+					scan.pendingToolUseIds,
+				);
+				for (const url of new Set(urls)) {
+					await this.linkPullRequest({
+						workspaceId,
+						reference: url,
+						source: "created",
+					}).catch((error) => {
+						console.warn(
+							"[host-service:pull-request-runtime] Failed to link created PR",
+							{ workspaceId, url, error },
+						);
+					});
+				}
+			})
+			.catch((error) => {
+				console.warn(
+					"[host-service:pull-request-runtime] Transcript PR scan failed",
+					{ transcriptPath, error },
+				);
+			});
+		return scan.running;
+	}
+
+	/**
+	 * Keeps linked PRs that no workspace branch matches up to date: the branch
+	 * sweep only fetches PRs for the current branches. Finished PRs stay as they are.
+	 */
+	private async refreshLinkedPullRequests(): Promise<void> {
+		const current = new Set(
+			this.db
+				.select({ pullRequestId: workspaces.pullRequestId })
+				.from(workspaces)
+				.all()
+				.map((row) => row.pullRequestId),
+		);
+		const rows = this.db
+			.selectDistinct({ pullRequest: pullRequests })
+			.from(workspacePullRequests)
+			.innerJoin(
+				pullRequests,
+				eq(workspacePullRequests.pullRequestId, pullRequests.id),
+			)
+			.where(isNull(workspacePullRequests.hiddenAt))
+			.all()
+			.map((row) => row.pullRequest)
+			.filter(
+				(row) =>
+					!current.has(row.id) &&
+					row.state !== "merged" &&
+					row.state !== "closed",
+			);
+		for (const row of rows) {
+			const repo: NormalizedRepoIdentity = {
+				provider: "github",
+				owner: row.repoOwner,
+				name: row.repoName,
+				url: `https://github.com/${row.repoOwner}/${row.repoName}`,
+				remoteName: "origin",
+				defaultBranch: null,
+			};
+			try {
+				const node = await this.fetchFromGitHub(
+					"PR lookup by number",
+					{ owner: row.repoOwner, name: row.repoName, prNumber: row.prNumber },
+					() => fetchPullRequestByNumberFromGh(this.execGh, repo, row.prNumber),
+					async () =>
+						fetchPullRequestByNumber(await this.github(), repo, row.prNumber),
+				);
+				if (node) {
+					await this.fetchAndPersistPullRequestNode(row.projectId, repo, node);
+				}
+			} catch (error) {
+				console.warn(
+					"[host-service:pull-request-runtime] Linked PR refresh failed",
+					{ prNumber: row.prNumber, error },
+				);
+			}
+		}
+	}
+
+	private getLinkSummariesByWorkspace(
+		workspaceIds: string[],
+	): Map<string, PullRequestLinkSummary[]> {
+		const rows = this.db
+			.select({
+				workspaceId: workspacePullRequests.workspaceId,
+				number: pullRequests.prNumber,
+				url: pullRequests.url,
+				title: pullRequests.title,
+				state: pullRequests.state,
+			})
+			.from(workspacePullRequests)
+			.innerJoin(
+				pullRequests,
+				eq(workspacePullRequests.pullRequestId, pullRequests.id),
+			)
+			.where(
+				and(
+					inArray(workspacePullRequests.workspaceId, workspaceIds),
+					isNull(workspacePullRequests.hiddenAt),
+				),
+			)
+			.orderBy(desc(workspacePullRequests.linkedAt))
+			.all();
+		const byWorkspace = new Map<string, PullRequestLinkSummary[]>();
+		for (const { workspaceId, state, ...link } of rows) {
+			const list = byWorkspace.get(workspaceId) ?? [];
+			list.push({ ...link, state: coercePullRequestState(state) });
+			byWorkspace.set(workspaceId, list);
+		}
+		return byWorkspace;
 	}
 
 	async linkWorkspaceToCheckoutPullRequest({
@@ -1623,41 +1933,79 @@ export class PullRequestRuntimeManager {
 		);
 
 		for (const [key, node] of latestByKey) {
-			const existing = this.findPullRequestRow(repo, node.number);
-			// A failed fetch keeps the last-known state rather than blanking it.
-			const details = detailsByNumber.get(node.number);
-			const checks = details
-				? parseCheckContexts(details.checks)
-				: parseChecksJson(existing?.checksJson ?? null);
-			const reviewDecision = details
-				? mapReviewDecision(details.reviewDecision)
-				: coerceReviewDecision(existing?.reviewDecision ?? null);
-			const isInMergeQueue =
-				details?.isInMergeQueue ??
-				coercePullRequestState(existing?.state ?? null) === "queued";
-			const rowId = this.upsertPullRequestRow({
-				existing,
+			const rowId = this.persistPullRequestNode(
 				projectId,
-				prNumber: node.number,
 				repo,
-				url: node.url,
-				title: node.title,
-				state: mapPullRequestState(node.state, node.isDraft, isInMergeQueue),
-				isDraft: node.isDraft,
-				headBranch: node.headRefName,
-				headSha: node.headRefOid,
-				mergedAt: node.mergedAt,
-				reviewDecision,
-				checksStatus: computeChecksStatus(checks),
-				checksJson: JSON.stringify(checks),
-				lastFetchedAt: now,
-				error: null,
+				node,
+				detailsByNumber.get(node.number),
 				now,
-			});
+			);
 
 			matched.set(key, { id: rowId });
 		}
 
 		return { matched, failedKeys };
+	}
+
+	private async fetchAndPersistPullRequestNode(
+		projectId: string,
+		repo: NormalizedRepoIdentity,
+		node: GitHubPullRequestNode,
+	): Promise<string> {
+		const details = await this.getCachedPullRequestDetails(repo, node, {
+			bypassCache: true,
+		}).catch((error) => {
+			console.warn(
+				"[host-service:pull-request-runtime] Failed to fetch PR review/check state",
+				{ owner: repo.owner, name: repo.name, prNumber: node.number, error },
+			);
+			return undefined;
+		});
+		return this.persistPullRequestNode(
+			projectId,
+			repo,
+			node,
+			details,
+			Date.now(),
+		);
+	}
+
+	private persistPullRequestNode(
+		projectId: string,
+		repo: NormalizedRepoIdentity,
+		node: GitHubPullRequestNode,
+		details: PullRequestDetails | undefined,
+		now: number,
+	): string {
+		const existing = this.findPullRequestRow(repo, node.number);
+		// A failed fetch keeps the last-known state rather than blanking it.
+		const checks = details
+			? parseCheckContexts(details.checks)
+			: parseChecksJson(existing?.checksJson ?? null);
+		const reviewDecision = details
+			? mapReviewDecision(details.reviewDecision)
+			: coerceReviewDecision(existing?.reviewDecision ?? null);
+		const isInMergeQueue =
+			details?.isInMergeQueue ??
+			coercePullRequestState(existing?.state ?? null) === "queued";
+		return this.upsertPullRequestRow({
+			existing,
+			projectId: existing?.projectId ?? projectId,
+			prNumber: node.number,
+			repo,
+			url: node.url,
+			title: node.title,
+			state: mapPullRequestState(node.state, node.isDraft, isInMergeQueue),
+			isDraft: node.isDraft,
+			headBranch: node.headRefName,
+			headSha: node.headRefOid,
+			mergedAt: node.mergedAt,
+			reviewDecision,
+			checksStatus: computeChecksStatus(checks),
+			checksJson: JSON.stringify(checks),
+			lastFetchedAt: now,
+			error: null,
+			now,
+		});
 	}
 }

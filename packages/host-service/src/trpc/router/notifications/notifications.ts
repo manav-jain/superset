@@ -186,6 +186,12 @@ export const notificationsRouter = router({
 				agentSessionId: agent.sessionId,
 				transcriptPath,
 			});
+			if (eventType === "Start" || eventType === "Stop") {
+				void ctx.runtime.pullRequests.linkPullRequestsCreatedInTranscript(
+					terminalSession.originWorkspaceId,
+					transcriptPath,
+				);
+			}
 		}
 
 		fanOutAgentLifecycle(ctx, {
