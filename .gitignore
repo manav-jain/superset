@@ -114,3 +114,6 @@ packages/i18n/locales/*/messages.ts
 
 .gstack/
 evidence/
+
+# bun build --compile temp output
+*.bun-build
