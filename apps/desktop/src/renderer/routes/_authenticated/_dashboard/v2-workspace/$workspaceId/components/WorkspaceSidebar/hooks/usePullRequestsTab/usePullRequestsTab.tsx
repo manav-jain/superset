@@ -13,15 +13,16 @@ interface UsePullRequestsTabParams {
 	onOpenPullRequest?: (ref: PullRequestRef) => void;
 }
 
-/** The workspace's linked PRs, plus those of every worker nested under it. */
+/** The workspace's linked PRs, plus those of every worker nested under it, deleted ones included. */
 export function usePullRequestsTab({
 	workspaceId,
 	onOpenPullRequest,
 }: UsePullRequestsTabParams): SidebarTabDefinition {
 	const { t } = useLingui();
-	const workspacesQuery = workspaceTrpc.workspace.list.useQuery(undefined, {
-		staleTime: 30_000,
-	});
+	const workspacesQuery = workspaceTrpc.workspace.list.useQuery(
+		{ includeArchived: true },
+		{ staleTime: 30_000 },
+	);
 	const tree = useMemo(
 		() => collectWorkspaceTree(workspacesQuery.data ?? [], workspaceId),
 		[workspacesQuery.data, workspaceId],
