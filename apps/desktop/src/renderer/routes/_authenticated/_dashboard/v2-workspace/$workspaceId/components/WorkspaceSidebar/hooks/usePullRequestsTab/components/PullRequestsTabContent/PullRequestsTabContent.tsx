@@ -37,10 +37,18 @@ export function PullRequestsTabContent({
 		onSuccess: () => void refresh(),
 	});
 
-	const pullRequests = sections.flatMap((section) => section.pullRequests);
+	const seen = new Set<string>();
+	const pullRequests = sections.flatMap((section) =>
+		section.pullRequests.flatMap((pullRequest) => {
+			if (seen.has(pullRequest.id)) return [];
+			seen.add(pullRequest.id);
+			return [{ pullRequest, workspaceId: section.id }];
+		}),
+	);
 	const linkedCount = pullRequests.length;
 	const openCount = pullRequests.filter(
-		(pr) => pr.state !== "merged" && pr.state !== "closed",
+		({ pullRequest }) =>
+			pullRequest.state !== "merged" && pullRequest.state !== "closed",
 	).length;
 	const open = (url: string) => {
 		const ref = pullRequestRefFromUrl(url);
@@ -65,32 +73,21 @@ export function PullRequestsTabContent({
 						</p>
 					</div>
 				) : (
-					sections
-						.filter((section) => section.pullRequests.length > 0)
-						.map((section) => (
-							<div key={section.id}>
-								{section.id !== workspaceId && (
-									<p className="truncate px-2 pt-2 pb-0.5 text-[11px] text-muted-foreground">
-										{section.name}
-									</p>
-								)}
-								{section.pullRequests.map((pullRequest) => (
-									<PullRequestLinkRow
-										key={pullRequest.id}
-										pullRequest={pullRequest}
-										openProps={pullRequestClickProps(pullRequest.url, () =>
-											open(pullRequest.url),
-										)}
-										onUnlink={() =>
-											unlink.mutate({
-												workspaceId: section.id,
-												pullRequestId: pullRequest.id,
-											})
-										}
-									/>
-								))}
-							</div>
-						))
+					pullRequests.map(({ pullRequest, workspaceId: ownerId }) => (
+						<PullRequestLinkRow
+							key={pullRequest.id}
+							pullRequest={pullRequest}
+							openProps={pullRequestClickProps(pullRequest.url, () =>
+								open(pullRequest.url),
+							)}
+							onUnlink={() =>
+								unlink.mutate({
+									workspaceId: ownerId,
+									pullRequestId: pullRequest.id,
+								})
+							}
+						/>
+					))
 				)}
 			</div>
 			<form
