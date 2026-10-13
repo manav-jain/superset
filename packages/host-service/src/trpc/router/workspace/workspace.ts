@@ -3,9 +3,11 @@ import { workspaceTagsInputSchema } from "@superset/shared/workspace-tags";
 import { TRPCError } from "@trpc/server";
 import { eq, isNotNull, isNull } from "drizzle-orm";
 import { z } from "zod";
+import type { HostDb } from "../../../db";
 import { projects, workspaces } from "../../../db/schema";
 import { isMissingPath } from "../../../runtime/path-state";
 import {
+	getLocalWorkspace,
 	getWorkspaceTags,
 	getWorkspaceTagsByWorkspaceId,
 	toCloudShape,
@@ -15,6 +17,27 @@ import { cancelAndWaitWorkspaceTitleCommit } from "../../../workspaces/workspace
 import { protectedProcedure, router } from "../../index";
 import { resolveWorktreePath } from "../git/utils/resolve-worktree";
 import { destroyWorkspace } from "../workspace-cleanup";
+
+function assertValidParent(db: HostDb, id: string, parentId: string) {
+	let cursor: string | null = parentId;
+	while (cursor) {
+		if (cursor === id) {
+			throw new TRPCError({
+				code: "BAD_REQUEST",
+				message: "A workspace cannot be nested under itself or its own child",
+			});
+		}
+		const row = getLocalWorkspace(db, cursor);
+		if (!row && cursor !== parentId) return;
+		if (!row) {
+			throw new TRPCError({
+				code: "NOT_FOUND",
+				message: `Parent workspace ${cursor} not found on this host`,
+			});
+		}
+		cursor = row.parentWorkspaceId;
+	}
+}
 
 export const workspaceRouter = router({
 	get: protectedProcedure
@@ -102,6 +125,7 @@ export const workspaceRouter = router({
 					: null,
 				// Host-only: the frozen cloud shape never had an activity signal.
 				lastActivityAt: row.lastActivityAt,
+				parentWorkspaceId: row.parentWorkspaceId,
 				archivedAt: row.archivedAt,
 				archiveReason: row.archiveReason,
 			}));
@@ -121,6 +145,7 @@ export const workspaceRouter = router({
 				branch: z.string().min(1).optional(),
 				taskId: z.string().uuid().nullable().optional(),
 				tags: workspaceTagsInputSchema.optional(),
+				parentWorkspaceId: z.string().uuid().nullable().optional(),
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
@@ -138,11 +163,17 @@ export const workspaceRouter = router({
 				branch?: string;
 				taskId?: string | null;
 				tags?: string[];
+				parentWorkspaceId?: string | null;
 			} = {};
 			if (input.name !== undefined) patch.name = input.name;
 			if (input.branch !== undefined) patch.branch = input.branch;
 			if (input.taskId !== undefined) patch.taskId = input.taskId;
 			if (input.tags !== undefined) patch.tags = input.tags;
+			if (input.parentWorkspaceId) {
+				assertValidParent(ctx.db, input.id, input.parentWorkspaceId);
+			}
+			if (input.parentWorkspaceId !== undefined)
+				patch.parentWorkspaceId = input.parentWorkspaceId;
 			if (Object.keys(patch).length === 0) {
 				return {
 					...toCloudShape(current, ctx.organizationId),

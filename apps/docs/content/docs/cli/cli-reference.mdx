@@ -810,6 +810,7 @@ project id when the host doesn't know the project's name.
 		{ flag: "--command <cmd>", description: "Shell command to run in the new workspace after creation." },
 		{ flag: "--attachment <path>", description: "Local file to upload for the spawned agent. Repeatable." },
 		{ flag: "--tag <tag>", description: "Workspace tag. Repeatable. Each tag groups the workspace into a sidebar folder of the same name." },
+		{ flag: "--parent <id>", description: "Workspace to nest this one under in the sidebar, e.g. the master workspace whose agent spawns it ($SUPERSET_WORKSPACE_ID). Host workspaces only." },
 	]}
 	output={`{ workspace: Workspace; alreadyExists: boolean }`}
 >
@@ -945,6 +946,8 @@ superset workspaces get --field branch   # inside a workspace
 		{ flag: "--clear-task", description: "Unlink the workspace from its current task. Mutually exclusive with --task-id." },
 		{ flag: "--tag <tag>", description: "Replace the workspace's tag set. Repeatable. Each tag groups the workspace into a sidebar folder of the same name." },
 		{ flag: "--clear-tags", description: "Remove every tag. Mutually exclusive with --tag." },
+		{ flag: "--parent <id>", description: "Nest the workspace under this one in the sidebar." },
+		{ flag: "--clear-parent", description: "Stop nesting the workspace. Mutually exclusive with --parent." },
 	]}
 	output="Workspace"
 >

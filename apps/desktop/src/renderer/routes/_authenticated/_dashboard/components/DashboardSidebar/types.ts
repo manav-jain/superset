@@ -10,7 +10,8 @@ export type DashboardSidebarWorkspaceType = "local" | "worktree" | "session";
 export type DashboardSidebarWorkspaceIndentation =
 	| "top-level"
 	| "workspace"
-	| "grouped";
+	| "grouped"
+	| "nested";
 
 export interface DashboardSidebarWorkspacePullRequestCheck {
 	name: string;
@@ -55,6 +56,11 @@ export interface DashboardSidebarWorkspace {
 	 */
 	lastActivityAt: number | null;
 	taskId: string | null;
+	/**
+	 * Set only when the row renders nested under its parent (a master
+	 * workspace and its workers). Null when the parent is not in the list.
+	 */
+	parentWorkspaceId?: string | null;
 	isPinned: boolean;
 	pendingTransaction: WorkspaceTransactionSnapshot | null;
 }

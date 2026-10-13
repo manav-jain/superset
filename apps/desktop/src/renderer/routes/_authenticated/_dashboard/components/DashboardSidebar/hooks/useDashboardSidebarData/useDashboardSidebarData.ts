@@ -356,6 +356,7 @@ export function useDashboardSidebarData() {
 						createdAt: workspace.createdAt,
 						updatedAt: workspace.updatedAt,
 						lastActivityAt: workspace.lastActivityAt,
+						parentWorkspaceId: workspace.parentWorkspaceId ?? null,
 						tabOrder: localState.tabOrder,
 						sectionId: localState.sectionId,
 						tags: workspace.tags,
