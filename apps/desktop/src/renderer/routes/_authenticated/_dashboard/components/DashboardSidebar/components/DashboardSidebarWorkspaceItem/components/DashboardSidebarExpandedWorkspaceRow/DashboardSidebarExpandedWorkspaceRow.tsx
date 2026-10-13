@@ -194,7 +194,9 @@ export const DashboardSidebarExpandedWorkspaceRow = forwardRef<
 							? "pl-2"
 							: resolvedIndentation === "grouped"
 								? "pl-10"
-								: "pl-6",
+								: resolvedIndentation === "nested"
+									? "pl-14"
+									: "pl-6",
 						onClick && "cursor-pointer",
 					)}
 				>

@@ -62,6 +62,9 @@ export default command({
 			.desc(
 				"Workspace tag. Repeatable. Each tag files the workspace into a sidebar folder of the same name",
 			),
+		parent: string().desc(
+			"Workspace ID to nest this one under in the sidebar, e.g. the master workspace whose agent spawns it ($SUPERSET_WORKSPACE_ID)",
+		),
 	},
 	run: async ({ ctx, options }) => {
 		const organizationId = ctx.config.organizationId;
@@ -75,6 +78,12 @@ export default command({
 			organizationId,
 		);
 		if (!defaultHostId) {
+			if (options.parent) {
+				throw new CLIError(
+					"--parent applies to workspaces on a host",
+					"Pass --local or --host <id>",
+				);
+			}
 			return await createCloudWorkspace({
 				api: ctx.api,
 				organizationId,
@@ -218,12 +227,21 @@ export default command({
 					]
 				: undefined;
 
+		const nestUnderParent = async (workspaceId: string) => {
+			if (!options.parent) return;
+			await target.client.workspace.update.mutate({
+				id: workspaceId,
+				parentWorkspaceId: options.parent,
+			});
+		};
+
 		if (isSession) {
 			const result = await target.client.workspaces.createSession.mutate({
 				name: options.name,
 				agents,
 				command: options.command ?? undefined,
 			});
+			await nestUnderParent(result.workspace.id);
 			return {
 				data: result,
 				message: `Created session "${result.workspace.name}" on host ${target.hostId}`,
@@ -250,6 +268,7 @@ export default command({
 			command: options.command ?? undefined,
 			...(options.tag?.length ? { tags: options.tag } : {}),
 		});
+		await nestUnderParent(result.workspace.id);
 
 		return {
 			data: result,
