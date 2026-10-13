@@ -32,6 +32,7 @@
 		"build": "cross-env CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder --publish never",
 		"prepackage": "bun run bundle:cli && bun run copy:native-modules && bun run validate:native-runtime",
 		"package": "electron-builder --config electron-builder.ts",
+		"package:mj": "cross-env SUPERSET_WORKSPACE_NAME=mj DESKTOP_NOTIFICATIONS_PORT=51761 bun run compile:app && cross-env CSC_IDENTITY_AUTO_DISCOVERY=false bun run package -- --config electron-builder.mj.ts --publish never",
 		"install:deps": "electron-builder install-app-deps",
 		"release": "electron-builder --publish always",
 		"clean:dev": "rimraf ./node_modules/.dev",
