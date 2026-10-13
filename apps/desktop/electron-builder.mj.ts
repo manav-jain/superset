@@ -27,6 +27,9 @@ const config: Configuration = {
 	mac: {
 		...baseConfig.mac,
 		icon: join(pkg.resources, "build/icons/icon-dev.icns"),
+		// A stable identity keeps macOS privacy grants across rebuilds; an
+		// ad-hoc signature changes with every build.
+		identity: "Apple Development: manav.mj.jain@gmail.com (7G8BFW87E6)",
 		notarize: false,
 		artifactName: `Superset-MJ-\${version}-\${arch}.\${ext}`,
 		extendInfo: {
