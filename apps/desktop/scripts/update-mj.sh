@@ -1,7 +1,7 @@
 #!/bin/bash
 # Build Superset MJ and update the installed app: quit it, swap the bundle in
-# /Applications, relaunch. Terminals and agent sessions live in the pty-daemon,
-# so they survive the restart like an auto-update.
+# /Applications, relaunch, then hand the running terminals to a pty-daemon from
+# the new build. Shells and agent sessions keep running throughout.
 #   bun run update:mj              build, then install
 #   bun run update:mj --no-build   install the last build
 set -euo pipefail
@@ -40,5 +40,22 @@ ditto "$BUILD" "$STAGED"
 xattr -dr com.apple.quarantine "$STAGED" 2>/dev/null || true
 [ -d "$DEST" ] && mv "$DEST" "$OLD"
 mv "$STAGED" "$DEST"
+LAUNCHED_AT=$(($(date +%s) * 1000))
 open "$DEST"
 echo "Updated $DEST$([ -d "$OLD" ] && echo " (previous: $OLD)")"
+
+# Move the running terminals onto the new build. The pty-daemon outlives the
+# app; asked to update, it hands its live PTYs to a successor started from its
+# own path, which now holds the new bundle, so shells and agents keep running.
+for manifest in "$HOME/.superset-mj/host"/*/manifest.json; do
+  [ -f "$manifest" ] || continue
+  for _ in $(seq 1 60); do
+    [ "$(jq -r '.startedAt // 0' "$manifest")" -ge "$LAUNCHED_AT" ] && break
+    sleep 1
+  done
+  ENDPOINT=$(jq -r .endpoint "$manifest")
+  AUTH="Authorization: Bearer $(jq -r .authToken "$manifest")"
+  RESULT=$(curl -s -X POST -H "$AUTH" -H "Content-Type: application/json" -d '{}' \
+    "$ENDPOINT/trpc/terminal.daemon.update" | jq -c '.result.data.json // .error.json.message')
+  echo "Terminal daemon handoff ($(basename "$(dirname "$manifest")")): $RESULT"
+done
