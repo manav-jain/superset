@@ -2,6 +2,7 @@ import { msg } from "@lingui/core/macro";
 import { i18n } from "@superset/i18n";
 import { cn } from "@superset/ui/utils";
 import { LuArrowRight, LuArrowUpRight } from "react-icons/lu";
+import { pullRequestClickProps } from "renderer/lib/github/pullRequestClickProps";
 import {
 	type PullRequestRef,
 	pullRequestRefFromUrl,
@@ -62,11 +63,11 @@ export function PRHeader({ pr, onOpenPullRequest }: PRHeaderProps) {
 			{onOpenPullRequest ? (
 				<button
 					type="button"
-					onClick={() => {
+					{...pullRequestClickProps(pr.url, () => {
 						const ref = pullRequestRefFromUrl(pr.url);
 						if (ref) onOpenPullRequest(ref);
 						else window.open(pr.url, "_blank");
-					}}
+					})}
 					className={titleClass}
 				>
 					{titleContent}

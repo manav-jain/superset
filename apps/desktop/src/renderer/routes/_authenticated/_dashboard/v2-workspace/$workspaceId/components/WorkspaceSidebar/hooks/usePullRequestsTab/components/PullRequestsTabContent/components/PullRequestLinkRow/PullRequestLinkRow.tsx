@@ -6,12 +6,13 @@ import {
 	LuCircleX,
 	LuUnlink,
 } from "react-icons/lu";
+import type { pullRequestClickProps } from "renderer/lib/github/pullRequestClickProps";
 import { PRIcon } from "renderer/screens/main/components/PRIcon";
 import type { WorkspacePullRequest } from "../../../../types";
 
 interface PullRequestLinkRowProps {
 	pullRequest: WorkspacePullRequest;
-	onOpen: () => void;
+	openProps: ReturnType<typeof pullRequestClickProps>;
 	onUnlink: () => void;
 }
 
@@ -23,7 +24,7 @@ const CHECK_ICONS = {
 
 export function PullRequestLinkRow({
 	pullRequest,
-	onOpen,
+	openProps,
 	onUnlink,
 }: PullRequestLinkRowProps) {
 	const { t } = useLingui();
@@ -44,7 +45,7 @@ export function PullRequestLinkRow({
 		<div className="group flex items-center gap-1.5 px-2 py-1 hover:bg-accent/50">
 			<button
 				type="button"
-				onClick={onOpen}
+				{...openProps}
 				title={pullRequest.title}
 				className="flex min-w-0 flex-1 items-center gap-1.5 text-left"
 			>

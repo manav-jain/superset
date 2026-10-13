@@ -23,6 +23,7 @@ import {
 	VscGitPullRequest,
 	VscLoading,
 } from "react-icons/vsc";
+import { pullRequestClickProps } from "renderer/lib/github/pullRequestClickProps";
 import {
 	type PullRequestRef,
 	pullRequestRefFromUrl,
@@ -247,7 +248,7 @@ export function PRStatusGroup({
 							aria-label={
 								toggleLabel ? `${toggleLabel}, #${pr.number}` : undefined
 							}
-							onClick={onToggleChanges}
+							{...pullRequestClickProps(pr.url, () => onToggleChanges())}
 						>
 							{badgeContent}
 						</button>
