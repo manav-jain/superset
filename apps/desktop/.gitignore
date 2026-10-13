@@ -29,4 +29,4 @@ electron.vite.config.*.mjs
 routeTree.gen.ts
 
 # Generated file icons (material-icon-theme)
-src/resources/public/file-icons/release-next/
+src/resources/public/file-icons/
