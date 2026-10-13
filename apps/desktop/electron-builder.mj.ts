@@ -18,6 +18,9 @@ const config: Configuration = {
 	...baseConfig,
 	appId: "com.superset.desktop.mj",
 	productName,
+	// Electron names the app (and its userData dir and single-instance lock)
+	// from the packaged package.json, not from this config.
+	extraMetadata: { ...baseConfig.extraMetadata, productName },
 	publish: null,
 	protocols: { name: productName, schemes: ["superset-mj"] },
 
