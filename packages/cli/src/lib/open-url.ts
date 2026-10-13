@@ -1,4 +1,5 @@
 import { spawn } from "node:child_process";
+import { basename } from "node:path";
 
 /**
  * A cloud workspace sandbox ships `xdg-utils` and sets `DISPLAY`, so
@@ -14,8 +15,19 @@ export function canReachDesktop(): boolean {
 	);
 }
 
-export function desktopWorkspaceLink(workspaceId: string): string {
-	return `superset://v2-workspace/${workspaceId}`;
+/**
+ * The desktop app whose home this CLI uses: a build named `<name>` keeps its
+ * home in `~/.superset-<name>` and answers `superset-<name>://`.
+ */
+export function desktopWorkspaceLink(
+	workspaceId: string,
+	homeDir = process.env.SUPERSET_HOME_DIR,
+): string {
+	const home = basename(homeDir ?? "");
+	const scheme = /^\.superset-[a-z0-9-]+$/.test(home)
+		? home.slice(1)
+		: "superset";
+	return `${scheme}://v2-workspace/${workspaceId}`;
 }
 
 export function openUrl(url: string): Promise<void> {
