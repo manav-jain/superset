@@ -1,3 +1,4 @@
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { protectedProcedure, router } from "../../index";
 import { addComment } from "./procedures/add-comment";
@@ -52,6 +53,43 @@ export const pullRequestsRouter = router({
 				);
 			return { workspaces };
 		}),
+	/** Link a PR by URL, `owner/repo#n` or a number in the workspace's repo. */
+	linkToWorkspace: protectedProcedure
+		.input(
+			z.object({
+				workspaceId: z.string(),
+				reference: z.string().min(1),
+			}),
+		)
+		.mutation(async ({ ctx, input }) => {
+			try {
+				return await ctx.runtime.pullRequests.linkPullRequest({
+					workspaceId: input.workspaceId,
+					reference: input.reference,
+					source: "manual",
+				});
+			} catch (error) {
+				throw new TRPCError({
+					code: "BAD_REQUEST",
+					message: error instanceof Error ? error.message : String(error),
+				});
+			}
+		}),
+	/** Remove one PR (an id from `historyByWorkspaces`) from a workspace's links. */
+	unlinkPullRequest: protectedProcedure
+		.input(
+			z.object({
+				workspaceId: z.string(),
+				pullRequestId: z.string(),
+			}),
+		)
+		.mutation(({ ctx, input }) => {
+			ctx.runtime.pullRequests.unlinkPullRequest(
+				input.workspaceId,
+				input.pullRequestId,
+			);
+			return { ok: true };
+		}),
 	unlinkFromWorkspace: protectedProcedure
 		.input(
 			z.object({
@@ -72,6 +110,17 @@ export const pullRequestsRouter = router({
 			await ctx.runtime.pullRequests.refreshPullRequestsByWorkspaces(
 				input.workspaceIds,
 			);
+			return { ok: true };
+		}),
+	/** Re-fetch linked PRs from GitHub by id (from `historyByWorkspaces`). */
+	refreshPullRequests: protectedProcedure
+		.input(
+			z.object({
+				pullRequestIds: z.array(z.string()),
+			}),
+		)
+		.mutation(async ({ ctx, input }) => {
+			await ctx.runtime.pullRequests.refreshPullRequests(input.pullRequestIds);
 			return { ok: true };
 		}),
 	addComment,

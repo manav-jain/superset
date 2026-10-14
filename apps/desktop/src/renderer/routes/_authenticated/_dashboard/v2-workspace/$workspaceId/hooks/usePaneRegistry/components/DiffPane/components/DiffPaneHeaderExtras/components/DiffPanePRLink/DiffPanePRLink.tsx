@@ -3,6 +3,7 @@ import type { WorkspaceStore } from "@superset/panes";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@superset/ui/tooltip";
 import { workspaceTrpc } from "@superset/workspace-client";
 import { LuArrowRight } from "react-icons/lu";
+import { pullRequestClickProps } from "renderer/lib/github/pullRequestClickProps";
 import { pullRequestRefFromUrl } from "renderer/lib/github/pullRequestRef";
 import { useWorkspace } from "renderer/routes/_authenticated/_dashboard/v2-workspace/providers/WorkspaceProvider";
 import { PRIcon, type PRState } from "renderer/screens/main/components/PRIcon";
@@ -51,14 +52,14 @@ export function DiffPanePRLink({ workspaceId, store }: DiffPanePRLinkProps) {
 				<TooltipTrigger asChild>
 					<button
 						type="button"
-						onClick={() => {
+						{...pullRequestClickProps(pr.url, () => {
 							const ref = pullRequestRefFromUrl(pr.url);
 							if (!ref) {
 								window.open(pr.url, "_blank");
 								return;
 							}
 							openPullRequestPaneInStore(store, ref);
-						}}
+						})}
 						aria-label={t({
 							message: `Open pull request #${pr.number}`,
 						})}

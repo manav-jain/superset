@@ -808,6 +808,9 @@ msgstr "{count} GitHub stars"
 msgid "{count} hosts run an older host service than this app"
 msgstr "{count} hosts run an older host service than this app"
 
+msgid "{count} linked pull requests"
+msgstr "{count} linked pull requests"
+
 msgid "{count}/day"
 msgstr "{count}/day"
 
@@ -973,6 +976,9 @@ msgstr "{noun, select, repository {Specify at least one repository.} channel {Sp
 
 msgid "{openCount} open"
 msgstr "{openCount} open"
+
+msgid "{openCount} open · {linkedCount} linked"
+msgstr "{openCount} open · {linkedCount} linked"
 
 msgid "{pageTitle} can read and change data in your {pluginLabel} account as you, including in future versions of this page. It can send what it reads to other websites. Only allow pages you trust."
 msgstr "{pageTitle} can read and change data in your {pluginLabel} account as you, including in future versions of this page. It can send what it reads to other websites. Only allow pages you trust."
@@ -5368,6 +5374,9 @@ msgstr "Created by me"
 msgid "Created ENG-142 Login fails on Safari"
 msgstr "Created ENG-142 Login fails on Safari"
 
+msgid "Created in an agent session in this workspace"
+msgstr "Created in an agent session in this workspace"
+
 msgid "Created team \"{trimmedName}\""
 msgstr "Created team \"{trimmedName}\""
 
@@ -9341,6 +9350,12 @@ msgstr "Link this task"
 msgid "Linked {slug} to workspace"
 msgstr "Linked {slug} to workspace"
 
+msgid "Linked by you"
+msgstr "Linked by you"
+
+msgid "Linking…"
+msgstr "Linking…"
+
 msgid "List"
 msgstr "List"
 
@@ -9741,6 +9756,9 @@ msgstr "Match existing patterns"
 
 msgid "Match shortcuts to the labels on your keyboard (e.g. ⌘Z always fires on the key labeled \"Z\" — physical KeyY on QWERTZ). When off, shortcuts are anchored to physical key positions and ignore the current input source."
 msgstr "Match shortcuts to the labels on your keyboard (e.g. ⌘Z always fires on the key labeled \"Z\" — physical KeyY on QWERTZ). When off, shortcuts are anchored to physical key positions and ignore the current input source."
+
+msgid "Matched by this workspace's branch"
+msgstr "Matched by this workspace's branch"
 
 msgid "Max"
 msgstr "Max"
@@ -10654,6 +10672,9 @@ msgstr "No labels"
 
 msgid "No lead"
 msgstr "No lead"
+
+msgid "No linked pull requests"
+msgstr "No linked pull requests"
 
 msgid "No listening agents"
 msgstr "No listening agents"
@@ -12430,6 +12451,11 @@ msgstr "PR #{0} ({1})"
 msgid "PR #{0} created"
 msgstr "PR #{0} created"
 
+#. placeholder {0}: first.number
+#. placeholder {1}: first.title
+msgid "PR #{0}: {1}"
+msgstr "PR #{0}: {1}"
+
 #. placeholder {0}: i18n._(LABEL[state])
 msgid "PR #{number} — {0}"
 msgstr "PR #{number} — {0}"
@@ -12778,6 +12804,10 @@ msgstr "Provider: {0}"
 msgid "Provisioning failed and the sandbox was torn down. Nothing is running, and this workspace can't be opened — create a new one to try again."
 msgstr "Provisioning failed and the sandbox was torn down. Nothing is running, and this workspace can't be opened — create a new one to try again."
 
+msgctxt "workspace sidebar tab"
+msgid "PRs"
+msgstr "PRs"
+
 msgid "PRs a week"
 msgstr "PRs a week"
 
@@ -12832,6 +12862,9 @@ msgstr "Pull request not found"
 msgid "Pull request title"
 msgstr "Pull request title"
 
+msgid "Pull request URL or #123"
+msgstr "Pull request URL or #123"
+
 msgid "Pull request…"
 msgstr "Pull request…"
 
@@ -12840,6 +12873,9 @@ msgstr "Pull requests"
 
 msgid "Pull Requests"
 msgstr "Pull Requests"
+
+msgid "Pull requests an agent opens from this workspace, or its workers, land here. Link others by URL or number."
+msgstr "Pull requests an agent opens from this workspace, or its workers, land here. Link others by URL or number."
 
 msgid "Purple"
 msgstr "Purple"
@@ -13160,11 +13196,18 @@ msgstr "Refresh Linear issues"
 msgid "Refresh metrics"
 msgstr "Refresh metrics"
 
+#. placeholder {0}: pullRequest.number
+msgid "Refresh pull request #{0}"
+msgstr "Refresh pull request #{0}"
+
 msgid "Refresh pull requests"
 msgstr "Refresh pull requests"
 
 msgid "Refresh repositories"
 msgstr "Refresh repositories"
+
+msgid "Refresh status"
+msgstr "Refresh status"
 
 msgid "Refreshes when Claude Code next runs."
 msgstr "Refreshes when Claude Code next runs."
@@ -17794,6 +17837,13 @@ msgstr "Unlimited"
 
 msgid "Unlimited users"
 msgstr "Unlimited users"
+
+msgid "Unlink"
+msgstr "Unlink"
+
+#. placeholder {0}: pullRequest.number
+msgid "Unlink pull request #{0}"
+msgstr "Unlink pull request #{0}"
 
 msgid "Unlink task"
 msgstr "Unlink task"

@@ -808,6 +808,9 @@ msgstr "{count} GitHub yıldızı"
 msgid "{count} hosts run an older host service than this app"
 msgstr "{count} ana makine bu uygulamadan daha eski bir ana makine hizmeti çalıştırıyor"
 
+msgid "{count} linked pull requests"
+msgstr "{count} bağlı pull request"
+
 msgid "{count}/day"
 msgstr "{count}/gün"
 
@@ -973,6 +976,9 @@ msgstr "{noun, select, repository {En az bir depo belirtin.} channel {En az bir 
 
 msgid "{openCount} open"
 msgstr "{openCount} açık"
+
+msgid "{openCount} open · {linkedCount} linked"
+msgstr "{openCount} açık · {linkedCount} bağlı"
 
 msgid "{pageTitle} can read and change data in your {pluginLabel} account as you, including in future versions of this page. It can send what it reads to other websites. Only allow pages you trust."
 msgstr "{pageTitle}, sizin adınıza {pluginLabel} hesabınızdaki verileri okuyabilir ve değiştirebilir; bu, sayfanın gelecek sürümlerini de kapsar. Okuduklarını başka web sitelerine gönderebilir. Yalnızca güvendiğiniz sayfalara izin verin."
@@ -5368,6 +5374,9 @@ msgstr "Benim oluşturduklarım"
 msgid "Created ENG-142 Login fails on Safari"
 msgstr "ENG-142 Login fails on Safari oluşturuldu"
 
+msgid "Created in an agent session in this workspace"
+msgstr "Bu çalışma alanının bir ajan oturumunda oluşturuldu"
+
 msgid "Created team \"{trimmedName}\""
 msgstr "\"{trimmedName}\" takımı oluşturuldu"
 
@@ -9341,6 +9350,12 @@ msgstr "Bu görevi bağla"
 msgid "Linked {slug} to workspace"
 msgstr "{slug} çalışma alanına bağlandı"
 
+msgid "Linked by you"
+msgstr "Sizin bağladığınız"
+
+msgid "Linking…"
+msgstr "Bağlanıyor…"
+
 msgid "List"
 msgstr "Liste"
 
@@ -9741,6 +9756,9 @@ msgstr "Mevcut desenlere uy"
 
 msgid "Match shortcuts to the labels on your keyboard (e.g. ⌘Z always fires on the key labeled \"Z\" — physical KeyY on QWERTZ). When off, shortcuts are anchored to physical key positions and ignore the current input source."
 msgstr "Kısayolları klavyenizdeki etiketlerle eşleştirin (örn. ⌘Z her zaman \"Z\" etiketli tuşta çalışır — QWERTZ'de fiziksel KeyY). Kapalıyken kısayollar fiziksel tuş konumlarına sabitlenir ve geçerli giriş kaynağını yok sayar."
+
+msgid "Matched by this workspace's branch"
+msgstr "Bu çalışma alanının dalıyla eşleşiyor"
 
 msgid "Max"
 msgstr "En yüksek"
@@ -10654,6 +10672,9 @@ msgstr "Etiket yok"
 
 msgid "No lead"
 msgstr "Lider yok"
+
+msgid "No linked pull requests"
+msgstr "Bağlı pull request yok"
 
 msgid "No listening agents"
 msgstr "Dinleyen ajan yok"
@@ -12430,6 +12451,11 @@ msgstr "PR #{0} ({1})"
 msgid "PR #{0} created"
 msgstr "PR #{0} oluşturuldu"
 
+#. placeholder {0}: first.number
+#. placeholder {1}: first.title
+msgid "PR #{0}: {1}"
+msgstr "PR #{0}: {1}"
+
 #. placeholder {0}: i18n._(LABEL[state])
 msgid "PR #{number} — {0}"
 msgstr "PR #{number} — {0}"
@@ -12778,6 +12804,10 @@ msgstr "Sağlayıcı: {0}"
 msgid "Provisioning failed and the sandbox was torn down. Nothing is running, and this workspace can't be opened — create a new one to try again."
 msgstr "Sağlama başarısız oldu ve sandbox kaldırıldı. Hiçbir şey çalışmıyor ve bu çalışma alanı açılamaz — yeniden denemek için yeni bir tane oluşturun."
 
+msgctxt "workspace sidebar tab"
+msgid "PRs"
+msgstr "PR'ler"
+
 msgid "PRs a week"
 msgstr "haftada PR"
 
@@ -12832,6 +12862,9 @@ msgstr "Pull request bulunamadı"
 msgid "Pull request title"
 msgstr "Pull request başlığı"
 
+msgid "Pull request URL or #123"
+msgstr "Pull request URL'si veya #123"
+
 msgid "Pull request…"
 msgstr "Pull request…"
 
@@ -12840,6 +12873,9 @@ msgstr "Pull request'ler"
 
 msgid "Pull Requests"
 msgstr "Pull request'ler"
+
+msgid "Pull requests an agent opens from this workspace, or its workers, land here. Link others by URL or number."
+msgstr "Bir ajanın bu çalışma alanından ya da alt çalışanlarından açtığı pull request'ler burada görünür. Diğerlerini URL veya numarayla bağlayın."
 
 msgid "Purple"
 msgstr "Mor"
@@ -13160,11 +13196,18 @@ msgstr "Linear issue'larını yenile"
 msgid "Refresh metrics"
 msgstr "Metrikleri yenile"
 
+#. placeholder {0}: pullRequest.number
+msgid "Refresh pull request #{0}"
+msgstr "#{0} numaralı pull request'i yenile"
+
 msgid "Refresh pull requests"
 msgstr "Pull request'leri yenile"
 
 msgid "Refresh repositories"
 msgstr "Depoları yenile"
+
+msgid "Refresh status"
+msgstr "Durumu yenile"
 
 msgid "Refreshes when Claude Code next runs."
 msgstr "Claude Code bir sonraki çalıştığında yenilenir."
@@ -17794,6 +17837,13 @@ msgstr "Sınırsız"
 
 msgid "Unlimited users"
 msgstr "Sınırsız kullanıcı"
+
+msgid "Unlink"
+msgstr "Bağlantıyı kaldır"
+
+#. placeholder {0}: pullRequest.number
+msgid "Unlink pull request #{0}"
+msgstr "#{0} pull request bağlantısını kaldır"
 
 msgid "Unlink task"
 msgstr "Görevin bağlantısını kaldır"

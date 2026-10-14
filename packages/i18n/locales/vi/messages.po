@@ -808,6 +808,9 @@ msgstr "{count} star GitHub"
 msgid "{count} hosts run an older host service than this app"
 msgstr "{count} máy chủ đang chạy dịch vụ máy chủ cũ hơn ứng dụng này"
 
+msgid "{count} linked pull requests"
+msgstr "{count} pull request đã liên kết"
+
 msgid "{count}/day"
 msgstr "{count}/ngày"
 
@@ -973,6 +976,9 @@ msgstr "{noun, select, repository {Hãy chỉ định ít nhất một repo.} ch
 
 msgid "{openCount} open"
 msgstr "{openCount} còn mở"
+
+msgid "{openCount} open · {linkedCount} linked"
+msgstr "{openCount} đang mở · {linkedCount} đã liên kết"
 
 msgid "{pageTitle} can read and change data in your {pluginLabel} account as you, including in future versions of this page. It can send what it reads to other websites. Only allow pages you trust."
 msgstr "{pageTitle} có thể thay bạn đọc và thay đổi dữ liệu trong tài khoản {pluginLabel} của bạn, kể cả trong các phiên bản sau của trang này. Trang có thể gửi những gì nó đọc được đến các trang web khác. Chỉ cho phép những trang bạn tin tưởng."
@@ -5368,6 +5374,9 @@ msgstr "Do tôi tạo"
 msgid "Created ENG-142 Login fails on Safari"
 msgstr "Đã tạo ENG-142: Đăng nhập lỗi trên Safari"
 
+msgid "Created in an agent session in this workspace"
+msgstr "Được tạo trong một phiên agent của workspace này"
+
 msgid "Created team \"{trimmedName}\""
 msgstr "Đã tạo nhóm \"{trimmedName}\""
 
@@ -9341,6 +9350,12 @@ msgstr "Liên kết tác vụ này"
 msgid "Linked {slug} to workspace"
 msgstr "Đã liên kết {slug} với workspace"
 
+msgid "Linked by you"
+msgstr "Do bạn liên kết"
+
+msgid "Linking…"
+msgstr "Đang liên kết…"
+
 msgid "List"
 msgstr "Danh sách"
 
@@ -9741,6 +9756,9 @@ msgstr "Bám theo mẫu hiện có"
 
 msgid "Match shortcuts to the labels on your keyboard (e.g. ⌘Z always fires on the key labeled \"Z\" — physical KeyY on QWERTZ). When off, shortcuts are anchored to physical key positions and ignore the current input source."
 msgstr "Khớp phím tắt với ký tự in trên bàn phím của bạn (ví dụ ⌘Z luôn kích hoạt ở phím có nhãn \"Z\" — tức phím vật lý KeyY trên QWERTZ). Khi tắt, phím tắt gắn với vị trí phím vật lý và bỏ qua nguồn nhập hiện tại."
+
+msgid "Matched by this workspace's branch"
+msgstr "Khớp với nhánh của workspace này"
 
 msgid "Max"
 msgstr "Tối đa"
@@ -10654,6 +10672,9 @@ msgstr "Không có nhãn"
 
 msgid "No lead"
 msgstr "Không có người phụ trách"
+
+msgid "No linked pull requests"
+msgstr "Không có pull request nào được liên kết"
 
 msgid "No listening agents"
 msgstr "Không có tác nhân lắng nghe"
@@ -12430,6 +12451,11 @@ msgstr "PR #{0} ({1})"
 msgid "PR #{0} created"
 msgstr "Đã tạo PR #{0}"
 
+#. placeholder {0}: first.number
+#. placeholder {1}: first.title
+msgid "PR #{0}: {1}"
+msgstr "PR #{0}: {1}"
+
 #. placeholder {0}: i18n._(LABEL[state])
 msgid "PR #{number} — {0}"
 msgstr "PR #{number} — {0}"
@@ -12778,6 +12804,10 @@ msgstr "Nhà cung cấp: {0}"
 msgid "Provisioning failed and the sandbox was torn down. Nothing is running, and this workspace can't be opened — create a new one to try again."
 msgstr "Việc cấp phát thất bại và sandbox đã bị dỡ bỏ. Không có gì đang chạy và không thể mở workspace này — hãy tạo cái mới để thử lại."
 
+msgctxt "workspace sidebar tab"
+msgid "PRs"
+msgstr "PR"
+
 msgid "PRs a week"
 msgstr "PR mỗi tuần"
 
@@ -12832,6 +12862,9 @@ msgstr "Không tìm thấy pull request"
 msgid "Pull request title"
 msgstr "Tiêu đề pull request"
 
+msgid "Pull request URL or #123"
+msgstr "URL pull request hoặc #123"
+
 msgid "Pull request…"
 msgstr "Pull request…"
 
@@ -12840,6 +12873,9 @@ msgstr "Pull request"
 
 msgid "Pull Requests"
 msgstr "Pull request"
+
+msgid "Pull requests an agent opens from this workspace, or its workers, land here. Link others by URL or number."
+msgstr "Các pull request mà agent mở từ workspace này, hoặc từ các worker của nó, sẽ hiện ở đây. Liên kết pull request khác bằng URL hoặc số."
 
 msgid "Purple"
 msgstr "Tím"
@@ -13160,11 +13196,18 @@ msgstr "Làm mới issue Linear"
 msgid "Refresh metrics"
 msgstr "Làm mới số liệu"
 
+#. placeholder {0}: pullRequest.number
+msgid "Refresh pull request #{0}"
+msgstr "Làm mới pull request #{0}"
+
 msgid "Refresh pull requests"
 msgstr "Làm mới pull request"
 
 msgid "Refresh repositories"
 msgstr "Làm mới repository"
+
+msgid "Refresh status"
+msgstr "Làm mới trạng thái"
 
 msgid "Refreshes when Claude Code next runs."
 msgstr "Làm mới khi Claude Code chạy lần tiếp theo."
@@ -17794,6 +17837,13 @@ msgstr "Không giới hạn"
 
 msgid "Unlimited users"
 msgstr "Không giới hạn người dùng"
+
+msgid "Unlink"
+msgstr "Hủy liên kết"
+
+#. placeholder {0}: pullRequest.number
+msgid "Unlink pull request #{0}"
+msgstr "Hủy liên kết pull request #{0}"
 
 msgid "Unlink task"
 msgstr "Bỏ liên kết nhiệm vụ"

@@ -808,6 +808,9 @@ msgstr "{count} hvězd na GitHubu"
 msgid "{count} hosts run an older host service than this app"
 msgstr "{count} hostitelů používá starší službu hostitele než tato aplikace"
 
+msgid "{count} linked pull requests"
+msgstr "Propojené pull requesty: {count}"
+
 msgid "{count}/day"
 msgstr "{count}/den"
 
@@ -973,6 +976,9 @@ msgstr "{noun, select, repository {Zadejte alespoň jeden repozitář.} channel 
 
 msgid "{openCount} open"
 msgstr "{openCount} otevřených"
+
+msgid "{openCount} open · {linkedCount} linked"
+msgstr "Otevřené: {openCount} · Propojené: {linkedCount}"
 
 msgid "{pageTitle} can read and change data in your {pluginLabel} account as you, including in future versions of this page. It can send what it reads to other websites. Only allow pages you trust."
 msgstr "{pageTitle} může vaším jménem číst a měnit data ve vašem účtu {pluginLabel}, a to i v budoucích verzích této stránky. Co načte, může odeslat na jiné weby. Povolte jen stránky, kterým důvěřujete."
@@ -5368,6 +5374,9 @@ msgstr "Vytvořeno mnou"
 msgid "Created ENG-142 Login fails on Safari"
 msgstr "Vytvořeno ENG-142: Přihlášení selhává v Safari"
 
+msgid "Created in an agent session in this workspace"
+msgstr "Vytvořeno v relaci agenta v tomto pracovním prostoru"
+
 msgid "Created team \"{trimmedName}\""
 msgstr "Tým „{trimmedName}“ vytvořen"
 
@@ -9341,6 +9350,12 @@ msgstr "Propojit tento úkol"
 msgid "Linked {slug} to workspace"
 msgstr "{slug} propojeno s pracovním prostorem"
 
+msgid "Linked by you"
+msgstr "Propojeno vámi"
+
+msgid "Linking…"
+msgstr "Propojování…"
+
 msgid "List"
 msgstr "Seznam"
 
@@ -9741,6 +9756,9 @@ msgstr "Dodrž stávající vzory"
 
 msgid "Match shortcuts to the labels on your keyboard (e.g. ⌘Z always fires on the key labeled \"Z\" — physical KeyY on QWERTZ). When off, shortcuts are anchored to physical key positions and ignore the current input source."
 msgstr "Přiřadit zkratky k popiskům na vaší klávesnici (např. ⌘Z se vždy spustí na klávese označené „Z“ — fyzicky KeyY na QWERTZ). Když je vypnuto, zkratky se vážou k fyzickým pozicím kláves a ignorují aktuální vstupní zdroj."
+
+msgid "Matched by this workspace's branch"
+msgstr "Odpovídá větvi tohoto pracovního prostoru"
 
 msgid "Max"
 msgstr "Max"
@@ -10654,6 +10672,9 @@ msgstr "Žádné štítky"
 
 msgid "No lead"
 msgstr "Bez vedoucího"
+
+msgid "No linked pull requests"
+msgstr "Žádné propojené pull requesty"
 
 msgid "No listening agents"
 msgstr "Žádní naslouchající agenti"
@@ -12430,6 +12451,11 @@ msgstr "PR #{0} ({1})"
 msgid "PR #{0} created"
 msgstr "PR #{0} vytvořen"
 
+#. placeholder {0}: first.number
+#. placeholder {1}: first.title
+msgid "PR #{0}: {1}"
+msgstr "PR #{0}: {1}"
+
 #. placeholder {0}: i18n._(LABEL[state])
 msgid "PR #{number} — {0}"
 msgstr "PR #{number} — {0}"
@@ -12778,6 +12804,10 @@ msgstr "Poskytovatel: {0}"
 msgid "Provisioning failed and the sandbox was torn down. Nothing is running, and this workspace can't be opened — create a new one to try again."
 msgstr "Provisioning selhal a sandbox byl zrušen. Nic neběží a tento pracovní prostor nejde otevřít — zkuste to znovu vytvořením nového."
 
+msgctxt "workspace sidebar tab"
+msgid "PRs"
+msgstr "PR"
+
 msgid "PRs a week"
 msgstr "PR týdně"
 
@@ -12832,6 +12862,9 @@ msgstr "Pull request nenalezen"
 msgid "Pull request title"
 msgstr "Název pull requestu"
 
+msgid "Pull request URL or #123"
+msgstr "URL pull requestu nebo #123"
+
 msgid "Pull request…"
 msgstr "Pull request…"
 
@@ -12840,6 +12873,9 @@ msgstr "Pull requesty"
 
 msgid "Pull Requests"
 msgstr "Pull requesty"
+
+msgid "Pull requests an agent opens from this workspace, or its workers, land here. Link others by URL or number."
+msgstr "Zde se zobrazí pull requesty, které agent otevře z tohoto pracovního prostoru nebo jeho workerů. Další propojte pomocí URL nebo čísla."
 
 msgid "Purple"
 msgstr "Fialová"
@@ -13160,11 +13196,18 @@ msgstr "Obnovit Linear issues"
 msgid "Refresh metrics"
 msgstr "Obnovit metriky"
 
+#. placeholder {0}: pullRequest.number
+msgid "Refresh pull request #{0}"
+msgstr "Obnovit pull request #{0}"
+
 msgid "Refresh pull requests"
 msgstr "Obnovit pull requesty"
 
 msgid "Refresh repositories"
 msgstr "Obnovit repozitáře"
+
+msgid "Refresh status"
+msgstr "Obnovit stav"
 
 msgid "Refreshes when Claude Code next runs."
 msgstr "Obnoví se při příštím spuštění Claude Code."
@@ -17794,6 +17837,13 @@ msgstr "Neomezeně"
 
 msgid "Unlimited users"
 msgstr "Neomezeně uživatelů"
+
+msgid "Unlink"
+msgstr "Odpojit"
+
+#. placeholder {0}: pullRequest.number
+msgid "Unlink pull request #{0}"
+msgstr "Odpojit pull request #{0}"
 
 msgid "Unlink task"
 msgstr "Odpojit úkol"

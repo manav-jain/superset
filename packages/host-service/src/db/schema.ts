@@ -392,6 +392,10 @@ export const workspacePullRequests = sqliteTable(
 			.notNull()
 			.references(() => pullRequests.id, { onDelete: "cascade" }),
 		linkedAt: integer("linked_at").notNull(),
+		// Null = matched by the workspace's branch.
+		source: text().$type<"created" | "manual">(),
+		// Set when the user unlinks the PR. The branch sweep's insert keeps it.
+		hiddenAt: integer("hidden_at"),
 	},
 	(table) => [
 		primaryKey({ columns: [table.workspaceId, table.pullRequestId] }),
