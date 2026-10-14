@@ -95,6 +95,11 @@ export function ChatLink(props: ComponentProps<typeof MarkdownLink>) {
 				}
 				if (openLink?.(href, event) || isLocalPath) event.preventDefault();
 			}}
+			onAuxClick={(event) => {
+				if (event.button !== 1 || isLocalPath) return;
+				event.preventDefault();
+				window.open(href, "_blank");
+			}}
 		>
 			<ChatLinkProvider>{children}</ChatLinkProvider>
 		</MarkdownLink>
