@@ -1,5 +1,8 @@
+import { useLingui } from "@lingui/react/macro";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@superset/ui/tooltip";
 import { cn } from "@superset/ui/utils";
+import type { ReactNode } from "react";
+import { LuX } from "react-icons/lu";
 import { getSidebarHeaderTabButtonClassName } from "renderer/screens/main/components/WorkspaceView/RightSidebar/headerTabStyles";
 import type { SidebarTabDefinition } from "../../types";
 
@@ -8,6 +11,8 @@ interface SidebarHeaderProps {
 	activeTab: string;
 	onTabChange: (id: string) => void;
 	compact?: boolean;
+	onCloseTab: (id: string) => void;
+	tabsMenu: ReactNode;
 }
 
 export function SidebarHeader({
@@ -15,8 +20,11 @@ export function SidebarHeader({
 	activeTab,
 	onTabChange,
 	compact,
+	onCloseTab,
+	tabsMenu,
 }: SidebarHeaderProps) {
-	const actions = tabs.find((t) => t.id === activeTab)?.actions;
+	const { t } = useLingui();
+	const actions = tabs.find((tab) => tab.id === activeTab)?.actions;
 
 	return (
 		<div className="-mt-px flex h-10 shrink-0 items-stretch bg-muted/45 shadow-[inset_0_-1px_0_var(--border)] dark:bg-muted/35">
@@ -33,6 +41,11 @@ export function SidebarHeader({
 							key={tab.id}
 							type="button"
 							onClick={() => onTabChange(tab.id)}
+							onAuxClick={(event) => {
+								if (event.button !== 1) return;
+								event.preventDefault();
+								onCloseTab(tab.id);
+							}}
 							aria-label={label}
 							className={cn(
 								getSidebarHeaderTabButtonClassName({
@@ -42,7 +55,8 @@ export function SidebarHeader({
 								}),
 								// Size by content: equal thirds truncate "Changes 99+" to
 								// "Ch…" at the default width while "Files" sits on slack.
-								"relative min-w-0 flex-auto justify-center",
+								"relative min-w-0 justify-center",
+								compact ? "flex-auto" : "w-full",
 							)}
 						>
 							{tab.icon && <tab.icon className="size-3 shrink-0" />}
@@ -72,8 +86,24 @@ export function SidebarHeader({
 						);
 					}
 
-					return btn;
+					return (
+						<div
+							key={tab.id}
+							className="group/tab relative flex h-full min-w-0 flex-auto"
+						>
+							{btn}
+							<button
+								type="button"
+								aria-label={t({ message: "Close tab" })}
+								onClick={() => onCloseTab(tab.id)}
+								className="absolute top-1/2 right-1 flex size-4 -translate-y-1/2 items-center justify-center rounded-sm text-muted-foreground opacity-0 transition-opacity hover:bg-muted hover:text-foreground focus-visible:opacity-100 group-hover/tab:opacity-100"
+							>
+								<LuX className="size-3" />
+							</button>
+						</div>
+					);
 				})}
+				{tabsMenu}
 			</div>
 			{actions && (
 				<div className="flex shrink-0 items-center h-10 pr-2 gap-0.5">

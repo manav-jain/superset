@@ -3593,6 +3593,9 @@ msgstr "トップバーから変更ビューをどのように開くかを選択
 msgid "Choose how to open file paths when Cmd+clicking in the terminal"
 msgstr "ターミナルでCmd+クリックしたときのファイルパスの開き方"
 
+msgid "Choose tabs"
+msgstr "タブを選択"
+
 msgid "Choose what to clear from the in-app browser."
 msgstr "アプリ内ブラウザから消去する項目を選択してください。"
 
@@ -9639,6 +9642,9 @@ msgstr "デバイスがスリープ状態ではなく、オンラインで Super
 msgid "Make the chip style the TooltipContent default"
 msgstr "チップスタイルをTooltipContentのデフォルトにする"
 
+msgid "Make these the default tabs"
+msgstr "これらのタブをデフォルトにする"
+
 msgid "make this the main action on the page"
 msgstr "これをページのメインアクションにして"
 
@@ -10895,6 +10901,9 @@ msgstr "この期間にスターはありません。"
 
 msgid "No Stripe customer found"
 msgstr "Stripeの顧客が見つかりません"
+
+msgid "No tabs open"
+msgstr "開いているタブはありません"
 
 msgid "no tags"
 msgstr "タグなし"

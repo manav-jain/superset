@@ -3593,6 +3593,9 @@ msgstr "選擇從頂欄開啟變更檢視的方式"
 msgid "Choose how to open file paths when Cmd+clicking in the terminal"
 msgstr "選擇在終端中Cmd+點選檔案路徑時的開啟方式"
 
+msgid "Choose tabs"
+msgstr "選擇分頁"
+
 msgid "Choose what to clear from the in-app browser."
 msgstr "選擇要從應用程式內瀏覽器清除的內容。"
 
@@ -9639,6 +9642,9 @@ msgstr "請確認裝置未進入睡眠模式、已連上網路且正在執行 Su
 msgid "Make the chip style the TooltipContent default"
 msgstr "把chip樣式設為TooltipContent的預設樣式"
 
+msgid "Make these the default tabs"
+msgstr "將這些分頁設為預設"
+
 msgid "make this the main action on the page"
 msgstr "把它變成頁面上的主要操作"
 
@@ -10895,6 +10901,9 @@ msgstr "此區間內沒有星標。"
 
 msgid "No Stripe customer found"
 msgstr "未找到Stripe客戶"
+
+msgid "No tabs open"
+msgstr "沒有開啟的分頁"
 
 msgid "no tags"
 msgstr "無標籤"

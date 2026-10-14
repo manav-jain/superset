@@ -3593,6 +3593,9 @@ msgstr "Choose how the Changes view opens from the top bar"
 msgid "Choose how to open file paths when Cmd+clicking in the terminal"
 msgstr "Choose how to open file paths when Cmd+clicking in the terminal"
 
+msgid "Choose tabs"
+msgstr "Choose tabs"
+
 msgid "Choose what to clear from the in-app browser."
 msgstr "Choose what to clear from the in-app browser."
 
@@ -9639,6 +9642,9 @@ msgstr "Make sure the device is awake, online, and running Superset."
 msgid "Make the chip style the TooltipContent default"
 msgstr "Make the chip style the TooltipContent default"
 
+msgid "Make these the default tabs"
+msgstr "Make these the default tabs"
+
 msgid "make this the main action on the page"
 msgstr "make this the main action on the page"
 
@@ -10895,6 +10901,9 @@ msgstr "No stars in this range."
 
 msgid "No Stripe customer found"
 msgstr "No Stripe customer found"
+
+msgid "No tabs open"
+msgstr "No tabs open"
 
 msgid "no tags"
 msgstr "no tags"

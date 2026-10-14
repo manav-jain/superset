@@ -3593,6 +3593,9 @@ msgstr "Pilih cara membuka tampilan perubahan dari bilah atas"
 msgid "Choose how to open file paths when Cmd+clicking in the terminal"
 msgstr "Pilih cara membuka path file saat Cmd+klik di terminal"
 
+msgid "Choose tabs"
+msgstr "Pilih tab"
+
 msgid "Choose what to clear from the in-app browser."
 msgstr "Pilih apa yang ingin dibersihkan dari browser dalam aplikasi."
 
@@ -9639,6 +9642,9 @@ msgstr "Pastikan perangkat aktif, terhubung ke internet, dan menjalankan Superse
 msgid "Make the chip style the TooltipContent default"
 msgstr "Jadikan gaya chip sebagai bawaan TooltipContent"
 
+msgid "Make these the default tabs"
+msgstr "Jadikan tab ini sebagai default"
+
 msgid "make this the main action on the page"
 msgstr "jadikan ini aksi utama di halaman"
 
@@ -10895,6 +10901,9 @@ msgstr "Tidak ada star di rentang ini."
 
 msgid "No Stripe customer found"
 msgstr "Tidak ada pelanggan Stripe yang ditemukan"
+
+msgid "No tabs open"
+msgstr "Tidak ada tab yang terbuka"
 
 msgid "no tags"
 msgstr "tanpa tag"

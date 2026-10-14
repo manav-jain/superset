@@ -3593,6 +3593,9 @@ msgstr "Wybierz, jak widok zmian otwiera się z górnego paska"
 msgid "Choose how to open file paths when Cmd+clicking in the terminal"
 msgstr "Wybierz, jak otwierać ścieżki plików po Cmd+kliknięciu w terminalu"
 
+msgid "Choose tabs"
+msgstr "Wybierz karty"
+
 msgid "Choose what to clear from the in-app browser."
 msgstr "Wybierz, co wyczyścić z przeglądarki w aplikacji."
 
@@ -9639,6 +9642,9 @@ msgstr "Upewnij się, że urządzenie jest wybudzone, ma dostęp do internetu i 
 msgid "Make the chip style the TooltipContent default"
 msgstr "Ustaw styl chipa jako domyślny dla TooltipContent"
 
+msgid "Make these the default tabs"
+msgstr "Ustaw te karty jako domyślne"
+
 msgid "make this the main action on the page"
 msgstr "zrób z tego główną akcję na stronie"
 
@@ -10895,6 +10901,9 @@ msgstr "Brak gwiazdek w tym zakresie."
 
 msgid "No Stripe customer found"
 msgstr "Nie znaleziono klienta Stripe"
+
+msgid "No tabs open"
+msgstr "Brak otwartych kart"
 
 msgid "no tags"
 msgstr "brak tagów"
