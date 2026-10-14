@@ -65,6 +65,7 @@ import type {
 } from "../../types";
 import { registerDraftEdit } from "../../utils/draftEdit";
 import { registerHistoryNavigation } from "../../utils/historyNavigation";
+import { $continueList } from "../../utils/listContinuation";
 import { matchToken } from "../../utils/matchToken";
 import { rankCommands } from "../../utils/rankCommands";
 import { $restoreChips } from "../../utils/restoreChips";
@@ -491,8 +492,12 @@ export function ComposerBody({
 		const unregisterEnter = editor.registerCommand<KeyboardEvent | null>(
 			KEY_ENTER_COMMAND,
 			(event) => {
-				if (event?.shiftKey || event?.isComposing || event?.keyCode === 229)
-					return false;
+				if (event?.isComposing || event?.keyCode === 229) return false;
+				if (event?.shiftKey) {
+					if (!$continueList()) return false;
+					event.preventDefault();
+					return true;
+				}
 				event?.preventDefault();
 				submitRef.current({
 					steer: Boolean(event?.metaKey || event?.ctrlKey),
