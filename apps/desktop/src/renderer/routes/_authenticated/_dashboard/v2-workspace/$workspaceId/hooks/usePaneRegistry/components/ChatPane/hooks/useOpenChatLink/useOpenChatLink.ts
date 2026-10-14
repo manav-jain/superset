@@ -92,9 +92,11 @@ export function useOpenChatLink({
 		(href, event) => {
 			const isPlain = tierFor(event, "2-tier") === "plain";
 			if (WEB_URL.test(href)) {
-				const action = getUrlAction(event, href) ?? (isPlain ? "pane" : null);
-				if (action === null) showHint(event.clientX, event.clientY);
-				else runUrlLinkAction(depsRef.current, href, action);
+				runUrlLinkAction(
+					depsRef.current,
+					href,
+					isPlain ? (getUrlAction(event, href) ?? "pane") : "external",
+				);
 				return true;
 			}
 
