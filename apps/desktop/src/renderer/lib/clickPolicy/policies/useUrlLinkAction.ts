@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { env } from "renderer/env.renderer";
 import { parseSupersetPageUrl } from "renderer/lib/parseSupersetPageUrl";
+import { tierFor } from "../tiers";
 import type { LinkAction, ModifierEvent, TierMode } from "../types";
 import { usePolicy } from "./policy";
 
@@ -13,10 +14,13 @@ export function useUrlLinkAction(mode: TierMode): UrlLinkAction {
 	const { getAction: getUrlAction } = usePolicy("urlLinks", "url", mode);
 	const { getAction: getPageAction } = usePolicy("pageLinks", "url", mode);
 	return useCallback(
-		(event, url) =>
-			parseSupersetPageUrl(url, env.NEXT_PUBLIC_WEB_URL) === null
+		(event, url) => {
+			if (event.button === 1 || tierFor(event, mode) === "meta")
+				return "external";
+			return parseSupersetPageUrl(url, env.NEXT_PUBLIC_WEB_URL) === null
 				? getUrlAction(event)
-				: getPageAction(event),
-		[getUrlAction, getPageAction],
+				: getPageAction(event);
+		},
+		[getUrlAction, getPageAction, mode],
 	);
 }
