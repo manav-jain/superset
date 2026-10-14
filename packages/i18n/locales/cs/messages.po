@@ -13205,11 +13205,18 @@ msgstr "Obnovit Linear issues"
 msgid "Refresh metrics"
 msgstr "Obnovit metriky"
 
+#. placeholder {0}: pullRequest.number
+msgid "Refresh pull request #{0}"
+msgstr "Obnovit pull request #{0}"
+
 msgid "Refresh pull requests"
 msgstr "Obnovit pull requesty"
 
 msgid "Refresh repositories"
 msgstr "Obnovit repozitáře"
+
+msgid "Refresh status"
+msgstr "Obnovit stav"
 
 msgid "Refreshes when Claude Code next runs."
 msgstr "Obnoví se při příštím spuštění Claude Code."

@@ -13205,11 +13205,18 @@ msgstr "Linear issueを更新"
 msgid "Refresh metrics"
 msgstr "メトリクスを更新"
 
+#. placeholder {0}: pullRequest.number
+msgid "Refresh pull request #{0}"
+msgstr "プルリクエスト #{0} を更新"
+
 msgid "Refresh pull requests"
 msgstr "プルリクエストを更新"
 
 msgid "Refresh repositories"
 msgstr "リポジトリを更新"
+
+msgid "Refresh status"
+msgstr "ステータスを更新"
 
 msgid "Refreshes when Claude Code next runs."
 msgstr "次に Claude Code を実行すると更新されます。"

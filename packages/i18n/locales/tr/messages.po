@@ -13205,11 +13205,18 @@ msgstr "Linear issue'larını yenile"
 msgid "Refresh metrics"
 msgstr "Metrikleri yenile"
 
+#. placeholder {0}: pullRequest.number
+msgid "Refresh pull request #{0}"
+msgstr "#{0} numaralı pull request'i yenile"
+
 msgid "Refresh pull requests"
 msgstr "Pull request'leri yenile"
 
 msgid "Refresh repositories"
 msgstr "Depoları yenile"
+
+msgid "Refresh status"
+msgstr "Durumu yenile"
 
 msgid "Refreshes when Claude Code next runs."
 msgstr "Claude Code bir sonraki çalıştığında yenilenir."
