@@ -3593,6 +3593,9 @@ msgstr "Выберите, как открывается представлени
 msgid "Choose how to open file paths when Cmd+clicking in the terminal"
 msgstr "Выберите, как открывать пути файлов при Cmd+клике в терминале"
 
+msgid "Choose tabs"
+msgstr "Выбрать вкладки"
+
 msgid "Choose what to clear from the in-app browser."
 msgstr "Выберите, что очистить во встроенном браузере."
 
@@ -9639,6 +9642,9 @@ msgstr "Убедитесь, что устройство не в спящем р�
 msgid "Make the chip style the TooltipContent default"
 msgstr "Сделать стиль чипа значением по умолчанию для TooltipContent"
 
+msgid "Make these the default tabs"
+msgstr "Сделать эти вкладки вкладками по умолчанию"
+
 msgid "make this the main action on the page"
 msgstr "сделай это главным действием на странице"
 
@@ -10895,6 +10901,9 @@ msgstr "Нет звёзд за этот период."
 
 msgid "No Stripe customer found"
 msgstr "Клиент Stripe не найден"
+
+msgid "No tabs open"
+msgstr "Нет открытых вкладок"
 
 msgid "no tags"
 msgstr "нет тегов"

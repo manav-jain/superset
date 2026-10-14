@@ -3593,6 +3593,9 @@ msgstr "Wähle, wie sich die Änderungsansicht aus der Titelleiste öffnet"
 msgid "Choose how to open file paths when Cmd+clicking in the terminal"
 msgstr "Lege fest, wie Dateipfade beim Cmd+Klick im Terminal geöffnet werden"
 
+msgid "Choose tabs"
+msgstr "Tabs auswählen"
+
 msgid "Choose what to clear from the in-app browser."
 msgstr "Wähle, was aus dem In-App-Browser gelöscht werden soll."
 
@@ -9639,6 +9642,9 @@ msgstr "Stelle sicher, dass das Gerät wach und online ist und Superset darauf l
 msgid "Make the chip style the TooltipContent default"
 msgstr "Den Chip-Stil zum TooltipContent-Standard machen"
 
+msgid "Make these the default tabs"
+msgstr "Diese Tabs als Standard festlegen"
+
 msgid "make this the main action on the page"
 msgstr "mach das zur Hauptaktion auf der Seite"
 
@@ -10895,6 +10901,9 @@ msgstr "Keine Stars in diesem Zeitraum."
 
 msgid "No Stripe customer found"
 msgstr "Kein Stripe-Kunde gefunden"
+
+msgid "No tabs open"
+msgstr "Keine Tabs geöffnet"
 
 msgid "no tags"
 msgstr "keine Tags"
