@@ -3593,6 +3593,9 @@ msgstr "Kies hoe de weergave Wijzigingen vanuit de bovenbalk wordt geopend"
 msgid "Choose how to open file paths when Cmd+clicking in the terminal"
 msgstr "Kies hoe bestandspaden openen bij Cmd+klik in de terminal"
 
+msgid "Choose tabs"
+msgstr "Tabbladen kiezen"
+
 msgid "Choose what to clear from the in-app browser."
 msgstr "Kies wat je uit de ingebouwde browser wilt wissen."
 
@@ -9639,6 +9642,9 @@ msgstr "Zorg dat het apparaat wakker en online is en dat Superset erop draait."
 msgid "Make the chip style the TooltipContent default"
 msgstr "Maak de chipstijl de standaard voor TooltipContent"
 
+msgid "Make these the default tabs"
+msgstr "Deze tabbladen als standaard instellen"
+
 msgid "make this the main action on the page"
 msgstr "maak dit de hoofdactie op de pagina"
 
@@ -10895,6 +10901,9 @@ msgstr "Geen sterren in dit bereik."
 
 msgid "No Stripe customer found"
 msgstr "Geen Stripe-klant gevonden"
+
+msgid "No tabs open"
+msgstr "Geen tabbladen geopend"
 
 msgid "no tags"
 msgstr "geen tags"

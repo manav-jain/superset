@@ -5,7 +5,10 @@ interface RowlessSidebarTabStore {
 	/** Active sidebar tab by workspace id, for workspaces without a local row. */
 	tabs: Record<string, WorkspaceSidebarTab>;
 	setTab: (workspaceId: string, tab: WorkspaceSidebarTab) => void;
-	/** Drop a workspace's entry once its choice has moved into a real row. */
+	/** Open sidebar tabs by workspace id, for workspaces without a local row. */
+	openTabs: Record<string, WorkspaceSidebarTab[]>;
+	setOpenTabs: (workspaceId: string, tabs: WorkspaceSidebarTab[]) => void;
+	/** Drop a workspace's entries once its choice has moved into a real row. */
 	clearTab: (workspaceId: string) => void;
 }
 
@@ -21,11 +24,18 @@ export const useRowlessSidebarTabStore = create<RowlessSidebarTabStore>()(
 		tabs: {},
 		setTab: (workspaceId, tab) =>
 			set((state) => ({ tabs: { ...state.tabs, [workspaceId]: tab } })),
+		openTabs: {},
+		setOpenTabs: (workspaceId, tabs) =>
+			set((state) => ({
+				openTabs: { ...state.openTabs, [workspaceId]: tabs },
+			})),
 		clearTab: (workspaceId) =>
 			set((state) => {
-				if (!(workspaceId in state.tabs)) return state;
-				const { [workspaceId]: _dropped, ...tabs } = state.tabs;
-				return { tabs };
+				if (!(workspaceId in state.tabs) && !(workspaceId in state.openTabs))
+					return state;
+				const { [workspaceId]: _tab, ...tabs } = state.tabs;
+				const { [workspaceId]: _open, ...openTabs } = state.openTabs;
+				return { tabs, openTabs };
 			}),
 	}),
 );

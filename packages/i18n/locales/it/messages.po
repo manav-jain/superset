@@ -3593,6 +3593,9 @@ msgstr "Scegli come si apre la vista delle modifiche dalla barra superiore"
 msgid "Choose how to open file paths when Cmd+clicking in the terminal"
 msgstr "Scegli come aprire i percorsi dei file con Cmd+clic nel terminale"
 
+msgid "Choose tabs"
+msgstr "Scegli le schede"
+
 msgid "Choose what to clear from the in-app browser."
 msgstr "Scegli cosa cancellare dal browser interno."
 
@@ -9639,6 +9642,9 @@ msgstr "Assicurati che il dispositivo sia attivo, online e che Superset sia in e
 msgid "Make the chip style the TooltipContent default"
 msgstr "Rendi lo stile chip il predefinito di TooltipContent"
 
+msgid "Make these the default tabs"
+msgstr "Imposta queste schede come predefinite"
+
 msgid "make this the main action on the page"
 msgstr "rendi questa l'azione principale della pagina"
 
@@ -10895,6 +10901,9 @@ msgstr "Nessuna star in questo intervallo."
 
 msgid "No Stripe customer found"
 msgstr "Nessun cliente Stripe trovato"
+
+msgid "No tabs open"
+msgstr "Nessuna scheda aperta"
 
 msgid "no tags"
 msgstr "nessun tag"

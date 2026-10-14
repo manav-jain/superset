@@ -3593,6 +3593,9 @@ msgstr "상단 바에서 변경 사항 보기를 여는 방식을 선택합니�
 msgid "Choose how to open file paths when Cmd+clicking in the terminal"
 msgstr "터미널에서 Cmd+클릭할 때 파일 경로를 여는 방식을 선택하세요"
 
+msgid "Choose tabs"
+msgstr "탭 선택"
+
 msgid "Choose what to clear from the in-app browser."
 msgstr "인앱 브라우저에서 삭제할 항목을 선택하세요."
 
@@ -9639,6 +9642,9 @@ msgstr "기기가 절전 모드가 아니고 온라인 상태이며 Superset이 
 msgid "Make the chip style the TooltipContent default"
 msgstr "칩 스타일을 TooltipContent 기본값으로 만들기"
 
+msgid "Make these the default tabs"
+msgstr "이 탭들을 기본값으로 설정"
+
 msgid "make this the main action on the page"
 msgstr "이걸 페이지의 메인 액션으로 만들어 줘"
 
@@ -10895,6 +10901,9 @@ msgstr "이 기간에는 스타가 없습니다."
 
 msgid "No Stripe customer found"
 msgstr "Stripe 고객을 찾을 수 없습니다"
+
+msgid "No tabs open"
+msgstr "열린 탭 없음"
 
 msgid "no tags"
 msgstr "태그 없음"

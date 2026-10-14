@@ -3593,6 +3593,9 @@ msgstr "Değişiklikler görünümünün üst çubuktan nasıl açılacağını 
 msgid "Choose how to open file paths when Cmd+clicking in the terminal"
 msgstr "Terminalde Cmd+tıkladığınızda dosya yollarının nasıl açılacağını seçin"
 
+msgid "Choose tabs"
+msgstr "Sekmeleri seç"
+
 msgid "Choose what to clear from the in-app browser."
 msgstr "Uygulama içi tarayıcıdan neyin temizleneceğini seçin."
 
@@ -9639,6 +9642,9 @@ msgstr "Cihazın uyanık, çevrimiçi ve Superset’in çalışır durumda oldu�
 msgid "Make the chip style the TooltipContent default"
 msgstr "Çip stilini TooltipContent varsayılanı yap"
 
+msgid "Make these the default tabs"
+msgstr "Bu sekmeleri varsayılan yap"
+
 msgid "make this the main action on the page"
 msgstr "bunu sayfadaki ana eylem yap"
 
@@ -10895,6 +10901,9 @@ msgstr "Bu aralıkta yıldız yok."
 
 msgid "No Stripe customer found"
 msgstr "Stripe müşterisi bulunamadı"
+
+msgid "No tabs open"
+msgstr "Açık sekme yok"
 
 msgid "no tags"
 msgstr "etiket yok"

@@ -1,0 +1,1 @@
+export { SidebarTabsMenu } from "./SidebarTabsMenu";

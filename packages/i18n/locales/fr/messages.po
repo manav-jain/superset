@@ -3593,6 +3593,9 @@ msgstr "Choisissez comment la vue des changements s'ouvre depuis la barre supér
 msgid "Choose how to open file paths when Cmd+clicking in the terminal"
 msgstr "Choisissez comment ouvrir les chemins de fichiers lors d'un Cmd+clic dans le terminal"
 
+msgid "Choose tabs"
+msgstr "Choisir les onglets"
+
 msgid "Choose what to clear from the in-app browser."
 msgstr "Choisissez ce qu'il faut effacer du navigateur intégré."
 
@@ -9639,6 +9642,9 @@ msgstr "Assurez-vous que l’appareil est actif, en ligne et que Superset y est 
 msgid "Make the chip style the TooltipContent default"
 msgstr "Faire du style chip la valeur par défaut de TooltipContent"
 
+msgid "Make these the default tabs"
+msgstr "Définir ces onglets par défaut"
+
 msgid "make this the main action on the page"
 msgstr "fais de ceci l'action principale de la page"
 
@@ -10895,6 +10901,9 @@ msgstr "Aucune étoile sur cette période."
 
 msgid "No Stripe customer found"
 msgstr "Aucun client Stripe trouvé"
+
+msgid "No tabs open"
+msgstr "Aucun onglet ouvert"
 
 msgid "no tags"
 msgstr "aucun tag"

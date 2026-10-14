@@ -3593,6 +3593,9 @@ msgstr "Zvolte, jak se zobrazení změn otevírá z horní lišty"
 msgid "Choose how to open file paths when Cmd+clicking in the terminal"
 msgstr "Zvolte, jak se otevírají cesty k souborům při Cmd+kliknutí v terminálu"
 
+msgid "Choose tabs"
+msgstr "Vybrat karty"
+
 msgid "Choose what to clear from the in-app browser."
 msgstr "Vyberte, co se má z vestavěného prohlížeče vymazat."
 
@@ -9639,6 +9642,9 @@ msgstr "Ujistěte se, že je zařízení probuzené, online a běží na něm Su
 msgid "Make the chip style the TooltipContent default"
 msgstr "Udělat ze stylu čipu výchozí TooltipContent"
 
+msgid "Make these the default tabs"
+msgstr "Nastavit tyto karty jako výchozí"
+
 msgid "make this the main action on the page"
 msgstr "udělej z toho hlavní akci na stránce"
 
@@ -10895,6 +10901,9 @@ msgstr "V tomto období žádné hvězdy."
 
 msgid "No Stripe customer found"
 msgstr "Nenalezen žádný zákazník ve Stripe"
+
+msgid "No tabs open"
+msgstr "Žádné otevřené karty"
 
 msgid "no tags"
 msgstr "žádné štítky"

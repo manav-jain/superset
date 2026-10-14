@@ -3593,6 +3593,9 @@ msgstr "Chọn cách chế độ xem thay đổi mở từ thanh trên cùng"
 msgid "Choose how to open file paths when Cmd+clicking in the terminal"
 msgstr "Chọn cách mở đường dẫn tệp khi Cmd+nhấp trong terminal"
 
+msgid "Choose tabs"
+msgstr "Chọn tab"
+
 msgid "Choose what to clear from the in-app browser."
 msgstr "Chọn thứ cần xóa khỏi trình duyệt trong ứng dụng."
 
@@ -9639,6 +9642,9 @@ msgstr "Đảm bảo thiết bị không ở chế độ ngủ, có kết nối 
 msgid "Make the chip style the TooltipContent default"
 msgstr "Đặt kiểu chip làm mặc định cho TooltipContent"
 
+msgid "Make these the default tabs"
+msgstr "Đặt các tab này làm mặc định"
+
 msgid "make this the main action on the page"
 msgstr "biến đây thành hành động chính trên trang"
 
@@ -10895,6 +10901,9 @@ msgstr "Không có star nào trong khoảng này."
 
 msgid "No Stripe customer found"
 msgstr "Không tìm thấy khách hàng Stripe"
+
+msgid "No tabs open"
+msgstr "Không có tab nào đang mở"
 
 msgid "no tags"
 msgstr "không có thẻ"

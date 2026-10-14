@@ -3593,6 +3593,9 @@ msgstr "选择从顶栏打开更改视图的方式"
 msgid "Choose how to open file paths when Cmd+clicking in the terminal"
 msgstr "选择在终端中Cmd+点击文件路径时的打开方式"
 
+msgid "Choose tabs"
+msgstr "选择标签页"
+
 msgid "Choose what to clear from the in-app browser."
 msgstr "选择要从应用内浏览器清除的内容。"
 
@@ -9639,6 +9642,9 @@ msgstr "请确认设备未休眠、已联网且正在运行 Superset。"
 msgid "Make the chip style the TooltipContent default"
 msgstr "把chip样式设为TooltipContent的默认样式"
 
+msgid "Make these the default tabs"
+msgstr "将这些标签页设为默认"
+
 msgid "make this the main action on the page"
 msgstr "把它变成页面上的主要操作"
 
@@ -10895,6 +10901,9 @@ msgstr "此区间内没有星标。"
 
 msgid "No Stripe customer found"
 msgstr "未找到Stripe客户"
+
+msgid "No tabs open"
+msgstr "没有打开的标签页"
 
 msgid "no tags"
 msgstr "无标签"
