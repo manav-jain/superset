@@ -13196,11 +13196,18 @@ msgstr "Segarkan issue Linear"
 msgid "Refresh metrics"
 msgstr "Segarkan metrik"
 
+#. placeholder {0}: pullRequest.number
+msgid "Refresh pull request #{0}"
+msgstr "Muat ulang pull request #{0}"
+
 msgid "Refresh pull requests"
 msgstr "Segarkan pull request"
 
 msgid "Refresh repositories"
 msgstr "Segarkan repositori"
+
+msgid "Refresh status"
+msgstr "Muat ulang status"
 
 msgid "Refreshes when Claude Code next runs."
 msgstr "Diperbarui saat Claude Code berikutnya dijalankan."

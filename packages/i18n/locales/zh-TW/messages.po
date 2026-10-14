@@ -13196,11 +13196,18 @@ msgstr "重新整理Linear議題"
 msgid "Refresh metrics"
 msgstr "重新整理指標"
 
+#. placeholder {0}: pullRequest.number
+msgid "Refresh pull request #{0}"
+msgstr "重新整理提取要求 #{0}"
+
 msgid "Refresh pull requests"
 msgstr "重新整理拉取請求"
 
 msgid "Refresh repositories"
 msgstr "重新整理儲存庫"
+
+msgid "Refresh status"
+msgstr "重新整理狀態"
 
 msgid "Refreshes when Claude Code next runs."
 msgstr "下次執行 Claude Code 時重新整理。"

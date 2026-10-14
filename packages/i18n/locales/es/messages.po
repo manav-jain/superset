@@ -13196,11 +13196,18 @@ msgstr "Actualizar los issues de Linear"
 msgid "Refresh metrics"
 msgstr "Actualizar métricas"
 
+#. placeholder {0}: pullRequest.number
+msgid "Refresh pull request #{0}"
+msgstr "Actualizar la pull request #{0}"
+
 msgid "Refresh pull requests"
 msgstr "Actualizar las pull requests"
 
 msgid "Refresh repositories"
 msgstr "Actualizar repositorios"
+
+msgid "Refresh status"
+msgstr "Actualizar estado"
 
 msgid "Refreshes when Claude Code next runs."
 msgstr "Se actualiza la próxima vez que se ejecute Claude Code."

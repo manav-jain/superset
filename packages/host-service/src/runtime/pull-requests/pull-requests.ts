@@ -809,31 +809,52 @@ export class PullRequestRuntimeManager {
 					row.state !== "closed",
 			);
 		for (const row of rows) {
-			const repo: NormalizedRepoIdentity = {
-				provider: "github",
-				owner: row.repoOwner,
-				name: row.repoName,
-				url: `https://github.com/${row.repoOwner}/${row.repoName}`,
-				remoteName: "origin",
-				defaultBranch: null,
-			};
-			try {
-				const node = await this.fetchFromGitHub(
-					"PR lookup by number",
-					{ owner: row.repoOwner, name: row.repoName, prNumber: row.prNumber },
-					() => fetchPullRequestByNumberFromGh(this.execGh, repo, row.prNumber),
-					async () =>
-						fetchPullRequestByNumber(await this.github(), repo, row.prNumber),
-				);
-				if (node) {
-					await this.fetchAndPersistPullRequestNode(row.projectId, repo, node);
-				}
-			} catch (error) {
+			await this.refreshPullRequestRow(row).catch((error) => {
 				console.warn(
 					"[host-service:pull-request-runtime] Linked PR refresh failed",
 					{ prNumber: row.prNumber, error },
 				);
-			}
+			});
+		}
+	}
+
+	/** User-asked refresh of linked PRs by id, finished ones included. */
+	async refreshPullRequests(pullRequestIds: string[]): Promise<void> {
+		if (pullRequestIds.length === 0) return;
+		const rows = this.db
+			.select()
+			.from(pullRequests)
+			.where(inArray(pullRequests.id, pullRequestIds))
+			.all();
+		const results = await Promise.allSettled(
+			rows.map((row) => this.refreshPullRequestRow(row, { probe: true })),
+		);
+		const failure = results.find((result) => result.status === "rejected");
+		if (failure) throw failure.reason;
+	}
+
+	private async refreshPullRequestRow(
+		row: typeof pullRequests.$inferSelect,
+		options: { probe?: boolean } = {},
+	): Promise<void> {
+		const repo: NormalizedRepoIdentity = {
+			provider: "github",
+			owner: row.repoOwner,
+			name: row.repoName,
+			url: `https://github.com/${row.repoOwner}/${row.repoName}`,
+			remoteName: "origin",
+			defaultBranch: null,
+		};
+		const node = await this.fetchFromGitHub(
+			"PR lookup by number",
+			{ owner: row.repoOwner, name: row.repoName, prNumber: row.prNumber },
+			() => fetchPullRequestByNumberFromGh(this.execGh, repo, row.prNumber),
+			async () =>
+				fetchPullRequestByNumber(await this.github(), repo, row.prNumber),
+			options,
+		);
+		if (node) {
+			await this.fetchAndPersistPullRequestNode(row.projectId, repo, node);
 		}
 	}
 

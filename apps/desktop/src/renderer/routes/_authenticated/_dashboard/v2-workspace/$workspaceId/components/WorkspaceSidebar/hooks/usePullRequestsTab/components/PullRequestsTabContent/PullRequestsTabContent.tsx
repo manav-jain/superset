@@ -1,9 +1,10 @@
 import { Trans, useLingui } from "@lingui/react/macro";
 import { Button } from "@superset/ui/button";
 import { Input } from "@superset/ui/input";
+import { cn } from "@superset/ui/utils";
 import { workspaceTrpc } from "@superset/workspace-client";
 import { useState } from "react";
-import { LuGitPullRequest } from "react-icons/lu";
+import { LuGitPullRequest, LuRefreshCw } from "react-icons/lu";
 import { pullRequestClickProps } from "renderer/lib/github/pullRequestClickProps";
 import {
 	type PullRequestRef,
@@ -33,6 +34,10 @@ export function PullRequestsTabContent({
 			void refresh();
 		},
 	});
+	const refreshBranches =
+		workspaceTrpc.pullRequests.refreshByWorkspaces.useMutation();
+	const refreshLinked =
+		workspaceTrpc.pullRequests.refreshPullRequests.useMutation();
 	const unlink = workspaceTrpc.pullRequests.unlinkPullRequest.useMutation({
 		onSuccess: () => void refresh(),
 	});
@@ -46,6 +51,17 @@ export function PullRequestsTabContent({
 		}),
 	);
 	const linkedCount = pullRequests.length;
+	const isRefreshing = refreshBranches.isPending || refreshLinked.isPending;
+	const refreshError = refreshBranches.error ?? refreshLinked.error;
+	const refreshAll = () =>
+		void Promise.allSettled([
+			refreshBranches.mutateAsync({
+				workspaceIds: sections.map((section) => section.id),
+			}),
+			refreshLinked.mutateAsync({
+				pullRequestIds: pullRequests.map(({ pullRequest }) => pullRequest.id),
+			}),
+		]).then(refresh);
 	const openCount = pullRequests.filter(
 		({ pullRequest }) =>
 			pullRequest.state !== "merged" && pullRequest.state !== "closed",
@@ -117,11 +133,32 @@ export function PullRequestsTabContent({
 				{link.error && (
 					<p className="text-[11px] text-destructive">{link.error.message}</p>
 				)}
-				<p className="text-[11px] text-muted-foreground">
-					<Trans>
-						{openCount} open · {linkedCount} linked
-					</Trans>
-				</p>
+				<div className="flex items-center justify-between gap-1.5">
+					<p className="text-[11px] text-muted-foreground">
+						<Trans>
+							{openCount} open · {linkedCount} linked
+						</Trans>
+					</p>
+					<button
+						type="button"
+						onClick={refreshAll}
+						disabled={isRefreshing}
+						aria-label={t({ message: "Refresh pull requests" })}
+						title={
+							refreshError
+								? refreshError.message
+								: t({ message: "Refresh pull requests" })
+						}
+						className={cn(
+							"shrink-0 text-muted-foreground hover:text-foreground",
+							refreshError && "text-destructive",
+						)}
+					>
+						<LuRefreshCw
+							className={cn("size-3", isRefreshing && "animate-spin")}
+						/>
+					</button>
+				</div>
 			</form>
 		</div>
 	);
