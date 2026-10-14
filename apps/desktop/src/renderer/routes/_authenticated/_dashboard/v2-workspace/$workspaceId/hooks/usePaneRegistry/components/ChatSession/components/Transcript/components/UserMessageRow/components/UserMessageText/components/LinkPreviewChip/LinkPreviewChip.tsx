@@ -23,6 +23,11 @@ export function LinkPreviewChip({ url }: { url: string }) {
 			onClick={(event) => {
 				if (openLink?.(url, event)) event.preventDefault();
 			}}
+			onAuxClick={(event) => {
+				if (event.button !== 1) return;
+				event.preventDefault();
+				window.open(url, "_blank");
+			}}
 			rel="noreferrer"
 			target="_blank"
 			title={url}
