@@ -29,10 +29,12 @@ import {
 	applyFolderTagChange,
 	buildSidebarFolderKey,
 	deriveTagFolders,
+	deriveThreadTagFolders,
 	getProjectFolderTagIndex,
 	laneProjectIdForScope,
 	mintFolderTag,
 	parseSidebarFolderKey,
+	resolveWorkspaceFolder,
 	resolveWorkspaceSectionId,
 	type TagFolderContext,
 	type TagFolderRef,
@@ -45,6 +47,7 @@ import {
 	ensureSidebarProjectRecord,
 	setSidebarProjectHidden,
 	tombstoneSidebarWorkspaceRecord,
+	writeThreadLaneOrder,
 } from "./sidebarMutations";
 
 import { getNewGroupTabOrder } from "./utils/getNewGroupTabOrder";
@@ -593,7 +596,12 @@ export function useDashboardSidebarState() {
 	const createSection = useCallback(
 		(
 			projectId: string | null,
-			options: { name?: string; workspaceIds?: readonly string[] } = {},
+			options: {
+				name?: string;
+				workspaceIds?: readonly string[];
+				/** Tags in use outside this scope that the new tag must avoid. */
+				takenTags?: Iterable<string>;
+			} = {},
 		) => {
 			const { name = "New group", workspaceIds = [] } = options;
 			if (projectId !== null)
@@ -605,7 +613,10 @@ export function useDashboardSidebarState() {
 				tagFolderContext,
 				projectId,
 			);
-			const tag = mintFolderTag(name, folderIndex.keys());
+			const tag = mintFolderTag(name, [
+				...folderIndex.keys(),
+				...(options.takenTags ?? []),
+			]);
 			const sectionId = buildSidebarFolderKey(scope, tag);
 			if (collections.v2SidebarSections.get(sectionId)) return sectionId;
 			const randomColor =
@@ -932,6 +943,208 @@ export function useDashboardSidebarState() {
 		],
 	);
 
+	// ── Threads view: one lane for every repo ──────────────────────────
+	// Same rules as a project lane, but rows keep their own projectId: order
+	// lives in threadsTabOrder and folders are Sessions-scope tags on any
+	// workspace. 0 means never placed: a row sorts with the newest, a folder
+	// sinks to the bottom.
+
+	const getThreadFolders = useCallback(
+		() =>
+			deriveThreadTagFolders(
+				Array.from(collections.v2SidebarSections.state.values()),
+				hostWorkspaces,
+				tagFolderContext,
+			),
+		[collections, hostWorkspaces, tagFolderContext],
+	);
+
+	const getThreadLaneOrderBounds = useCallback(() => {
+		const orders = [
+			...Array.from(collections.v2WorkspaceLocalState.state.values()).map(
+				(row) => row.sidebarState.threadsTabOrder,
+			),
+			...Array.from(collections.v2SidebarSections.state.values())
+				.filter((section) => section.projectId === SESSIONS_TAG_SCOPE)
+				.map((section) => section.threadsTabOrder),
+		];
+		return { min: Math.min(0, ...orders), max: Math.max(0, ...orders) };
+	}, [collections]);
+
+	const writeThreadFolderTag = useCallback(
+		(workspaceId: string, folderTags: Iterable<string>, tag: string | null) => {
+			const currentTags = getHostWorkspaceTags(hostWorkspaces, workspaceId);
+			const nextTags = applyFolderTagChange(currentTags, folderTags, tag);
+			if (nextTags.join("\n") !== currentTags.join("\n")) {
+				writeWorkspaceTags(workspaceId, nextTags);
+			}
+		},
+		[hostWorkspaces, writeWorkspaceTags],
+	);
+
+	const setThreadsTabOrder = useCallback(
+		(workspaceId: string, threadsTabOrder: number) => {
+			if (!collections.v2WorkspaceLocalState.get(workspaceId)) return;
+			collections.v2WorkspaceLocalState.update(workspaceId, (draft) => {
+				draft.sidebarState.threadsTabOrder = threadsTabOrder;
+				draft.sidebarState.isHidden = false;
+			});
+		},
+		[collections],
+	);
+
+	const reorderThreadChildren = useCallback(
+		(orderedItems: Array<{ type: "workspace" | "section"; id: string }>) => {
+			const folderTags = getThreadFolders().flatMap((folder) =>
+				folder.tag === null ? [] : [folder.tag],
+			);
+			for (const item of orderedItems) {
+				if (item.type === "workspace") {
+					if (collections.v2WorkspaceLocalState.get(item.id)) {
+						writeThreadFolderTag(item.id, folderTags, null);
+					}
+				} else {
+					ensureSectionRow(item.id);
+				}
+			}
+			writeThreadLaneOrder(collections, orderedItems);
+		},
+		[collections, ensureSectionRow, getThreadFolders, writeThreadFolderTag],
+	);
+
+	const setThreadSectionWorkspaceOrder = useCallback(
+		(sectionId: string, workspaceIds: string[]) => {
+			const tag = parseSidebarFolderKey(sectionId)?.tag ?? null;
+			if (tag === null) return;
+			const folderTags = getThreadFolders().flatMap((folder) =>
+				folder.tag === null ? [] : [folder.tag],
+			);
+			workspaceIds.forEach((workspaceId, index) => {
+				if (!collections.v2WorkspaceLocalState.get(workspaceId)) return;
+				writeThreadFolderTag(workspaceId, folderTags, tag);
+				setThreadsTabOrder(workspaceId, index + 1);
+			});
+		},
+		[collections, getThreadFolders, setThreadsTabOrder, writeThreadFolderTag],
+	);
+
+	const moveThreadWorkspaceToSection = useCallback(
+		(workspaceId: string, sectionId: string | null) => {
+			if (!collections.v2WorkspaceLocalState.get(workspaceId)) return;
+			const folders = getThreadFolders();
+			const folderTags = folders.flatMap((folder) =>
+				folder.tag === null ? [] : [folder.tag],
+			);
+			if (sectionId !== null) {
+				const tag = parseSidebarFolderKey(sectionId)?.tag ?? null;
+				if (tag === null) return;
+				// Lands last in the folder, as a move into a project folder does.
+				const memberOrders = hostWorkspaces
+					.filter(
+						(workspace) =>
+							workspace.id !== workspaceId &&
+							normalizeWorkspaceTags(workspace.tags).includes(tag),
+					)
+					.map(
+						(workspace) =>
+							collections.v2WorkspaceLocalState.get(workspace.id)?.sidebarState
+								.threadsTabOrder ?? 0,
+					);
+				writeThreadFolderTag(workspaceId, folderTags, tag);
+				setThreadsTabOrder(workspaceId, Math.max(0, ...memberOrders) + 1);
+				return;
+			}
+			// Lands right below its former folder: on a tie the folder sorts first.
+			const formerFolder = resolveWorkspaceFolder(
+				getHostWorkspaceTags(hostWorkspaces, workspaceId),
+				getProjectFolderTagIndex(folders, SESSIONS_TAG_SCOPE),
+			);
+			const formerOrder = formerFolder
+				? (collections.v2SidebarSections.get(formerFolder.sectionId)
+						?.threadsTabOrder ?? 0)
+				: 0;
+			writeThreadFolderTag(workspaceId, folderTags, null);
+			setThreadsTabOrder(
+				workspaceId,
+				formerOrder !== 0 ? formerOrder : getThreadLaneOrderBounds().max + 1,
+			);
+		},
+		[
+			collections,
+			getThreadFolders,
+			getThreadLaneOrderBounds,
+			hostWorkspaces,
+			setThreadsTabOrder,
+			writeThreadFolderTag,
+		],
+	);
+
+	const createThreadSection = useCallback(
+		(workspaceIds: readonly string[] = []) => {
+			const sectionId = createSection(null, {
+				workspaceIds,
+				takenTags: getThreadFolders().flatMap((folder) =>
+					folder.tag === null ? [] : [folder.tag],
+				),
+			});
+			// The folder takes its first row's slot; a never-placed row is at
+			// the top, so the folder goes above everything.
+			const sourceOrders = workspaceIds
+				.map(
+					(workspaceId) =>
+						collections.v2WorkspaceLocalState.get(workspaceId)?.sidebarState
+							.threadsTabOrder ?? 0,
+				)
+				.filter((order) => order !== 0);
+			const threadsTabOrder =
+				sourceOrders.length > 0
+					? Math.min(...sourceOrders)
+					: getThreadLaneOrderBounds().min - 1;
+			if (collections.v2SidebarSections.get(sectionId)) {
+				collections.v2SidebarSections.update(sectionId, (draft) => {
+					draft.threadsTabOrder = threadsTabOrder;
+				});
+			}
+			return sectionId;
+		},
+		[collections, createSection, getThreadFolders, getThreadLaneOrderBounds],
+	);
+
+	const deleteThreadSection = useCallback(
+		(sectionId: string) => {
+			const section = collections.v2SidebarSections.get(sectionId);
+			const tag =
+				normalizeWorkspaceTag(section?.tag) ??
+				parseSidebarFolderKey(sectionId)?.tag ??
+				null;
+			if (tag === null) return;
+			// Members take the folder's slot, as when a project folder is deleted.
+			const slot =
+				section && section.threadsTabOrder !== 0
+					? section.threadsTabOrder
+					: getThreadLaneOrderBounds().max + 1;
+			for (const workspace of hostWorkspaces) {
+				const tags = normalizeWorkspaceTags(workspace.tags);
+				if (!tags.includes(tag)) continue;
+				writeWorkspaceTags(
+					workspace.id,
+					tags.filter((item) => item !== tag),
+				);
+				setThreadsTabOrder(workspace.id, slot);
+			}
+			removeTagSetting(SESSIONS_TAG_SCOPE, tag);
+			if (section) collections.v2SidebarSections.delete(sectionId);
+		},
+		[
+			collections,
+			getThreadLaneOrderBounds,
+			hostWorkspaces,
+			removeTagSetting,
+			setThreadsTabOrder,
+			writeWorkspaceTags,
+		],
+	);
+
 	const setWorkspacePinned = useCallback(
 		(workspaceId: string, projectId: string | null, pinned: boolean) => {
 			const existing = collections.v2WorkspaceLocalState.get(workspaceId);
@@ -1053,6 +1266,11 @@ export function useDashboardSidebarState() {
 	return {
 		createSection,
 		deleteSection,
+		createThreadSection,
+		deleteThreadSection,
+		moveThreadWorkspaceToSection,
+		reorderThreadChildren,
+		setThreadSectionWorkspaceOrder,
 		ensureProjectInSidebar,
 		ensureWorkspaceInSidebar,
 		hideWorkspaceInSidebar,

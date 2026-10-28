@@ -70,7 +70,10 @@ import type {
 	DashboardSidebarProject,
 	DashboardSidebarWorkspace,
 } from "./types";
-import { filterDashboardSidebarProjects } from "./utils/filterDashboardSidebarProjects";
+import {
+	filterDashboardSidebarChildren,
+	filterDashboardSidebarProjects,
+} from "./utils/filterDashboardSidebarProjects";
 import { getProjectChildrenWorkspaces } from "./utils/projectChildren";
 import { sortDashboardSidebarProjects } from "./utils/sortDashboardSidebarProjects";
 
@@ -154,6 +157,7 @@ export function DashboardSidebar({
 }: DashboardSidebarProps) {
 	const { t } = useLingui();
 	const {
+		isThreadsView,
 		groups,
 		hiddenProjects,
 		pinnedWorkspaces,
@@ -164,12 +168,14 @@ export function DashboardSidebar({
 		toggleProjectCollapsed,
 	} = useDashboardSidebarData();
 	const {
-		deleteSection,
+		deleteSection: deleteRepoSection,
+		deleteThreadSection,
 		reorderProjects,
 		renameSection,
 		setProjectHidden,
 		toggleSectionCollapsed,
 	} = useDashboardSidebarState();
+	const deleteSection = isThreadsView ? deleteThreadSection : deleteRepoSection;
 	const showHiddenProject = useCallback(
 		(projectId: string) => setProjectHidden(projectId, false),
 		[setProjectHidden],
@@ -187,7 +193,8 @@ export function DashboardSidebar({
 	const workspacesListCollapsed = useSidebarSectionsCollapseStore(
 		(s) => s.collapsed.workspaces,
 	);
-	const { preferences, setSidebarProjectSortMode } = useV2UserPreferences();
+	const { preferences, setSidebarProjectSortMode, setSidebarGroupByRepo } =
+		useV2UserPreferences();
 	const sortMode = preferences.sidebarProjectSortMode;
 	const [projectFilterQuery, setProjectFilterQuery] = useState("");
 	// The icon rail hides the Projects header (and its filter input); a
@@ -213,16 +220,26 @@ export function DashboardSidebar({
 
 	// Sort, then filter, as derived views: `orderedGroups` and the persisted
 	// tabOrder stay untouched, so Manual restores the drag order exactly.
+	// The Threads view renders every row in the Sessions lane, no project lists.
 	const sortedGroups = useMemo(
 		() =>
-			sortMode === "manual"
-				? orderedGroups
-				: sortDashboardSidebarProjects(orderedGroups, sortMode),
-		[sortMode, orderedGroups],
+			isThreadsView
+				? []
+				: sortMode === "manual"
+					? orderedGroups
+					: sortDashboardSidebarProjects(orderedGroups, sortMode),
+		[isThreadsView, sortMode, orderedGroups],
 	);
 	const displayedGroups = useMemo(
 		() => filterDashboardSidebarProjects(sortedGroups, projectFilterQuery),
 		[sortedGroups, projectFilterQuery],
+	);
+	const displayedSessionChildren = useMemo(
+		() =>
+			isThreadsView
+				? filterDashboardSidebarChildren(sessionChildren, projectFilterQuery)
+				: sessionChildren,
+		[isThreadsView, sessionChildren, projectFilterQuery],
 	);
 	const displayedProjectIds = useMemo(
 		() => displayedGroups.map((project) => project.id),
@@ -262,8 +279,11 @@ export function DashboardSidebar({
 				ids.add(workspace.id);
 			}
 		};
-		for (const project of displayedGroups) {
-			for (const child of project.children) {
+		const lanes = isThreadsView
+			? [displayedSessionChildren]
+			: displayedGroups.map((project) => project.children);
+		for (const children of lanes) {
+			for (const child of children) {
 				if (child.type === "workspace") {
 					addWorkspace(child.workspace);
 					continue;
@@ -278,7 +298,7 @@ export function DashboardSidebar({
 			}
 		}
 		return ids;
-	}, [displayedGroups]);
+	}, [isThreadsView, displayedSessionChildren, displayedGroups]);
 
 	// Every workspace the sidebar can render (pinned, sessions, project rows) —
 	// the status provider fans out bindings queries and event subscriptions for
@@ -344,7 +364,7 @@ export function DashboardSidebar({
 			byId.set(workspace.id, {
 				id: workspace.id,
 				name: workspace.name,
-				detail: null,
+				detail: workspace.repoContext?.projectName ?? null,
 			});
 		}
 		for (const project of sortedGroups) {
@@ -441,12 +461,13 @@ export function DashboardSidebar({
 							<DashboardSidebarDndProvider
 								projects={displayedGroups}
 								pinnedWorkspaces={pinnedWorkspaces}
-								sessionChildren={sessionChildren}
+								sessionChildren={displayedSessionChildren}
 								isSidebarCollapsed={isCollapsed}
 								workspaceShortcutLabels={workspaceShortcutLabels}
 								onReorderProjects={handleReorderProjects}
 								isProjectDragDisabled={isProjectDragDisabled}
 								isChildDragDisabled={isChildDragDisabled}
+								isThreadsView={isThreadsView}
 							>
 								<div className="flex h-full flex-col border-r border-border bg-sidebar dark:bg-muted/35">
 									<DashboardSidebarHeader isCollapsed={isCollapsed} />
@@ -466,19 +487,28 @@ export function DashboardSidebar({
 											isCollapsed={isCollapsed}
 											onWorkspaceHover={refreshWorkspacePullRequest}
 										/>
-										<DashboardSidebarSessionsSection
-											sessionWorkspaces={sessionWorkspaces}
-											isCollapsed={isCollapsed}
-											workspaceShortcutLabels={workspaceShortcutLabels}
-											onWorkspaceHover={refreshWorkspacePullRequest}
-											onDeleteSection={deleteSection}
-											onRenameSection={renameSection}
-											onToggleSectionCollapse={toggleSectionCollapsed}
-										/>
+										{(!isThreadsView || isCollapsed) && (
+											<DashboardSidebarSessionsSection
+												sessionWorkspaces={sessionWorkspaces}
+												isCollapsed={isCollapsed}
+												workspaceShortcutLabels={workspaceShortcutLabels}
+												onWorkspaceHover={refreshWorkspacePullRequest}
+												onDeleteSection={deleteSection}
+												onRenameSection={renameSection}
+												onToggleSectionCollapse={toggleSectionCollapsed}
+											/>
+										)}
 										{!isCollapsed && (
 											<div className="mt-3 first:mt-0">
-												<DashboardSidebarBulkActions projects={orderedGroups}>
+												<DashboardSidebarBulkActions
+													projects={orderedGroups}
+													threadChildren={
+														isThreadsView ? displayedSessionChildren : null
+													}
+												>
 													<DashboardSidebarWorkspacesHeader
+														isThreadsView={isThreadsView}
+														onGroupByRepoChange={setSidebarGroupByRepo}
 														sortMode={sortMode}
 														onSortModeChange={setSidebarProjectSortMode}
 														filterQuery={projectFilterQuery}
@@ -490,6 +520,19 @@ export function DashboardSidebar({
 										{!isCollapsed && !workspacesListCollapsed && (
 											<DashboardSidebarGithubNotice status={githubStatus} />
 										)}
+										{isThreadsView &&
+											!isCollapsed &&
+											!workspacesListCollapsed && (
+												<DashboardSidebarSessionsSection
+													headerless
+													sessionWorkspaces={sessionWorkspaces}
+													workspaceShortcutLabels={workspaceShortcutLabels}
+													onWorkspaceHover={refreshWorkspacePullRequest}
+													onDeleteSection={deleteSection}
+													onRenameSection={renameSection}
+													onToggleSectionCollapse={toggleSectionCollapsed}
+												/>
+											)}
 										{(isCollapsed || !workspacesListCollapsed) && (
 											<SortableContext
 												items={displayedProjectIds}
@@ -516,11 +559,17 @@ export function DashboardSidebar({
 										)}
 										{!isCollapsed &&
 											isFilterActive &&
-											displayedGroups.length === 0 && (
+											(isThreadsView
+												? displayedSessionChildren.length === 0
+												: displayedGroups.length === 0) && (
 												<div className="select-text cursor-text px-4 py-2 text-xs text-muted-foreground">
-													{t({
-														message: `No projects match "${trimmedFilterQuery}"`,
-													})}
+													{isThreadsView
+														? t({
+																message: `No workspaces match "${trimmedFilterQuery}"`,
+															})
+														: t({
+																message: `No projects match "${trimmedFilterQuery}"`,
+															})}
 												</div>
 											)}
 									</OverflowFadeContainer>

@@ -32,6 +32,8 @@ interface UseDashboardSidebarWorkspaceItemActionsOptions {
 	projectId: string | null;
 	/** Only sessions may be grouped by tag. */
 	isSessionWorkspace?: boolean;
+	/** Threads view row: a group is a tag, whatever the row's repo. */
+	isThreadsRow?: boolean;
 	workspaceName: string;
 	branch: string;
 	isPinned?: boolean;
@@ -41,6 +43,7 @@ export function useDashboardSidebarWorkspaceItemActions({
 	workspaceId,
 	projectId,
 	isSessionWorkspace = false,
+	isThreadsRow = false,
 	workspaceName,
 	branch,
 	isPinned = false,
@@ -76,8 +79,13 @@ export function useDashboardSidebarWorkspaceItemActions({
 		clearManualUnread(workspaceId);
 		markWorkspaceTerminalsSeen();
 	};
-	const { createSection, moveWorkspaceToSection, setWorkspacePinned } =
-		useDashboardSidebarState();
+	const {
+		createSection,
+		createThreadSection,
+		moveThreadWorkspaceToSection,
+		moveWorkspaceToSection,
+		setWorkspacePinned,
+	} = useDashboardSidebarState();
 
 	const [isRenaming, setIsRenaming] = useState(false);
 	const [renameValue, setRenameValue] = useState(workspaceName);
@@ -146,6 +154,12 @@ export function useDashboardSidebarWorkspaceItemActions({
 	};
 
 	const handleCreateSection = () => {
+		if (isThreadsRow) {
+			const sectionId = createThreadSection([workspaceId]);
+			moveThreadWorkspaceToSection(workspaceId, sectionId);
+			requestSectionRename(sectionId);
+			return;
+		}
 		if (projectId === null && !isSessionWorkspace) return;
 		const sectionId = createSection(projectId, { workspaceIds: [workspaceId] });
 		moveWorkspaceToSection(workspaceId, projectId, sectionId);
@@ -153,6 +167,10 @@ export function useDashboardSidebarWorkspaceItemActions({
 	};
 
 	const handleMoveToSection = (sectionId: string | null) => {
+		if (isThreadsRow) {
+			moveThreadWorkspaceToSection(workspaceId, sectionId);
+			return;
+		}
 		if (projectId !== null) {
 			moveWorkspaceToSection(workspaceId, projectId, sectionId);
 			return;

@@ -1,10 +1,22 @@
 import type {
 	DashboardSidebarProject,
 	DashboardSidebarProjectChild,
+	DashboardSidebarWorkspace,
 } from "../../types";
 
 function matches(text: string, normalizedQuery: string): boolean {
 	return text.toLowerCase().includes(normalizedQuery);
+}
+
+// A Threads-view row carries its repo, so the repo name finds it too.
+function matchesWorkspace(
+	workspace: DashboardSidebarWorkspace,
+	normalizedQuery: string,
+): boolean {
+	return (
+		matches(workspace.name, normalizedQuery) ||
+		matches(workspace.repoContext?.projectName ?? "", normalizedQuery)
+	);
 }
 
 // Reuse the input objects whenever nothing about them changes — the sidebar's
@@ -24,19 +36,30 @@ function expandSection(
 		: child;
 }
 
+/** The same filter over one lane's children, for the Threads view. */
+export function filterDashboardSidebarChildren(
+	children: DashboardSidebarProjectChild[],
+	query: string,
+): DashboardSidebarProjectChild[] {
+	const normalizedQuery = query.trim().toLowerCase();
+	return normalizedQuery === ""
+		? children
+		: filterChildren(children, normalizedQuery);
+}
+
 function filterChildren(
 	children: DashboardSidebarProjectChild[],
 	normalizedQuery: string,
 ): DashboardSidebarProjectChild[] {
 	return children.flatMap((child): DashboardSidebarProjectChild[] => {
 		if (child.type === "workspace") {
-			return matches(child.workspace.name, normalizedQuery) ? [child] : [];
+			return matchesWorkspace(child.workspace, normalizedQuery) ? [child] : [];
 		}
 		if (matches(child.section.name, normalizedQuery)) {
 			return [expandSection(child)];
 		}
 		const workspaces = child.section.workspaces.filter((workspace) =>
-			matches(workspace.name, normalizedQuery),
+			matchesWorkspace(workspace, normalizedQuery),
 		);
 		if (workspaces.length === 0) return [];
 		if (workspaces.length === child.section.workspaces.length) {

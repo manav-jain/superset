@@ -5,6 +5,7 @@ import { resolveProjectIconUrl } from "renderer/hooks/host-projects/resolveProje
 import { useHostProjects } from "renderer/hooks/host-projects/useHostProjects";
 import { useKnownHosts } from "renderer/hooks/known-hosts/useKnownHosts";
 import { useRelayUrl } from "renderer/hooks/useRelayUrl";
+import { useV2UserPreferences } from "renderer/hooks/useV2UserPreferences";
 import { getHostServiceClientByUrl } from "renderer/lib/host-service-client";
 import { useDashboardSidebarState } from "renderer/routes/_authenticated/hooks/useDashboardSidebarState";
 import { useCollections } from "renderer/routes/_authenticated/providers/CollectionsProvider";
@@ -13,6 +14,7 @@ import { useHostWorkspaces } from "renderer/routes/_authenticated/providers/Host
 import { useLocalHostService } from "renderer/routes/_authenticated/providers/LocalHostServiceProvider";
 import {
 	deriveTagFolders,
+	deriveThreadTagFolders,
 	useTagFolderContext,
 } from "renderer/routes/_authenticated/utils/workspaceTagFolders";
 import { useWorkspaceTransactionsStore } from "renderer/stores/workspace-creates";
@@ -25,6 +27,7 @@ import {
 	buildDashboardSidebarPinnedWorkspaces,
 	buildDashboardSidebarProjects,
 	buildDashboardSidebarSessions,
+	buildDashboardSidebarThreads,
 	partitionSidebarWorkspacesByPinned,
 	type SidebarPullRequestEntry,
 } from "./buildDashboardSidebarProjects";
@@ -265,6 +268,7 @@ export function useDashboardSidebarData() {
 					createdAt: sidebarSections.createdAt,
 					isCollapsed: sidebarSections.isCollapsed,
 					tabOrder: sidebarSections.tabOrder,
+					threadsTabOrder: sidebarSections.threadsTabOrder,
 					color: sidebarSections.color,
 					tag: sidebarSections.tag,
 				})),
@@ -292,6 +296,42 @@ export function useDashboardSidebarData() {
 	// workspace carries the tag. A folder must exist because a workspace
 	// carries the tag, not because a local row does.
 	const tagFolderContext = useTagFolderContext();
+	const { preferences } = useV2UserPreferences();
+	const isThreadsView = !preferences.sidebarGroupByRepo;
+	const threadsTabOrderBySectionId = useMemo(
+		() =>
+			new Map(
+				storedSidebarSections.map((section) => [
+					section.sectionId,
+					section.threadsTabOrder,
+				]),
+			),
+		[storedSidebarSections],
+	);
+	const threadSections = useMemo(
+		() =>
+			deriveThreadTagFolders(
+				storedSidebarSections,
+				hostWorkspaces,
+				tagFolderContext,
+			).map((section) => ({
+				id: section.sectionId,
+				projectId: section.projectId,
+				name: section.name,
+				createdAt: section.createdAt,
+				isCollapsed: section.isCollapsed,
+				tabOrder: section.tabOrder,
+				threadsTabOrder: threadsTabOrderBySectionId.get(section.sectionId),
+				color: section.color,
+				tag: section.tag,
+			})),
+		[
+			hostWorkspaces,
+			storedSidebarSections,
+			tagFolderContext,
+			threadsTabOrderBySectionId,
+		],
+	);
 	const sidebarSections = useMemo(
 		() =>
 			deriveTagFolders(
@@ -328,6 +368,7 @@ export function useDashboardSidebarData() {
 					workspaceId: sidebarWorkspaces.workspaceId,
 					projectId: sidebarWorkspaces.sidebarState.projectId,
 					tabOrder: sidebarWorkspaces.sidebarState.tabOrder,
+					threadsTabOrder: sidebarWorkspaces.sidebarState.threadsTabOrder,
 					sectionId: sidebarWorkspaces.sidebarState.sectionId,
 					isHidden: sidebarWorkspaces.sidebarState.isHidden,
 					pinnedAt: sidebarWorkspaces.sidebarState.pinnedAt,
@@ -353,6 +394,7 @@ export function useDashboardSidebarData() {
 						lastActivityAt: workspace.lastActivityAt,
 						parentWorkspaceId: workspace.parentWorkspaceId ?? null,
 						tabOrder: localState.tabOrder,
+						threadsTabOrder: localState.threadsTabOrder,
 						sectionId: localState.sectionId,
 						tags: workspace.tags,
 						isHidden: localState.isHidden,
@@ -402,12 +444,10 @@ export function useDashboardSidebarData() {
 				hosts,
 				machineId,
 				relayUrl,
-				// Sessions (null projectId) have no remote and never carry PRs.
-				// A hidden project renders nothing, so its workspaces stop
-				// polling too.
+				// A hidden project renders nothing, so its workspaces stop polling.
 				workspaces: visibleSidebarWorkspaces.filter(
 					(workspace) =>
-						workspace.projectId !== null &&
+						workspace.projectId === null ||
 						!hiddenProjectIds.has(workspace.projectId),
 				),
 				fallbackOrganizationId: knownHostsOrgId,
@@ -537,15 +577,36 @@ export function useDashboardSidebarData() {
 	);
 	const groups = useStableDashboardSidebarProjects(computedGroups);
 
+	const threadsSortMode = preferences.sidebarProjectSortMode;
+	// The Threads view puts every unpinned row in the Sessions lane.
 	const computedSessions = useMemo(
 		() =>
-			buildDashboardSidebarSessions({
-				sessionSidebarWorkspaces: sessionRows,
-				sidebarSections,
-				machineId,
-				pullRequestsByWorkspaceId,
-			}),
-		[machineId, pullRequestsByWorkspaceId, sessionRows, sidebarSections],
+			isThreadsView
+				? buildDashboardSidebarThreads({
+						workspaces: unpinnedRows,
+						sidebarProjects,
+						threadSections,
+						machineId,
+						pullRequestsByWorkspaceId,
+						sortMode: threadsSortMode,
+					})
+				: buildDashboardSidebarSessions({
+						sessionSidebarWorkspaces: sessionRows,
+						sidebarSections,
+						machineId,
+						pullRequestsByWorkspaceId,
+					}),
+		[
+			isThreadsView,
+			machineId,
+			pullRequestsByWorkspaceId,
+			sessionRows,
+			sidebarProjects,
+			sidebarSections,
+			threadSections,
+			threadsSortMode,
+			unpinnedRows,
+		],
 	);
 	const sessions = useJsonStable(computedSessions);
 	const sessionWorkspaces = sessions.workspaces;
@@ -563,6 +624,7 @@ export function useDashboardSidebarData() {
 	const pinnedWorkspaces = useJsonStable(computedPinnedWorkspaces);
 
 	return {
+		isThreadsView,
 		groups,
 		hiddenProjects,
 		pinnedWorkspaces,

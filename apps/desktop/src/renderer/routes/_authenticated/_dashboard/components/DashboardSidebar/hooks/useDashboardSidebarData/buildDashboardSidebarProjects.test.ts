@@ -3,12 +3,14 @@ import { SESSIONS_TAG_SCOPE } from "@superset/shared/workspace-tags";
 import {
 	buildSidebarFolderKey,
 	deriveTagFolders,
+	deriveThreadTagFolders,
 	EMPTY_TAG_FOLDER_CONTEXT,
 } from "renderer/routes/_authenticated/utils/workspaceTagFolders";
 import {
 	buildDashboardSidebarPinnedWorkspaces,
 	buildDashboardSidebarProjects,
 	buildDashboardSidebarSessions,
+	buildDashboardSidebarThreads,
 	partitionSidebarWorkspacesByPinned,
 	type SidebarProjectInput,
 	type SidebarSectionInput,
@@ -630,5 +632,84 @@ describe("buildDashboardSidebarProjects with worker workspaces", () => {
 			["other", null, false, null],
 			["orphan", null, false, null],
 		]);
+	});
+});
+
+describe("buildDashboardSidebarThreads", () => {
+	it("orders every repo's rows in one lane, folders interleaved, workers under their master", () => {
+		const workspaces = [
+			makeWorkspace({
+				id: "master",
+				projectId: null,
+				type: "session",
+				threadsTabOrder: 2,
+			}),
+			makeWorkspace({
+				id: "anton-worker",
+				projectId: "anton",
+				parentWorkspaceId: "master",
+			}),
+			makeWorkspace({ id: "solo", projectId: "uh" }),
+			makeWorkspace({
+				id: "ring-a",
+				projectId: "uh",
+				tags: ["ring"],
+				threadsTabOrder: 2,
+			}),
+			makeWorkspace({
+				id: "ring-b",
+				projectId: "anton",
+				tags: ["ring"],
+				threadsTabOrder: 1,
+			}),
+			makeWorkspace({ id: "hidden-repo", projectId: "hidden" }),
+		];
+		const threadSections = deriveThreadTagFolders(
+			[
+				{
+					sectionId: buildSidebarFolderKey(SESSIONS_TAG_SCOPE, "ring"),
+					projectId: SESSIONS_TAG_SCOPE,
+					name: "Ring AIR 2",
+					tag: "ring",
+					tabOrder: 1,
+					isCollapsed: false,
+					color: null,
+					createdAt: DATE,
+				},
+			],
+			workspaces,
+			EMPTY_TAG_FOLDER_CONTEXT,
+		).map((folder) => ({
+			...folder,
+			id: folder.sectionId,
+			threadsTabOrder: 1,
+		}));
+
+		const { children } = buildDashboardSidebarThreads({
+			workspaces,
+			sidebarProjects: [
+				makeProject({ id: "uh", name: "ultrahuman" }),
+				makeProject({ id: "anton", name: "anton-dashboard" }),
+			],
+			threadSections,
+			machineId: MACHINE_ID,
+			pullRequestsByWorkspaceId: new Map(),
+			sortMode: "manual",
+		});
+
+		expect(
+			children.map((child) =>
+				child.type === "workspace"
+					? child.workspace.id
+					: `${child.section.name}: ${child.section.workspaces.map((w) => w.id).join(", ")}`,
+			),
+		).toEqual(["solo", "Ring AIR 2: ring-b, ring-a", "master", "anton-worker"]);
+		const worker = children[3];
+		expect(
+			worker?.type === "workspace" && worker.workspace.parentWorkspaceId,
+		).toBe("master");
+		expect(
+			worker?.type === "workspace" && worker.workspace.repoContext?.projectName,
+		).toBe("anton-dashboard");
 	});
 });

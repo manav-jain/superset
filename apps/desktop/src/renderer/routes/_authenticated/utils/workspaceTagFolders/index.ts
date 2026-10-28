@@ -5,6 +5,7 @@ export {
 	DERIVED_TAG_FOLDER_TAB_ORDER_BASE,
 	deriveSessionTagFolders,
 	deriveTagFolders,
+	deriveThreadTagFolders,
 	EMPTY_TAG_FOLDER_CONTEXT,
 	getProjectFolderTagIndex,
 	laneProjectIdForScope,

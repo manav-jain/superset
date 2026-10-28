@@ -1,4 +1,5 @@
 import { SESSIONS_TAG_SCOPE } from "@superset/shared/workspace-tags";
+import type { SidebarProjectSortMode } from "renderer/routes/_authenticated/providers/CollectionsProvider/dashboardSidebarLocal/schema";
 import {
 	getProjectFolderTagIndex,
 	resolveWorkspaceSectionId,
@@ -16,6 +17,7 @@ import type {
 	DashboardSidebarWorkspace,
 	DashboardSidebarWorkspaceType,
 } from "../../types";
+import { sortDashboardSidebarProjectChildren } from "../../utils/sortDashboardSidebarProjects";
 
 export interface SidebarPullRequestEntry {
 	pullRequest: DashboardSidebarWorkspace["pullRequest"];
@@ -43,6 +45,8 @@ export interface SidebarSectionInput {
 	isCollapsed: boolean;
 	tabOrder: number;
 	color: string | null;
+	/** Threads view order; 0 or absent = never placed. */
+	threadsTabOrder?: number;
 	/**
 	 * Non-null = tag-backed folder: membership comes from workspace tags, and
 	 * `sectionId` pointers at it are ignored. Null/absent = legacy folder that
@@ -67,6 +71,8 @@ export interface SidebarWorkspaceInput {
 	/** Host-stamped agent activity; null from a host that predates it. */
 	lastActivityAt: number | null;
 	tabOrder: number;
+	/** Threads view order; 0 or absent = never placed. */
+	threadsTabOrder?: number;
 	sectionId: string | null;
 	/** Host tag set; absent when served by an older host. */
 	tags?: readonly string[] | null;
@@ -370,6 +376,138 @@ export function buildDashboardSidebarSessions({
 		child.type === "workspace" ? [child.workspace] : child.section.workspaces,
 	);
 	return { children, workspaces };
+}
+
+/**
+ * The Threads lane: every unpinned workspace in one list, sessions included,
+ * built by the Sessions lane's rules. Folders are Sessions-scope tags on any
+ * workspace, a worker nests under its master whatever repo it is in, and each
+ * row carries its repo. Manual order is threadsTabOrder, folders interleaved;
+ * 0 is never placed: a row sorts with the newest, a folder at the bottom.
+ */
+export function buildDashboardSidebarThreads({
+	workspaces,
+	sidebarProjects,
+	threadSections,
+	machineId,
+	pullRequestsByWorkspaceId,
+	sortMode,
+}: {
+	workspaces: SidebarWorkspaceInput[];
+	sidebarProjects: SidebarProjectInput[];
+	/** Sessions-scope folders, one per tag on any workspace. */
+	threadSections: SidebarSectionInput[];
+	machineId: string;
+	pullRequestsByWorkspaceId: Map<string, SidebarPullRequestEntry>;
+	sortMode: SidebarProjectSortMode;
+}): DashboardSidebarSessions {
+	const projectsById = new Map(
+		sidebarProjects.map((project) => [project.id, project]),
+	);
+	const sections = threadSections.filter(
+		(section) => section.projectId === SESSIONS_TAG_SCOPE,
+	);
+	const sectionMap = new Map<string, DashboardSidebarSection>(
+		sections.map((section) => [section.id, { ...section, workspaces: [] }]),
+	);
+	const folderIndex = getProjectFolderTagIndex(
+		sections.map((section) => ({
+			sectionId: section.id,
+			projectId: section.projectId,
+			tabOrder: section.tabOrder,
+			tag: section.tag,
+		})),
+		SESSIONS_TAG_SCOPE,
+	);
+
+	const orderById = new Map<string, number>();
+	const createdAtById = new Map<string, number>();
+	const ungrouped: DashboardSidebarWorkspace[] = [];
+	for (const workspace of workspaces) {
+		const project = workspace.projectId
+			? projectsById.get(workspace.projectId)
+			: null;
+		// A hidden or deleted project's rows stay out, as in the repo view.
+		if (project === undefined) continue;
+		orderById.set(workspace.id, workspace.threadsTabOrder ?? 0);
+		createdAtById.set(workspace.id, workspace.createdAt.getTime());
+		const decorated: DashboardSidebarWorkspace = {
+			...decorateSidebarWorkspace(
+				workspace,
+				project ?? { githubOwner: null, githubRepoName: null },
+				machineId,
+				pullRequestsByWorkspaceId,
+			),
+			repoContext: {
+				projectName: project?.name ?? null,
+				projectIconUrl: project?.iconUrl ?? null,
+			},
+		};
+		const sectionId = resolveWorkspaceSectionId({
+			tags: workspace.tags,
+			localSectionId: workspace.projectId === null ? workspace.sectionId : null,
+			index: folderIndex,
+		});
+		const section = sectionId ? sectionMap.get(sectionId) : undefined;
+		if (section) {
+			section.workspaces.push({ ...decorated, accentColor: section.color });
+		} else {
+			ungrouped.push(decorated);
+		}
+	}
+
+	const compareRows = (
+		left: DashboardSidebarWorkspace,
+		right: DashboardSidebarWorkspace,
+	) =>
+		(orderById.get(left.id) ?? 0) - (orderById.get(right.id) ?? 0) ||
+		(createdAtById.get(right.id) ?? 0) - (createdAtById.get(left.id) ?? 0);
+	const sectionOrder = (section: SidebarSectionInput) =>
+		section.threadsTabOrder ? section.threadsTabOrder : Number.MAX_SAFE_INTEGER;
+	const entries: Array<{
+		order: number;
+		child: DashboardSidebarProjectChild;
+	}> = [
+		...ungrouped.map((workspace) => ({
+			order: orderById.get(workspace.id) ?? 0,
+			child: { type: "workspace" as const, workspace },
+		})),
+		...sections.flatMap((input) => {
+			const section = sectionMap.get(input.id);
+			if (!section || section.workspaces.length === 0) return [];
+			section.workspaces.sort(compareRows);
+			return [
+				{
+					order: sectionOrder(input),
+					child: { type: "section" as const, section },
+				},
+			];
+		}),
+	];
+	const manual = entries
+		.sort((left, right) => {
+			if (left.order !== right.order) return left.order - right.order;
+			// On a tie the folder sorts first, so an ungrouped row lands below it.
+			if (left.child.type !== right.child.type)
+				return left.child.type === "section" ? -1 : 1;
+			if (left.child.type === "workspace" && right.child.type === "workspace")
+				return compareRows(left.child.workspace, right.child.workspace);
+			return 0;
+		})
+		.map(({ child }) => child);
+
+	const children = nestChildWorkspaces(
+		sortDashboardSidebarProjectChildren(manual, sortMode),
+	).filter(
+		(child) =>
+			child.type === "workspace" || child.section.workspaces.length > 0,
+	);
+	return {
+		children,
+		workspaces: children.flatMap((child) =>
+			child.type === "workspace" ? [child.workspace] : child.section.workspaces,
+		),
+	};
 }
 
 export interface BuildDashboardSidebarProjectsParams {

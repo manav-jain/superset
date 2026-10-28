@@ -1995,6 +1995,53 @@ describe("PullRequestRuntimeManager workspace PR history", () => {
 		expect(await linkedNumbers()).toEqual([55]);
 	});
 
+	test("a session workspace links a PR through the project of its repo", async () => {
+		const db = createRealDb();
+		seedProject(db);
+		db.insert(schema.workspaces)
+			.values({
+				id: "session",
+				projectId: null,
+				type: "session",
+				worktreePath: "/sessions/one",
+				branch: "main",
+			})
+			.run();
+		const manager = createManager(db, {
+			execGh: async (args: string[]) => {
+				if (args.includes("graphql")) {
+					return {
+						data: { repository: { pullRequest: { mergeQueueEntry: null } } },
+					};
+				}
+				const path = args.find((arg) => arg.startsWith("repos/")) ?? "";
+				if (path.endsWith("/reviews")) return [];
+				if (path.endsWith("/check-runs")) return { check_runs: [] };
+				if (path.endsWith("/statuses")) return [];
+				if (path === `repos/${REPO.owner}/${REPO.name}/pulls/7`) {
+					return makePrNode({ number: 7, headRef: "fix", headSha: "sha-f" });
+				}
+				throw new Error(`unexpected gh call: ${args.join(" ")}`);
+			},
+		});
+
+		await manager.linkPullRequest({
+			workspaceId: "session",
+			reference: `https://github.com/${REPO.owner.toUpperCase()}/${REPO.name}/pull/7`,
+			source: "manual",
+		});
+		const [snapshot] = await manager.getPullRequestsByWorkspaces(["session"]);
+		expect(snapshot?.links.map((link) => link.number)).toEqual([7]);
+
+		await expect(
+			manager.linkPullRequest({
+				workspaceId: "session",
+				reference: "other/repo#1",
+				source: "manual",
+			}),
+		).rejects.toThrow("Add other/repo as a project");
+	});
+
 	test("history accumulates across branch moves; unlink removes that PR's link", async () => {
 		const db = createRealDb();
 		seedProject(db);

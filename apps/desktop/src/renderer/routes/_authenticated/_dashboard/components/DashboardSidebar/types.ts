@@ -72,6 +72,8 @@ export interface DashboardSidebarWorkspace {
 	pullRequestLinks?: DashboardSidebarPullRequestLink[];
 	isPinned: boolean;
 	pendingTransaction: WorkspaceTransactionSnapshot | null;
+	/** Set in the Threads view, where rows from every repo share one list. */
+	repoContext?: { projectName: string | null; projectIconUrl: string | null };
 }
 
 /**
