@@ -7983,6 +7983,9 @@ msgstr "Akcje grupy"
 msgid "Group by"
 msgstr "Grupuj według"
 
+msgid "Group by repo"
+msgstr "Grupuj według repozytorium"
+
 msgid "Group new branches under a folder."
 msgstr "Grupuj nowe gałęzie w folderze."
 
@@ -10979,6 +10982,9 @@ msgstr "Nie znaleziono obszarów roboczych."
 
 msgid "No workspaces in this project yet."
 msgstr "Ten projekt nie ma jeszcze obszarów roboczych."
+
+msgid "No workspaces match \"{trimmedFilterQuery}\""
+msgstr "Żaden obszar roboczy nie pasuje do „{trimmedFilterQuery}”"
 
 msgid "No workspaces match your filters"
 msgstr "Żaden obszar roboczy nie pasuje do filtrów"

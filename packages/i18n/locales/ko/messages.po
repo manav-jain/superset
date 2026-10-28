@@ -7983,6 +7983,9 @@ msgstr "그룹 작업"
 msgid "Group by"
 msgstr "그룹화 기준"
 
+msgid "Group by repo"
+msgstr "저장소별로 그룹화"
+
 msgid "Group new branches under a folder."
 msgstr "새 브랜치를 폴더 아래로 묶습니다."
 
@@ -10979,6 +10982,9 @@ msgstr "워크스페이스를 찾을 수 없습니다."
 
 msgid "No workspaces in this project yet."
 msgstr "이 프로젝트에는 아직 워크스페이스가 없습니다."
+
+msgid "No workspaces match \"{trimmedFilterQuery}\""
+msgstr "\"{trimmedFilterQuery}\"와(과) 일치하는 워크스페이스 없음"
 
 msgid "No workspaces match your filters"
 msgstr "필터와 일치하는 워크스페이스가 없습니다"

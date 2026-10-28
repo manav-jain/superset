@@ -21,16 +21,20 @@ import { useDashboardSidebarSelection } from "../../providers/DashboardSidebarSe
 import { useBulkDeleteWorkspacesIntent } from "../../stores/bulkDeleteWorkspacesIntent";
 import type {
 	DashboardSidebarProject,
+	DashboardSidebarProjectChild,
 	DashboardSidebarWorkspace,
 } from "../../types";
 
 interface DashboardSidebarBulkActionsProps {
 	projects: DashboardSidebarProject[];
+	/** Threads view lane; null in the repo view. */
+	threadChildren: DashboardSidebarProjectChild[] | null;
 	children: ReactNode;
 }
 
 export function DashboardSidebarBulkActions({
 	projects,
+	threadChildren,
 	children,
 }: DashboardSidebarBulkActionsProps) {
 	const { t } = useLingui();
@@ -43,7 +47,7 @@ export function DashboardSidebarBulkActions({
 		const workspaceById = new Map<string, DashboardSidebarWorkspace>();
 		const sectionByWorkspaceId = new Map<string, string>();
 
-		for (const child of selectedProject?.children ?? []) {
+		for (const child of threadChildren ?? selectedProject?.children ?? []) {
 			if (child.type === "workspace") {
 				workspaceById.set(child.workspace.id, child.workspace);
 				continue;
@@ -59,7 +63,7 @@ export function DashboardSidebarBulkActions({
 			workspacesById: workspaceById,
 			sectionIdByWorkspaceId: sectionByWorkspaceId,
 		};
-	}, [selectedProject]);
+	}, [threadChildren, selectedProject]);
 	const {
 		createGroupFromSelection,
 		groupedWorkspaceIds,
@@ -69,9 +73,10 @@ export function DashboardSidebarBulkActions({
 		selectedWorkspaces,
 		ungroupSelection,
 	} = useBulkWorkspaceMoveActions({
-		projectId: selectedProjectId,
+		projectId: threadChildren ? null : selectedProjectId,
 		workspacesById,
 		sectionIdByWorkspaceId,
+		threads: threadChildren !== null,
 	});
 
 	const openDeleteDialog = () =>

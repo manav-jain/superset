@@ -199,6 +199,9 @@ export const workspaceLocalStateSchema = z.object({
 		// project workspace into Sessions).
 		projectId: z.string().uuid().nullable(),
 		tabOrder: z.number().int().default(0),
+		// Order in the Threads view's single list, kept apart from tabOrder so
+		// the per-project order survives; 0 = never placed (newest first).
+		threadsTabOrder: z.number().int().default(0),
 		// Widened from uuid: may point at a tag-backed folder's composite
 		// `${projectId}:${tag}` key (written by move-into-derived-folder).
 		sectionId: z.string().min(1).nullable().default(null),
@@ -268,6 +271,7 @@ export const workspaceLocalStateSchema = z.object({
 // must come from the stored row.
 const SIDEBAR_STATE_DEFAULTS = {
 	tabOrder: 0,
+	threadsTabOrder: 0,
 	sectionId: null,
 	changesFilter: { kind: "all" },
 	activeTab: "changes",
@@ -313,6 +317,8 @@ export const dashboardSidebarSectionSchema = z.object({
 	name: z.string().trim().min(1),
 	createdAt: persistedDateSchema,
 	tabOrder: z.number().int().default(0),
+	// Order in the Threads view (Sessions-scope rows only); 0 = never placed.
+	threadsTabOrder: z.number().int().default(0),
 	isCollapsed: z.boolean().default(false),
 	color: z.string().nullable().default(null),
 	// Null = legacy folder that owns members via sidebarState.sectionId; a
@@ -516,6 +522,8 @@ export const v2UserPreferencesSchema = z.object({
 	changesViewMode: changesViewModeSchema.default("folders"),
 	// Ordering of the dashboard sidebar's Projects list; manual = drag order.
 	sidebarProjectSortMode: persistedSidebarProjectSortModeSchema,
+	// False = one workspace list with cross-repo groups; true = one list per project.
+	sidebarGroupByRepo: z.boolean().default(false),
 	// Built-in (synthetic, app-shipped) presets the user hid from the preset
 	// bar. Synthetic presets have no v2TerminalPresets row, so visibility can't
 	// live on the row's pinnedToBar like user presets. Pruned against
@@ -555,6 +563,7 @@ export const DEFAULT_V2_USER_PREFERENCES: V2UserPreferencesRow = {
 	showPresetsBar: true,
 	changesViewMode: "folders",
 	sidebarProjectSortMode: "manual",
+	sidebarGroupByRepo: false,
 	hiddenBuiltinPresetIds: [],
 	favoritePageIds: [],
 	hiddenTagFolders: {},

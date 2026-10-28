@@ -7983,6 +7983,9 @@ msgstr "Действия с группой"
 msgid "Group by"
 msgstr "Группировать по"
 
+msgid "Group by repo"
+msgstr "Группировать по репозиторию"
+
 msgid "Group new branches under a folder."
 msgstr "Группировать новые ветки в папке."
 
@@ -10979,6 +10982,9 @@ msgstr "Рабочие области не найдены."
 
 msgid "No workspaces in this project yet."
 msgstr "В этом проекте пока нет рабочих пространств."
+
+msgid "No workspaces match \"{trimmedFilterQuery}\""
+msgstr "Нет рабочих областей, соответствующих «{trimmedFilterQuery}»"
 
 msgid "No workspaces match your filters"
 msgstr "Нет рабочих областей под ваши фильтры"

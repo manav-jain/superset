@@ -7983,6 +7983,9 @@ msgstr "Hành động nhóm"
 msgid "Group by"
 msgstr "Nhóm theo"
 
+msgid "Group by repo"
+msgstr "Nhóm theo repo"
+
 msgid "Group new branches under a folder."
 msgstr "Gom các nhánh mới vào một thư mục."
 
@@ -10979,6 +10982,9 @@ msgstr "Không tìm thấy workspace nào."
 
 msgid "No workspaces in this project yet."
 msgstr "Dự án này chưa có không gian làm việc nào."
+
+msgid "No workspaces match \"{trimmedFilterQuery}\""
+msgstr "Không có workspace nào khớp với \"{trimmedFilterQuery}\""
 
 msgid "No workspaces match your filters"
 msgstr "Không có workspace nào khớp bộ lọc"

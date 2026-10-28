@@ -112,3 +112,31 @@ export function setSidebarProjectHidden(
 		draft.isHidden = hidden;
 	});
 }
+
+/**
+ * Writes the Threads view's lane order. Only threadsTabOrder moves: a row
+ * keeps its projectId and its per-project tabOrder, so the repo view is
+ * unchanged. A section item needs its row to exist already.
+ */
+export function writeThreadLaneOrder(
+	collections: Pick<
+		AppCollections,
+		"v2WorkspaceLocalState" | "v2SidebarSections"
+	>,
+	orderedItems: ReadonlyArray<{ type: "workspace" | "section"; id: string }>,
+): void {
+	orderedItems.forEach((item, index) => {
+		if (item.type === "workspace") {
+			if (!collections.v2WorkspaceLocalState.get(item.id)) return;
+			collections.v2WorkspaceLocalState.update(item.id, (draft) => {
+				draft.sidebarState.threadsTabOrder = index + 1;
+				draft.sidebarState.isHidden = false;
+			});
+			return;
+		}
+		if (!collections.v2SidebarSections.get(item.id)) return;
+		collections.v2SidebarSections.update(item.id, (draft) => {
+			draft.threadsTabOrder = index + 1;
+		});
+	});
+}

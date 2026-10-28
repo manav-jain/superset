@@ -7983,6 +7983,9 @@ msgstr "Acciones del grupo"
 msgid "Group by"
 msgstr "Agrupar por"
 
+msgid "Group by repo"
+msgstr "Agrupar por repositorio"
+
 msgid "Group new branches under a folder."
 msgstr "Agrupa las ramas nuevas dentro de una carpeta."
 
@@ -10979,6 +10982,9 @@ msgstr "No se encontraron espacios de trabajo."
 
 msgid "No workspaces in this project yet."
 msgstr "Este proyecto aún no tiene espacios de trabajo."
+
+msgid "No workspaces match \"{trimmedFilterQuery}\""
+msgstr "Ningún espacio de trabajo coincide con «{trimmedFilterQuery}»"
 
 msgid "No workspaces match your filters"
 msgstr "Ningún espacio de trabajo coincide con tus filtros"

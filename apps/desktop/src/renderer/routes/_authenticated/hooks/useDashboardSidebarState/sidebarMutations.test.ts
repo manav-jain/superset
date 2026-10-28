@@ -3,6 +3,7 @@ import {
 	ensureSidebarProjectRecord,
 	setSidebarProjectHidden,
 	tombstoneSidebarWorkspaceRecord,
+	writeThreadLaneOrder,
 } from "./sidebarMutations";
 
 /**
@@ -263,5 +264,46 @@ describe("tombstoneSidebarWorkspaceRecord", () => {
 		expect(row?.sidebarState.pinnedAt).toBeNull();
 		expect(row?.rightPaneLayout).toBeUndefined();
 		expect(cleaned).toEqual(["ws-1"]);
+	});
+});
+
+describe("writeThreadLaneOrder", () => {
+	it("orders the Threads lane without moving any row to another repo or lane", () => {
+		const collections = makeCollections();
+		collections.v2WorkspaceLocalState.insert(
+			localStateRow("uh-row", "project-uh", { tabOrder: 4 }),
+		);
+		collections.v2WorkspaceLocalState.insert(
+			localStateRow("anton-row", "project-anton", { tabOrder: 9 }),
+		);
+		collections.v2SidebarSections.insert({
+			sectionId: "sessions:ring",
+			projectId: "sessions",
+		});
+
+		writeThreadLaneOrder(
+			collections as unknown as Parameters<typeof writeThreadLaneOrder>[0],
+			[
+				{ type: "workspace", id: "anton-row" },
+				{ type: "section", id: "sessions:ring" },
+				{ type: "workspace", id: "uh-row" },
+			],
+		);
+
+		const anton = collections.v2WorkspaceLocalState.get("anton-row");
+		const uh = collections.v2WorkspaceLocalState.get("uh-row");
+		expect(anton?.sidebarState).toMatchObject({
+			projectId: "project-anton",
+			tabOrder: 9,
+			threadsTabOrder: 1,
+		});
+		expect(uh?.sidebarState).toMatchObject({
+			projectId: "project-uh",
+			tabOrder: 4,
+			threadsTabOrder: 3,
+		});
+		expect(collections.v2SidebarSections.get("sessions:ring")).toMatchObject({
+			threadsTabOrder: 2,
+		});
 	});
 });

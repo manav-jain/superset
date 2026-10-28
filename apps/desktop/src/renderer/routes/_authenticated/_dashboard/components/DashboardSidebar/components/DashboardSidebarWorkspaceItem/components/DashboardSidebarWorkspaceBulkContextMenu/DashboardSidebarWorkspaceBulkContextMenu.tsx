@@ -18,6 +18,7 @@ import {
 	LuX,
 } from "react-icons/lu";
 import { useBulkWorkspaceMoveActions } from "../../../../hooks/useBulkWorkspaceMoveActions";
+import { useDashboardSidebarDnd } from "../../../../hooks/useSidebarDnd";
 import { useDashboardSidebarHoverActions } from "../../../../providers/DashboardSidebarHoverProvider";
 import { useDashboardSidebarSelection } from "../../../../providers/DashboardSidebarSelectionProvider";
 import { useBulkDeleteWorkspacesIntent } from "../../../../stores/bulkDeleteWorkspacesIntent";
@@ -33,6 +34,7 @@ export function DashboardSidebarWorkspaceBulkContextMenu({
 	const scope = useWorkspaceBulkMenuScope();
 	const { setContextMenuOpen } = useDashboardSidebarHoverActions();
 	const { clearSelection } = useDashboardSidebarSelection();
+	const { isThreadsView } = useDashboardSidebarDnd();
 	const {
 		createGroupFromSelection,
 		groupedWorkspaceIds,
@@ -45,6 +47,7 @@ export function DashboardSidebarWorkspaceBulkContextMenu({
 		projectId: scope?.projectId ?? null,
 		workspacesById: scope?.workspacesById ?? new Map(),
 		sectionIdByWorkspaceId: scope?.sectionIdByWorkspaceId ?? new Map(),
+		threads: isThreadsView && scope?.projectId === null,
 	});
 	const openDeleteDialog = () =>
 		useBulkDeleteWorkspacesIntent.getState().request(selectedWorkspaces);

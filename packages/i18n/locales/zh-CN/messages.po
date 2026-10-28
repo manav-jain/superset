@@ -7983,6 +7983,9 @@ msgstr "分组操作"
 msgid "Group by"
 msgstr "分组方式"
 
+msgid "Group by repo"
+msgstr "按仓库分组"
+
 msgid "Group new branches under a folder."
 msgstr "将新分支归入一个文件夹。"
 
@@ -10979,6 +10982,9 @@ msgstr "未找到工作区。"
 
 msgid "No workspaces in this project yet."
 msgstr "此项目还没有工作区。"
+
+msgid "No workspaces match \"{trimmedFilterQuery}\""
+msgstr "没有与 \"{trimmedFilterQuery}\" 匹配的工作区"
 
 msgid "No workspaces match your filters"
 msgstr "没有符合筛选条件的工作区"

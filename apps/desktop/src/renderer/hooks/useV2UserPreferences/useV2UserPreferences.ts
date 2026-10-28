@@ -29,6 +29,7 @@ export interface V2UserPreferencesApi {
 	toggleShowPresetsBar: () => void;
 	setChangesViewMode: (next: ChangesViewMode) => void;
 	setSidebarProjectSortMode: (next: SidebarProjectSortMode) => void;
+	setSidebarGroupByRepo: (next: boolean) => void;
 	setBuiltinPresetHidden: (presetId: string, hidden: boolean) => void;
 	/** Hide/show a tag folder in one project without touching anyone's tags. */
 	setTagFolderHidden: (projectId: string, tag: string, hidden: boolean) => void;
@@ -273,6 +274,25 @@ export function useV2UserPreferences(): V2UserPreferencesApi {
 		[collections],
 	);
 
+	const setSidebarGroupByRepo = useCallback(
+		(next: boolean) => {
+			const existing = collections.v2UserPreferences.get(
+				V2_USER_PREFERENCES_ID,
+			);
+			if (!existing) {
+				collections.v2UserPreferences.insert({
+					...DEFAULT_V2_USER_PREFERENCES,
+					sidebarGroupByRepo: next,
+				});
+				return;
+			}
+			collections.v2UserPreferences.update(V2_USER_PREFERENCES_ID, (draft) => {
+				draft.sidebarGroupByRepo = next;
+			});
+		},
+		[collections],
+	);
+
 	const setBuiltinPresetHidden = useCallback(
 		(presetId: string, hidden: boolean) => {
 			const existing = collections.v2UserPreferences.get(
@@ -353,6 +373,7 @@ export function useV2UserPreferences(): V2UserPreferencesApi {
 		toggleShowPresetsBar,
 		setChangesViewMode,
 		setSidebarProjectSortMode,
+		setSidebarGroupByRepo,
 		setBuiltinPresetHidden,
 		setTagFolderHidden,
 	};

@@ -7983,6 +7983,9 @@ msgstr "Akce skupiny"
 msgid "Group by"
 msgstr "Seskupit podle"
 
+msgid "Group by repo"
+msgstr "Seskupit podle repozitáře"
+
 msgid "Group new branches under a folder."
 msgstr "Seskupit nové větve pod složku."
 
@@ -10979,6 +10982,9 @@ msgstr "Nenalezeny žádné pracovní prostory."
 
 msgid "No workspaces in this project yet."
 msgstr "V tomto projektu zatím nejsou žádné pracovní prostory."
+
+msgid "No workspaces match \"{trimmedFilterQuery}\""
+msgstr "Dotazu „{trimmedFilterQuery}“ neodpovídají žádné pracovní prostory"
 
 msgid "No workspaces match your filters"
 msgstr "Vašim filtrům neodpovídá žádný pracovní prostor"
