@@ -1,10 +1,12 @@
 import { useLingui } from "@lingui/react/macro";
 import {
 	DropdownMenu,
+	DropdownMenuCheckboxItem,
 	DropdownMenuContent,
 	DropdownMenuLabel,
 	DropdownMenuRadioGroup,
 	DropdownMenuRadioItem,
+	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@superset/ui/dropdown-menu";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@superset/ui/tooltip";
@@ -15,6 +17,9 @@ import type { SidebarProjectSortMode } from "renderer/routes/_authenticated/prov
 const SORT_MODES: SidebarProjectSortMode[] = ["manual", "active", "created"];
 
 interface DashboardSidebarProjectsSortMenuProps {
+	/** One list for every repo, instead of one list per project. */
+	isThreadsView: boolean;
+	onGroupByRepoChange: (groupByRepo: boolean) => void;
 	sortMode: SidebarProjectSortMode;
 	onSortModeChange: (mode: SidebarProjectSortMode) => void;
 }
@@ -26,6 +31,8 @@ interface DashboardSidebarProjectsSortMenuProps {
  * and the (portaled, but React-bubbling) menu content both stop propagation.
  */
 export function DashboardSidebarProjectsSortMenu({
+	isThreadsView,
+	onGroupByRepoChange,
 	sortMode,
 	onSortModeChange,
 }: DashboardSidebarProjectsSortMenuProps) {
@@ -103,6 +110,15 @@ export function DashboardSidebarProjectsSortMenu({
 						})}
 					</div>
 				)}
+				<DropdownMenuSeparator />
+				<DropdownMenuCheckboxItem
+					checked={!isThreadsView}
+					onCheckedChange={(checked) => onGroupByRepoChange(checked === true)}
+				>
+					{t({
+						message: "Group by repo",
+					})}
+				</DropdownMenuCheckboxItem>
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);

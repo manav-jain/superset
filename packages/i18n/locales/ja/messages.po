@@ -7983,6 +7983,9 @@ msgstr "グループの操作"
 msgid "Group by"
 msgstr "グループ化"
 
+msgid "Group by repo"
+msgstr "リポジトリでグループ化"
+
 msgid "Group new branches under a folder."
 msgstr "新しいブランチをフォルダにまとめます。"
 
@@ -10979,6 +10982,9 @@ msgstr "ワークスペースが見つかりません。"
 
 msgid "No workspaces in this project yet."
 msgstr "このプロジェクトにはまだワークスペースがありません。"
+
+msgid "No workspaces match \"{trimmedFilterQuery}\""
+msgstr "\"{trimmedFilterQuery}\" に一致するワークスペースはありません"
 
 msgid "No workspaces match your filters"
 msgstr "フィルターに一致するワークスペースがありません"

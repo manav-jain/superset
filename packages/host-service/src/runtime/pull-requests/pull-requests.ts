@@ -643,14 +643,34 @@ export class PullRequestRuntimeManager {
 			.from(workspaces)
 			.where(eq(workspaces.id, workspaceId))
 			.get();
-		if (!workspace?.projectId) {
-			throw new Error("Only project workspaces can link pull requests");
-		}
+		if (!workspace) throw new Error("Workspace not found");
 		const target = parsePullRequestReference(reference);
 		if (!target) {
 			throw new Error("Use a pull request URL, owner/repo#123, or #123");
 		}
-		const projectRepo = await this.getProjectRepository(workspace.projectId);
+		// A PR row belongs to a project, so a session workspace uses the project of the PR's repo.
+		const projectId =
+			workspace.projectId ??
+			(target.owner && target.name
+				? this.db
+						.select({ id: projects.id })
+						.from(projects)
+						.where(
+							and(
+								sql`lower(${projects.repoOwner}) = ${target.owner.toLowerCase()}`,
+								sql`lower(${projects.repoName}) = ${target.name.toLowerCase()}`,
+							),
+						)
+						.get()?.id
+				: undefined);
+		if (!projectId) {
+			throw new Error(
+				target.owner
+					? `Add ${target.owner}/${target.name} as a project to link its pull requests`
+					: "Paste the full pull request URL",
+			);
+		}
+		const projectRepo = await this.getProjectRepository(projectId);
 		const owner = target.owner ?? projectRepo?.owner;
 		const name = target.name ?? projectRepo?.name;
 		if (!owner || !name) {
@@ -685,7 +705,7 @@ export class PullRequestRuntimeManager {
 			);
 		}
 		const pullRequestId = await this.fetchAndPersistPullRequestNode(
-			workspace.projectId,
+			projectId,
 			repo,
 			node,
 		);

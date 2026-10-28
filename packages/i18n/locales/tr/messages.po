@@ -7983,6 +7983,9 @@ msgstr "Grup eylemleri"
 msgid "Group by"
 msgstr "Gruplama ölçütü"
 
+msgid "Group by repo"
+msgstr "Repoya göre grupla"
+
 msgid "Group new branches under a folder."
 msgstr "Yeni dalları bir klasör altında toplayın."
 
@@ -10979,6 +10982,9 @@ msgstr "Çalışma alanı bulunamadı."
 
 msgid "No workspaces in this project yet."
 msgstr "Bu projede henüz çalışma alanı yok."
+
+msgid "No workspaces match \"{trimmedFilterQuery}\""
+msgstr "\"{trimmedFilterQuery}\" ile eşleşen çalışma alanı yok"
 
 msgid "No workspaces match your filters"
 msgstr "Filtrelerinizle eşleşen çalışma alanı yok"

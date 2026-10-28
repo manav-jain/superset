@@ -7983,6 +7983,9 @@ msgstr "Gruppenaktionen"
 msgid "Group by"
 msgstr "Gruppieren nach"
 
+msgid "Group by repo"
+msgstr "Nach Repo gruppieren"
+
 msgid "Group new branches under a folder."
 msgstr "Neue Branches unter einem Ordner gruppieren."
 
@@ -10979,6 +10982,9 @@ msgstr "Keine Arbeitsbereiche gefunden."
 
 msgid "No workspaces in this project yet."
 msgstr "Dieses Projekt hat noch keine Arbeitsbereiche."
+
+msgid "No workspaces match \"{trimmedFilterQuery}\""
+msgstr "Keine Arbeitsbereiche passen zu \"{trimmedFilterQuery}\""
 
 msgid "No workspaces match your filters"
 msgstr "Keine Arbeitsbereiche passen zu deinen Filtern"

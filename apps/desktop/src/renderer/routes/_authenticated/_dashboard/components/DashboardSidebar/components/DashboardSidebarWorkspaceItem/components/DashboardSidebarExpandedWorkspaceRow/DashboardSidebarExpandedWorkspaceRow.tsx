@@ -118,6 +118,7 @@ export const DashboardSidebarExpandedWorkspaceRow = forwardRef<
 		ref,
 	) => {
 		const { t } = useLingui();
+		const repoContext = pinnedContext ?? workspace.repoContext;
 		const resolvedIndentation =
 			indentation ?? (isInSection ? "grouped" : "workspace");
 		const {
@@ -319,24 +320,24 @@ export const DashboardSidebarExpandedWorkspaceRow = forwardRef<
 						</Tooltip>
 					)}
 
-					{pinnedContext && (
+					{repoContext && (
 						<Tooltip delayDuration={500}>
 							<TooltipTrigger asChild>
 								<div className="mr-1.5 flex shrink-0 items-center">
 									<ProjectThumbnail
 										projectName={
-											pinnedContext.projectName ??
+											repoContext.projectName ??
 											t({
 												message: "Session",
 											})
 										}
-										iconUrl={pinnedContext.projectIconUrl}
+										iconUrl={repoContext.projectIconUrl}
 										className="size-3.5 text-[8px]"
 									/>
 								</div>
 							</TooltipTrigger>
 							<TooltipContent side="right" sideOffset={8}>
-								{pinnedContext.projectName ??
+								{repoContext.projectName ??
 									t({
 										message: "Session",
 									})}

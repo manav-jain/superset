@@ -7983,6 +7983,9 @@ msgstr "Group actions"
 msgid "Group by"
 msgstr "Group by"
 
+msgid "Group by repo"
+msgstr "Group by repo"
+
 msgid "Group new branches under a folder."
 msgstr "Group new branches under a folder."
 
@@ -10979,6 +10982,9 @@ msgstr "No workspaces found."
 
 msgid "No workspaces in this project yet."
 msgstr "No workspaces in this project yet."
+
+msgid "No workspaces match \"{trimmedFilterQuery}\""
+msgstr "No workspaces match \"{trimmedFilterQuery}\""
 
 msgid "No workspaces match your filters"
 msgstr "No workspaces match your filters"

@@ -37,6 +37,8 @@ interface DashboardSidebarDndProviderProps {
 	 * useSidebarDnd's `childDragDisabled` option.
 	 */
 	isChildDragDisabled?: boolean;
+	/** Threads view: the Sessions lane holds every repo's rows. */
+	isThreadsView?: boolean;
 	children: ReactNode;
 }
 
@@ -55,6 +57,7 @@ export function DashboardSidebarDndProvider({
 	onReorderProjects,
 	isProjectDragDisabled = false,
 	isChildDragDisabled = false,
+	isThreadsView = false,
 	children,
 }: DashboardSidebarDndProviderProps) {
 	const {
@@ -72,6 +75,7 @@ export function DashboardSidebarDndProvider({
 		onReorderProjects,
 		projectDragDisabled: isProjectDragDisabled,
 		childDragDisabled: isChildDragDisabled,
+		threadsView: isThreadsView,
 	});
 
 	// Dragging sweeps the pointer across rows, which would otherwise drive the

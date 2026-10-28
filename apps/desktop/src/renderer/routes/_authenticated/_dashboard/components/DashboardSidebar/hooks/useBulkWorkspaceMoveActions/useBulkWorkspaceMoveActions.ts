@@ -14,6 +14,8 @@ interface UseBulkWorkspaceMoveActionsOptions {
 	projectId: string | null;
 	workspacesById: ReadonlyMap<string, DashboardSidebarWorkspace>;
 	sectionIdByWorkspaceId: ReadonlyMap<string, string>;
+	/** Threads view: the selection is in the lane that holds every repo. */
+	threads?: boolean;
 }
 
 /**
@@ -24,8 +26,14 @@ export function useBulkWorkspaceMoveActions({
 	projectId,
 	workspacesById,
 	sectionIdByWorkspaceId,
+	threads = false,
 }: UseBulkWorkspaceMoveActionsOptions) {
-	const { createSection, moveWorkspaceToSection } = useDashboardSidebarState();
+	const {
+		createSection,
+		createThreadSection,
+		moveThreadWorkspaceToSection,
+		moveWorkspaceToSection,
+	} = useDashboardSidebarState();
 	const { v2Workspaces } = useOptimisticActions();
 	const { workspaces: hostWorkspaces } = useHostWorkspaces();
 	const { requestSectionRename } = useDashboardSidebarSectionRename();
@@ -33,7 +41,10 @@ export function useBulkWorkspaceMoveActions({
 		useDashboardSidebarSelection();
 	// The derived union — tag-only folders with no stored row are valid
 	// bulk-move targets too.
-	const { sections, areSectionsReady } = useProjectTagFolderSections(projectId);
+	const { sections, areSectionsReady } = useProjectTagFolderSections(
+		projectId,
+		{ threads },
+	);
 	const sectionMenuState = resolveBulkWorkspaceSectionMenuState(
 		sections,
 		areSectionsReady,
@@ -62,6 +73,16 @@ export function useBulkWorkspaceMoveActions({
 	};
 
 	const moveSelectionToSection = (sectionId: string) => {
+		if (threads) {
+			for (const workspaceId of workspaceIdsForSectionMove(
+				selectedIds,
+				sectionIdByWorkspaceId,
+				sectionId,
+			))
+				moveThreadWorkspaceToSection(workspaceId, sectionId);
+			clearSelection();
+			return;
+		}
 		if (projectId === null) {
 			for (const workspaceId of workspaceIdsForSectionMove(
 				selectedIds,
@@ -84,6 +105,14 @@ export function useBulkWorkspaceMoveActions({
 
 	const createGroupFromSelection = () => {
 		if (selectedIds.length === 0) return;
+		if (threads) {
+			const sectionId = createThreadSection(selectedIds);
+			for (const workspaceId of selectedIds)
+				moveThreadWorkspaceToSection(workspaceId, sectionId);
+			clearSelection();
+			requestSectionRename(sectionId);
+			return;
+		}
 		const sectionId = createSection(projectId, { workspaceIds: selectedIds });
 		for (const workspaceId of selectedIds) {
 			moveWorkspaceToSection(workspaceId, projectId, sectionId);
@@ -93,6 +122,12 @@ export function useBulkWorkspaceMoveActions({
 	};
 
 	const ungroupSelection = () => {
+		if (threads) {
+			for (const workspaceId of [...groupedWorkspaceIds].reverse())
+				moveThreadWorkspaceToSection(workspaceId, null);
+			clearSelection();
+			return;
+		}
 		if (projectId === null) {
 			for (const workspaceId of [...groupedWorkspaceIds].reverse())
 				updateSessionWorkspaceGroup(workspaceId, null);

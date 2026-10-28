@@ -7983,6 +7983,9 @@ msgstr "Groepsacties"
 msgid "Group by"
 msgstr "Groeperen op"
 
+msgid "Group by repo"
+msgstr "Groeperen per repo"
+
 msgid "Group new branches under a folder."
 msgstr "Groepeer nieuwe branches onder een map."
 
@@ -10979,6 +10982,9 @@ msgstr "Geen werkruimtes gevonden."
 
 msgid "No workspaces in this project yet."
 msgstr "Dit project heeft nog geen workspaces."
+
+msgid "No workspaces match \"{trimmedFilterQuery}\""
+msgstr "Geen werkruimtes komen overeen met \"{trimmedFilterQuery}\""
 
 msgid "No workspaces match your filters"
 msgstr "Geen werkruimtes komen overeen met je filters"

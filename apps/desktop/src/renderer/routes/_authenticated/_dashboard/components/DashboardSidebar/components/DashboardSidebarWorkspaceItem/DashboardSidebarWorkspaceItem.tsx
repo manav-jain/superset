@@ -70,6 +70,8 @@ export function DashboardSidebarWorkspaceItem({
 		pullRequest,
 	} = workspace;
 	const isSessionWorkspace = workspace.type === "session";
+	// Only the Threads builder sets repoContext; there groups span every repo.
+	const isThreadsRow = workspace.repoContext !== undefined;
 	const { status: workspaceStatus, diffStats } = useSidebarWorkspaceStatus(id);
 	const {
 		cancelRename,
@@ -98,6 +100,7 @@ export function DashboardSidebarWorkspaceItem({
 		workspaceId: id,
 		projectId,
 		isSessionWorkspace,
+		isThreadsRow,
 		workspaceName: name,
 		branch,
 		isPinned: workspace.isPinned,
@@ -257,6 +260,7 @@ export function DashboardSidebarWorkspaceItem({
 							workspaceId={id}
 							projectId={projectId}
 							isSessionWorkspace={isSessionWorkspace}
+							isThreadsRow={isThreadsRow}
 							isInSection={isInSection}
 							isUnread={isUnread}
 							hasStatus={!!workspaceStatus}
@@ -347,6 +351,7 @@ export function DashboardSidebarWorkspaceItem({
 						workspaceId={id}
 						projectId={projectId}
 						isSessionWorkspace={isSessionWorkspace}
+						isThreadsRow={isThreadsRow}
 						isInSection={isInSection}
 						isUnread={isUnread}
 						hasStatus={!!workspaceStatus}

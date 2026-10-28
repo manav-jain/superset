@@ -7983,6 +7983,9 @@ msgstr "Aksi grup"
 msgid "Group by"
 msgstr "Kelompokkan menurut"
 
+msgid "Group by repo"
+msgstr "Kelompokkan menurut repo"
+
 msgid "Group new branches under a folder."
 msgstr "Kelompokkan branch baru di bawah satu folder."
 
@@ -10979,6 +10982,9 @@ msgstr "Tidak ada workspace ditemukan."
 
 msgid "No workspaces in this project yet."
 msgstr "Belum ada workspace di proyek ini."
+
+msgid "No workspaces match \"{trimmedFilterQuery}\""
+msgstr "Tidak ada workspace yang cocok dengan \"{trimmedFilterQuery}\""
 
 msgid "No workspaces match your filters"
 msgstr "Tidak ada workspace yang cocok dengan filter Anda"

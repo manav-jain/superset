@@ -42,6 +42,8 @@ interface DashboardSidebarWorkspaceContextMenuProps {
 	projectId: string | null;
 	/** Only sessions and project workspaces can join a group. */
 	isSessionWorkspace?: boolean;
+	/** Threads view row: groups are tags across every repo. */
+	isThreadsRow?: boolean;
 	isInSection?: boolean;
 	isLocalWorkspace: boolean;
 	isPinned: boolean;
@@ -69,6 +71,7 @@ export function DashboardSidebarWorkspaceContextMenu({
 	workspaceId,
 	projectId,
 	isSessionWorkspace = false,
+	isThreadsRow = false,
 	isInSection,
 	isLocalWorkspace,
 	isPinned,
@@ -102,7 +105,9 @@ export function DashboardSidebarWorkspaceContextMenu({
 		showDeleteHotkey && deleteHotkeyText !== "Unassigned";
 	// The derived union — a tag-only folder with no stored row is a valid
 	// move target.
-	const { sections } = useProjectTagFolderSections(projectId);
+	const { sections } = useProjectTagFolderSections(projectId, {
+		threads: isThreadsRow,
+	});
 	const canJoinGroup = projectId !== null || isSessionWorkspace;
 	const handleCloseAllPorts = () => {
 		if (isKillingPorts) return;
