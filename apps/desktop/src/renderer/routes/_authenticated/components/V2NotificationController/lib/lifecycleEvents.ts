@@ -61,6 +61,7 @@ export function handleV2AgentLifecycleEvent({
 	rightPaneLayout,
 	volume,
 	muted,
+	chime = true,
 }: {
 	workspaceId: string;
 	workspaceName: string;
@@ -70,6 +71,8 @@ export function handleV2AgentLifecycleEvent({
 	rightPaneLayout?: PaneLayout;
 	volume: number;
 	muted: boolean;
+	/** False for a worker workspace: the notification still shows. */
+	chime?: boolean;
 }): void {
 	const layouts = getLocalPaneLayouts({
 		workspaceId,
@@ -96,8 +99,10 @@ export function handleV2AgentLifecycleEvent({
 	}
 	if (shouldSuppress(target, layouts)) return;
 
-	const ringtoneId = useRingtoneStore.getState().selectedRingtoneId;
-	void playRingtone({ ringtoneId, volume, muted });
+	if (chime) {
+		const ringtoneId = useRingtoneStore.getState().selectedRingtoneId;
+		void playRingtone({ ringtoneId, volume, muted });
+	}
 
 	showNativeNotification({
 		payload,
