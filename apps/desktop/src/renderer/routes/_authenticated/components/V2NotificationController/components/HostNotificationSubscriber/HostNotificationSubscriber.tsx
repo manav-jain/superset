@@ -16,6 +16,8 @@ export interface HostNotificationWorkspaceState {
 	workspaceId: string;
 	workspaceName: string;
 	projectName?: string;
+	/** A master's worker: notifies without the chime. */
+	isWorker?: boolean;
 	paneLayout: WorkspaceState<PaneViewerData> | null;
 	rightPaneLayout: WorkspaceState<PaneViewerData> | null;
 }
@@ -52,6 +54,7 @@ export function HostNotificationSubscriber({
 				rightPaneLayout: workspace.rightPaneLayout,
 				volume,
 				muted,
+				chime: !workspace.isWorker,
 			});
 		},
 	);

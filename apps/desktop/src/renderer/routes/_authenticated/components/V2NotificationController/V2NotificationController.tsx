@@ -31,6 +31,8 @@ interface WorkspaceHostRow {
 	name: string;
 	projectName?: string;
 	branch: string;
+	/** Spawned by another workspace's agent (a master's worker). */
+	isWorker: boolean;
 }
 
 interface HostNotificationSubscriberGroup {
@@ -85,6 +87,7 @@ export function V2NotificationController() {
 					(project) => project.id === workspace.projectId,
 				)?.name,
 				branch: workspace.branch,
+				isWorker: workspace.parentWorkspaceId != null,
 			})),
 		[hostWorkspaces, projects],
 	);
@@ -254,6 +257,7 @@ function getNotificationWorkspaceStatesById({
 			workspaceId: workspace.workspaceId,
 			workspaceName: getNotificationWorkspaceName(workspace),
 			projectName: workspace.projectName,
+			isWorker: workspace.isWorker,
 			paneLayout: paneLayoutsByWorkspaceId.get(workspace.workspaceId) ?? null,
 			rightPaneLayout:
 				rightPaneLayoutsByWorkspaceId.get(workspace.workspaceId) ?? null,
