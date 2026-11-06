@@ -1,12 +1,14 @@
 import { Checkbox } from "@superset/ui/checkbox";
 import { cn } from "@superset/ui/utils";
-import { useId } from "react";
+import { type ReactNode, useId } from "react";
 
 interface ChecklistRowProps {
 	text: string;
 	done: boolean;
 	disabled: boolean;
 	onDoneChange: (done: boolean) => void;
+	leading?: ReactNode;
+	trailing?: ReactNode;
 }
 
 export function ChecklistRow({
@@ -14,10 +16,13 @@ export function ChecklistRow({
 	done,
 	disabled,
 	onDoneChange,
+	leading,
+	trailing,
 }: ChecklistRowProps) {
 	const id = useId();
 	return (
 		<div className="flex items-start gap-2 rounded-sm px-1.5 py-1 hover:bg-muted/50">
+			{leading}
 			<Checkbox
 				id={id}
 				checked={done}
@@ -34,6 +39,7 @@ export function ChecklistRow({
 			>
 				{text}
 			</label>
+			{trailing}
 		</div>
 	);
 }

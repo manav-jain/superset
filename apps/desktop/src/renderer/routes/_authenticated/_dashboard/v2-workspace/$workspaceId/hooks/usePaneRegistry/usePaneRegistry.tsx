@@ -832,6 +832,7 @@ export function usePaneRegistry({
 				),
 			},
 			checklist: {
+				keepAlive: true,
 				getIcon: () => <ListChecks className="size-3.5" />,
 				getTitle: () =>
 					t({ message: "Checklist", context: "workspace sidebar tab" }),

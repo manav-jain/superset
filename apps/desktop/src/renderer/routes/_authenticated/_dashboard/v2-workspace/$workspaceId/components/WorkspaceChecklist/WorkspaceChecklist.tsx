@@ -1,6 +1,6 @@
 import { Trans } from "@lingui/react/macro";
 import { workspaceTrpc } from "@superset/workspace-client";
-import { ChecklistRow } from "./components/ChecklistRow";
+import { ChecklistItems } from "./components/ChecklistItems";
 
 /** The checklist the workspace's agent keeps with `superset ws checklist set`. */
 export function WorkspaceChecklist({ workspaceId }: { workspaceId: string }) {
@@ -56,32 +56,11 @@ export function WorkspaceChecklist({ workspaceId }: { workspaceId: string }) {
 					{doneCount} of {total} done
 				</Trans>
 			</div>
-			<ul>
-				{items.map((item, index) => (
-					<li key={`${index}:${item.text}`}>
-						<ChecklistRow
-							text={item.text}
-							done={item.done}
-							disabled={save.isPending}
-							onDoneChange={(done) => setDone(index, null, done)}
-						/>
-						{item.children.length > 0 && (
-							<ul className="ml-5">
-								{item.children.map((child, childIndex) => (
-									<li key={`${childIndex}:${child.text}`}>
-										<ChecklistRow
-											text={child.text}
-											done={child.done}
-											disabled={save.isPending}
-											onDoneChange={(done) => setDone(index, childIndex, done)}
-										/>
-									</li>
-								))}
-							</ul>
-						)}
-					</li>
-				))}
-			</ul>
+			<ChecklistItems
+				items={items}
+				disabled={save.isPending}
+				onDoneChange={setDone}
+			/>
 		</div>
 	);
 }
