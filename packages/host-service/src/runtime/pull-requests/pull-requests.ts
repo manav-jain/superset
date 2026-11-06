@@ -3,6 +3,7 @@ import { existsSync } from "node:fs";
 import { open } from "node:fs/promises";
 import type { Octokit } from "@octokit/rest";
 import { parseGitHubRemote } from "@superset/shared/github-remote";
+import { computeChecksStatus } from "@superset/shared/pull-request-checks";
 import { and, desc, eq, inArray, isNull, sql } from "drizzle-orm";
 import type { HostDb } from "../../db";
 import {
@@ -52,7 +53,6 @@ import {
 	coerceChecksStatus,
 	coercePullRequestState,
 	coerceReviewDecision,
-	computeChecksStatus,
 	mapPullRequestState,
 	mapReviewDecision,
 	type PullRequestCheck,
@@ -301,6 +301,7 @@ export class PullRequestRuntimeManager {
 	private readonly missingWorktrees = new Map<string, string>();
 	private missingWorktreeProbeTimer: ReturnType<typeof setInterval> | null =
 		null;
+	private readonly linkListeners = new Set<() => void>();
 
 	constructor(options: PullRequestRuntimeManagerOptions) {
 		this.db = options.db;
@@ -572,6 +573,35 @@ export class PullRequestRuntimeManager {
 		);
 	}
 
+	async listLinkedPullRequests(): Promise<
+		{ repository: string; number: number; linkedAt: number }[]
+	> {
+		const workspaceIds = this.db
+			.select({ id: workspaces.id })
+			.from(workspaces)
+			.all()
+			.map((row) => row.id);
+		const histories =
+			await this.getPullRequestHistoryByWorkspaces(workspaceIds);
+		const earliest = new Map<
+			string,
+			{ repository: string; number: number; linkedAt: number }
+		>();
+		for (const pullRequest of histories.flatMap((h) => h.pullRequests)) {
+			const repository = `${pullRequest.repoOwner}/${pullRequest.repoName}`;
+			const key = `${repository.toLowerCase()}#${pullRequest.number}`;
+			const seen = earliest.get(key);
+			if (!seen || pullRequest.linkedAt < seen.linkedAt) {
+				earliest.set(key, {
+					repository,
+					number: pullRequest.number,
+					linkedAt: pullRequest.linkedAt,
+				});
+			}
+		}
+		return [...earliest.values()];
+	}
+
 	// User-initiated "Remove PR Link". Recording the removed PR id keeps the
 	// refresh sweep from re-linking it while its branch still matches; a
 	// different PR on the branch (or an explicit re-link) still links.
@@ -829,31 +859,52 @@ export class PullRequestRuntimeManager {
 					row.state !== "closed",
 			);
 		for (const row of rows) {
-			const repo: NormalizedRepoIdentity = {
-				provider: "github",
-				owner: row.repoOwner,
-				name: row.repoName,
-				url: `https://github.com/${row.repoOwner}/${row.repoName}`,
-				remoteName: "origin",
-				defaultBranch: null,
-			};
-			try {
-				const node = await this.fetchFromGitHub(
-					"PR lookup by number",
-					{ owner: row.repoOwner, name: row.repoName, prNumber: row.prNumber },
-					() => fetchPullRequestByNumberFromGh(this.execGh, repo, row.prNumber),
-					async () =>
-						fetchPullRequestByNumber(await this.github(), repo, row.prNumber),
-				);
-				if (node) {
-					await this.fetchAndPersistPullRequestNode(row.projectId, repo, node);
-				}
-			} catch (error) {
+			await this.refreshPullRequestRow(row).catch((error) => {
 				console.warn(
 					"[host-service:pull-request-runtime] Linked PR refresh failed",
 					{ prNumber: row.prNumber, error },
 				);
-			}
+			});
+		}
+	}
+
+	/** User-asked refresh of linked PRs by id, finished ones included. */
+	async refreshPullRequests(pullRequestIds: string[]): Promise<void> {
+		if (pullRequestIds.length === 0) return;
+		const rows = this.db
+			.select()
+			.from(pullRequests)
+			.where(inArray(pullRequests.id, pullRequestIds))
+			.all();
+		const results = await Promise.allSettled(
+			rows.map((row) => this.refreshPullRequestRow(row, { probe: true })),
+		);
+		const failure = results.find((result) => result.status === "rejected");
+		if (failure) throw failure.reason;
+	}
+
+	private async refreshPullRequestRow(
+		row: typeof pullRequests.$inferSelect,
+		options: { probe?: boolean } = {},
+	): Promise<void> {
+		const repo: NormalizedRepoIdentity = {
+			provider: "github",
+			owner: row.repoOwner,
+			name: row.repoName,
+			url: `https://github.com/${row.repoOwner}/${row.repoName}`,
+			remoteName: "origin",
+			defaultBranch: null,
+		};
+		const node = await this.fetchFromGitHub(
+			"PR lookup by number",
+			{ owner: row.repoOwner, name: row.repoName, prNumber: row.prNumber },
+			() => fetchPullRequestByNumberFromGh(this.execGh, repo, row.prNumber),
+			async () =>
+				fetchPullRequestByNumber(await this.github(), repo, row.prNumber),
+			options,
+		);
+		if (node) {
+			await this.fetchAndPersistPullRequestNode(row.projectId, repo, node);
 		}
 	}
 
@@ -962,11 +1013,18 @@ export class PullRequestRuntimeManager {
 		pullRequestId: string,
 		linkedAt: number,
 	): void {
-		this.db
+		const { changes } = this.db
 			.insert(workspacePullRequests)
 			.values({ workspaceId, pullRequestId, linkedAt })
 			.onConflictDoNothing()
 			.run();
+		if (changes === 0) return;
+		for (const listener of this.linkListeners) listener();
+	}
+
+	onPullRequestLinked(listener: () => void): () => void {
+		this.linkListeners.add(listener);
+		return () => this.linkListeners.delete(listener);
 	}
 
 	private async syncWorkspaceBranches(): Promise<void> {

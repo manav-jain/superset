@@ -218,6 +218,7 @@ export const workspaceLocalStateSchema = z.object({
 	paneLayout: paneWorkspaceStateSchema,
 	rightPaneLayout: paneWorkspaceStateSchema.optional(),
 	rightSidebarOpen: z.boolean().optional(),
+	// TODO(2027-01-31): delete with useRestoreExpandedPaneArea / restoreExpandedPaneArea once builds that wrote it are gone.
 	rightPaneAreaExpansion: z
 		.object({
 			movedTabIds: z.array(z.string()),
@@ -504,6 +505,15 @@ export type SidebarProjectSortMode = z.infer<
 const persistedSidebarProjectSortModeSchema =
 	sidebarProjectSortModeSchema.catch("manual");
 
+const sidebarProjectHostFilterSchema = z.enum(["all", "local", "cloud"]);
+
+export type SidebarProjectHostFilter = z.infer<
+	typeof sidebarProjectHostFilterSchema
+>;
+
+const persistedSidebarProjectHostFilterSchema =
+	sidebarProjectHostFilterSchema.catch("all");
+
 export const v2UserPreferencesSchema = z.object({
 	id: z.literal("preferences"),
 	fileLinks: linkTierMapSchema.default(DEFAULT_LINK_TIER_MAP),
@@ -517,6 +527,7 @@ export const v2UserPreferencesSchema = z.object({
 	rightSidebarTab: z.enum(["changes", "files"]).default("changes"),
 	rightSidebarWidth: z.number().default(340),
 	rightPaneAreaWidth: z.number().optional(),
+	changesFileListWidth: z.number().optional(),
 	deleteLocalBranch: z.boolean().default(false),
 	showPresetsBar: z.boolean().default(true),
 	changesViewMode: changesViewModeSchema.default("folders"),
@@ -524,6 +535,9 @@ export const v2UserPreferencesSchema = z.object({
 	sidebarProjectSortMode: persistedSidebarProjectSortModeSchema,
 	// False = one workspace list with cross-repo groups; true = one list per project.
 	sidebarGroupByRepo: z.boolean().default(false),
+	// Which workspaces the Projects list shows: every row, only the ones on
+	// a device, or only cloud sandboxes.
+	sidebarProjectHostFilter: persistedSidebarProjectHostFilterSchema,
 	// Built-in (synthetic, app-shipped) presets the user hid from the preset
 	// bar. Synthetic presets have no v2TerminalPresets row, so visibility can't
 	// live on the row's pinnedToBar like user presets. Pruned against
@@ -564,6 +578,7 @@ export const DEFAULT_V2_USER_PREFERENCES: V2UserPreferencesRow = {
 	changesViewMode: "folders",
 	sidebarProjectSortMode: "manual",
 	sidebarGroupByRepo: false,
+	sidebarProjectHostFilter: "all",
 	hiddenBuiltinPresetIds: [],
 	favoritePageIds: [],
 	hiddenTagFolders: {},
@@ -663,6 +678,9 @@ export function healV2UserPreferences(raw: unknown): V2UserPreferencesRow {
 		},
 		sidebarProjectSortMode: persistedSidebarProjectSortModeSchema.parse(
 			r.sidebarProjectSortMode,
+		),
+		sidebarProjectHostFilter: persistedSidebarProjectHostFilterSchema.parse(
+			r.sidebarProjectHostFilter,
 		),
 		// Prune retired/stray built-in ids so the array stays bounded.
 		hiddenBuiltinPresetIds: (Array.isArray(r.hiddenBuiltinPresetIds)
