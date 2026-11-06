@@ -275,6 +275,37 @@ export async function fetchPullRequestByHead(
 	return normalizePullRequestCandidates(response.data, head);
 }
 
+const PULL_REQUEST_FIELDS_JQ =
+	"{number, title, html_url, state, merged_at, draft, updated_at, head: {ref: .head.ref, sha: .head.sha, repo: {name: .head.repo.name, owner: {login: .head.repo.owner.login}}, user: {login: .head.user.login}}, base: {repo: {full_name: .base.repo.full_name}}}";
+
+export async function fetchPullRequestByNumberFromGh(
+	execGh: ExecGh,
+	repository: { owner: string; name: string },
+	number: number,
+): Promise<GitHubPullRequestNode | null> {
+	return normalizePullRequest(
+		await execGh([
+			"api",
+			`repos/${repository.owner}/${repository.name}/pulls/${number}`,
+			"--jq",
+			PULL_REQUEST_FIELDS_JQ,
+		]),
+	);
+}
+
+export async function fetchPullRequestByNumber(
+	octokit: Octokit,
+	repository: { owner: string; name: string },
+	number: number,
+): Promise<GitHubPullRequestNode | null> {
+	const response = await octokit.rest.pulls.get({
+		owner: repository.owner,
+		repo: repository.name,
+		pull_number: number,
+	});
+	return normalizePullRequest(response.data);
+}
+
 // 100 full PR objects (bodies included) routinely exceed exec's stdout
 // buffer, so project down to exactly what normalizePullRequest reads before
 // the payload leaves gh. jq's null-indexing keeps absent nests as nulls,

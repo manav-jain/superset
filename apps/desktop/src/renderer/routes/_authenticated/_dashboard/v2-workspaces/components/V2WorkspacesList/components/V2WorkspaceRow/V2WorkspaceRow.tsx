@@ -16,6 +16,7 @@ import {
 } from "react-icons/lu";
 import { WorkspaceNameMarquee } from "renderer/components/WorkspaceNameMarquee";
 import { useFocusVisible } from "renderer/hooks/useFocusVisible";
+import { pullRequestClickProps } from "renderer/lib/github/pullRequestClickProps";
 import { pullRequestRefFromUrl } from "renderer/lib/github/pullRequestRef";
 import { navigateToV2Workspace } from "renderer/routes/_authenticated/_dashboard/utils/workspace-navigation";
 import {
@@ -305,7 +306,7 @@ export const V2WorkspaceRow = memo(function V2WorkspaceRow({
 					{workspace.pr ? (
 						<button
 							type="button"
-							onClick={(event) => {
+							{...pullRequestClickProps(workspace.pr.url, (event) => {
 								event.stopPropagation();
 								if (!workspace.pr) return;
 								// Opens the PR pane inside the workspace instead of GitHub;
@@ -322,7 +323,7 @@ export const V2WorkspaceRow = memo(function V2WorkspaceRow({
 									...ref,
 								});
 								void navigateToV2Workspace(workspace.id, navigate);
-							}}
+							})}
 							aria-label={t({
 								message: `Pull request #${workspace.pr.prNumber}, ${workspace.pr.state}`,
 							})}

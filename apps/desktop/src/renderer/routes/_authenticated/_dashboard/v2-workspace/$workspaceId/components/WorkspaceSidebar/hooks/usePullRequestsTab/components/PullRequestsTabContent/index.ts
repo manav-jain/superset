@@ -1,0 +1,1 @@
+export { PullRequestsTabContent } from "./PullRequestsTabContent";

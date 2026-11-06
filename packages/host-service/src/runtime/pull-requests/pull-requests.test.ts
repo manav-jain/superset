@@ -1942,7 +1942,60 @@ describe("PullRequestRuntimeManager workspace PR history", () => {
 		};
 	}
 
-	test("history accumulates across branch moves; unlink hides the pointer, never the history", async () => {
+	test("a manual link restores an unlinked PR; a transcript link does not", async () => {
+		const db = createRealDb();
+		seedProject(db);
+		seedWorkspace(db, { id: "ws", branch: "main" });
+		const manager = createManager(db, {
+			execGh: async (args: string[]) => {
+				if (args.includes("graphql")) {
+					return {
+						data: { repository: { pullRequest: { mergeQueueEntry: null } } },
+					};
+				}
+				const path = args.find((arg) => arg.startsWith("repos/")) ?? "";
+				if (path.endsWith("/reviews")) return [];
+				if (path.endsWith("/check-runs")) return { check_runs: [] };
+				if (path.endsWith("/statuses")) return [];
+				if (path === `repos/${REPO.owner}/${REPO.name}/pulls/55`) {
+					return makePrNode({ number: 55, headRef: "other", headSha: "sha-o" });
+				}
+				throw new Error(`unexpected gh call: ${args.join(" ")}`);
+			},
+		});
+		const linkedNumbers = async () =>
+			(await manager.getPullRequestsByWorkspaces(["ws"]))[0]?.links.map(
+				(link) => link.number,
+			);
+		const url = `https://github.com/${REPO.owner}/${REPO.name}/pull/55`;
+
+		await manager.linkPullRequest({
+			workspaceId: "ws",
+			reference: url,
+			source: "created",
+		});
+		expect(await linkedNumbers()).toEqual([55]);
+		const [history] = await manager.getPullRequestHistoryByWorkspaces(["ws"]);
+		const entry = history?.pullRequests[0];
+		expect(entry?.source).toBe("created");
+
+		manager.unlinkPullRequest("ws", entry?.id ?? "");
+		await manager.linkPullRequest({
+			workspaceId: "ws",
+			reference: url,
+			source: "created",
+		});
+		expect(await linkedNumbers()).toEqual([]);
+
+		await manager.linkPullRequest({
+			workspaceId: "ws",
+			reference: "#55",
+			source: "manual",
+		});
+		expect(await linkedNumbers()).toEqual([55]);
+	});
+
+	test("history accumulates across branch moves; unlink removes that PR's link", async () => {
 		const db = createRealDb();
 		seedProject(db);
 		seedWorkspace(db, {
@@ -1987,15 +2040,13 @@ describe("PullRequestRuntimeManager workspace PR history", () => {
 		const current = await manager.getPullRequestsByWorkspaces(["ws"]);
 		expect(current[0]?.pullRequest?.number).toBe(102);
 
-		// Remove PR Link: the sidebar loses the pointer; history keeps 102.
+		// Remove PR Link: the pointer and the link go; 101 stays linked.
 		manager.unlinkWorkspacePullRequest("ws");
 		const afterUnlink = await manager.getPullRequestsByWorkspaces(["ws"]);
 		expect(afterUnlink[0]?.pullRequest).toBeNull();
+		expect(afterUnlink[0]?.links.map((pr) => pr.number)).toEqual([101]);
 		const history = await manager.getPullRequestHistoryByWorkspaces(["ws"]);
-		expect(history[0]?.pullRequests.map((pr) => pr.number)).toEqual([102, 101]);
-		expect(history[0]?.pullRequests.every((pr) => pr.isCurrent === false)).toBe(
-			true,
-		);
+		expect(history[0]?.pullRequests.map((pr) => pr.number)).toEqual([101]);
 	});
 
 	test("relinking the same PR after flip-flopping branches stays deduped", async () => {

@@ -935,6 +935,9 @@ msgstr "{count} gwiazdek GitHub"
 msgid "{count} hosts run an older host service than this app"
 msgstr "{count} hostów działa na starszej usłudze hosta niż ta aplikacja"
 
+msgid "{count} linked pull requests"
+msgstr "Powiązane pull requesty: {count}"
+
 msgid "{count} selected"
 msgstr "Wybrano: {count}"
 
@@ -1166,6 +1169,9 @@ msgstr "{noun, select, repository {Podaj co najmniej jedno repozytorium.} channe
 
 msgid "{openCount} open"
 msgstr "{openCount} otwartych"
+
+msgid "{openCount} open · {linkedCount} linked"
+msgstr "Otwarte: {openCount} · Powiązane: {linkedCount}"
 
 msgid "{othersCount, plural, one {Also changed in this workspace: # file} other {Also changed in this workspace: # files}}"
 msgstr "{othersCount, plural, one {Zmieniono też w tym obszarze roboczym: # plik} few {Zmieniono też w tym obszarze roboczym: # pliki} many {Zmieniono też w tym obszarze roboczym: # plików} other {Zmieniono też w tym obszarze roboczym: # pliku}}"
@@ -6455,6 +6461,9 @@ msgstr "Utworzone przeze mnie"
 msgid "Created ENG-142 Login fails on Safari"
 msgstr "Utworzono ENG-142 Logowanie nie działa w Safari"
 
+msgid "Created in an agent session in this workspace"
+msgstr "Utworzony w sesji agenta tego obszaru roboczego"
+
 msgid "Created team \"{trimmedName}\""
 msgstr "Utworzono zespół „{trimmedName}”"
 
@@ -11095,6 +11104,12 @@ msgstr "Połącz to zadanie"
 msgid "Linked {slug} to workspace"
 msgstr "Powiązano {slug} z obszarem roboczym"
 
+msgid "Linked by you"
+msgstr "Powiązany przez Ciebie"
+
+msgid "Linking…"
+msgstr "Wiązanie…"
+
 msgid "Liquid Glass"
 msgstr "Liquid Glass"
 
@@ -11588,6 +11603,9 @@ msgstr "Zachowaj istniejące wzorce"
 
 msgid "Match shortcuts to the labels on your keyboard (e.g. ⌘Z always fires on the key labeled \"Z\" — physical KeyY on QWERTZ). When off, shortcuts are anchored to physical key positions and ignore the current input source."
 msgstr "Dopasuj skróty do oznaczeń na klawiaturze (np. ⌘Z zawsze zadziała na klawiszu opisanym „Z” — fizycznie KeyY na QWERTZ). Gdy wyłączone, skróty są przypisane do pozycji fizycznych klawiszy i ignorują bieżące źródło wprowadzania."
+
+msgid "Matched by this workspace's branch"
+msgstr "Pasuje do gałęzi tego obszaru roboczego"
 
 msgid "Max"
 msgstr "Maks."
@@ -12628,6 +12646,9 @@ msgstr "Nie znaleziono etykiet."
 
 msgid "No lead"
 msgstr "Bez lidera"
+
+msgid "No linked pull requests"
+msgstr "Brak powiązanych pull requestów"
 
 msgid "No listening agents"
 msgstr "Brak agentów nasłuchujących"
@@ -14869,6 +14890,11 @@ msgstr "PR #{0} ({1})"
 msgid "PR #{0} created"
 msgstr "Utworzono PR #{0}"
 
+#. placeholder {0}: first.number
+#. placeholder {1}: first.title
+msgid "PR #{0}: {1}"
+msgstr "PR #{0}: {1}"
+
 msgid "PR Closed"
 msgstr "PR zamknięty"
 
@@ -15244,6 +15270,10 @@ msgstr "Dostawca: {0}"
 msgid "Provisioning failed and the sandbox was torn down. Nothing is running, and this workspace can't be opened — create a new one to try again."
 msgstr "Provisioning nie powiódł się, a piaskownica została zlikwidowana. Nic nie działa i tego obszaru roboczego nie można otworzyć — utwórz nowy, aby spróbować ponownie."
 
+msgctxt "workspace sidebar tab"
+msgid "PRs"
+msgstr "PR-y"
+
 msgid "PRs a week"
 msgstr "PR-ów tygodniowo"
 
@@ -15310,6 +15340,9 @@ msgstr "Nie znaleziono pull requesta"
 msgid "Pull request title"
 msgstr "Tytuł pull requesta"
 
+msgid "Pull request URL or #123"
+msgstr "URL pull requesta lub #123"
+
 msgid "Pull request…"
 msgstr "Pull request…"
 
@@ -15318,6 +15351,9 @@ msgstr "Pull requesty"
 
 msgid "Pull Requests"
 msgstr "Pull requesty"
+
+msgid "Pull requests an agent opens from this workspace, or its workers, land here. Link others by URL or number."
+msgstr "Tutaj trafiają pull requesty otwarte przez agenta w tym obszarze roboczym lub jego workerach. Inne powiąż przez URL lub numer."
 
 msgid "Pull requests, comments and pushes from Superset are made as you."
 msgstr "Pull requesty, komentarze i pushe z Superset są wykonywane w Twoim imieniu."
@@ -15749,8 +15785,15 @@ msgstr "Odśwież metryki"
 msgid "Refresh pull request"
 msgstr "Odśwież pull request"
 
+#. placeholder {0}: pullRequest.number
+msgid "Refresh pull request #{0}"
+msgstr "Odśwież pull request #{0}"
+
 msgid "Refresh pull requests"
 msgstr "Odśwież pull requesty"
+
+msgid "Refresh status"
+msgstr "Odśwież status"
 
 msgid "Refreshes when Claude Code next runs."
 msgstr "Odświeży się przy następnym uruchomieniu Claude Code."
@@ -20909,8 +20952,15 @@ msgstr "Nieznany obszar roboczy"
 msgid "Unlimited"
 msgstr "Bez limitu"
 
+msgid "Unlink"
+msgstr "Odłącz"
+
 msgid "Unlink project"
 msgstr "Odłącz projekt"
+
+#. placeholder {0}: pullRequest.number
+msgid "Unlink pull request #{0}"
+msgstr "Odłącz pull request #{0}"
 
 msgid "Unlink task"
 msgstr "Odłącz zadanie"

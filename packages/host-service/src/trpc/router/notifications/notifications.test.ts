@@ -166,14 +166,26 @@ function createDbContext({
 		.run();
 	workspaceChanged.length = 0;
 
+	const scannedTranscripts: Array<[string, string]> = [];
 	const ctx = {
 		db,
 		api: { task: { start: { mutate: () => Promise.resolve({}) } } },
 		eventBus,
 		terminalAgentStore: new TerminalAgentStore(),
+		runtime: {
+			pullRequests: {
+				linkPullRequestsCreatedInTranscript: (
+					workspaceId: string,
+					transcriptPath: string,
+				) => {
+					scannedTranscripts.push([workspaceId, transcriptPath]);
+					return Promise.resolve();
+				},
+			},
+		},
 	} as unknown as HostServiceContext;
 
-	return { ctx, db, workspaceChanged };
+	return { ctx, db, workspaceChanged, scannedTranscripts };
 }
 
 describe("notificationsRouter.hook", () => {
@@ -581,8 +593,8 @@ describe("reported transcript path", () => {
 			.get()?.path;
 	}
 
-	it("keeps the main session's transcript path on its binding", async () => {
-		const { ctx, db } = createPersistedContext();
+	it("keeps the main session's transcript path and scans it for created PRs", async () => {
+		const { ctx, db, scannedTranscripts } = createPersistedContext();
 		const transcriptPath = resolve(
 			homedir(),
 			".claude/projects/-tmp-workspace-1/s-1.jsonl",
@@ -594,6 +606,7 @@ describe("reported transcript path", () => {
 			transcriptPath,
 		});
 		expect(storedPath(db)).toBe(transcriptPath);
+		expect(scannedTranscripts).toEqual([["workspace-1", transcriptPath]]);
 	});
 
 	it("drops a path the unauthenticated hook could use to point outside home", async () => {

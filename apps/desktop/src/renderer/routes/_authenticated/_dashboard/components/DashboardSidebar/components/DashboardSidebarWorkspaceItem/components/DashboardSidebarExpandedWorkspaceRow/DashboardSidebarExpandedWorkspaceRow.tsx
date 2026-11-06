@@ -40,6 +40,7 @@ import { DashboardSidebarRowEventBoundary } from "./components/DashboardSidebarR
 import { DashboardSidebarWorkspaceChips } from "./components/DashboardSidebarWorkspaceChips";
 import { DashboardSidebarWorkspaceHostGlyph } from "./components/DashboardSidebarWorkspaceHostGlyph";
 import { DashboardSidebarWorkspaceLeadIndicator } from "./components/DashboardSidebarWorkspaceLeadIndicator";
+import { DashboardSidebarWorkspacePullRequestsBadge } from "./components/DashboardSidebarWorkspacePullRequestsBadge";
 
 const PR_STATE_LABEL: Record<
 	DashboardSidebarWorkspacePullRequest["state"],
@@ -386,9 +387,14 @@ export const DashboardSidebarExpandedWorkspaceRow = forwardRef<
 									{creationStatusText}
 								</span>
 							) : (
-								<DashboardSidebarWorkspaceQueuedBadge
-									workspaceId={workspace.id}
-								/>
+								<div className="flex items-center gap-1.5">
+									<DashboardSidebarWorkspaceQueuedBadge
+										workspaceId={workspace.id}
+									/>
+									<DashboardSidebarWorkspacePullRequestsBadge
+										links={workspace.pullRequestLinks ?? []}
+									/>
+								</div>
 							)}
 							<div className="grid items-center justify-items-end [&>*]:col-start-1 [&>*]:row-start-1">
 								{/* Not plain focus-within: a clicked row keeps focus, and the open cloud row's glyph must stay in view while it connects. */}

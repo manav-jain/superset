@@ -7,6 +7,7 @@ afterEach(cleanup);
 const pendingRow: PullRequestRowData = {
 	projectId: "p1",
 	prNumber: 7,
+	url: "https://github.com/acme/widgets/pull/7",
 	title: "Widgets",
 	state: "open",
 	isDraft: false,

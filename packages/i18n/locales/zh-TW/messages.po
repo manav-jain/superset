@@ -935,6 +935,9 @@ msgstr "{count}個GitHub星標"
 msgid "{count} hosts run an older host service than this app"
 msgstr "{count} 台主機執行的主機服務比此應用程式舊"
 
+msgid "{count} linked pull requests"
+msgstr "{count} 個已連結的拉取請求"
+
 msgid "{count} selected"
 msgstr "已選取 {count} 個"
 
@@ -1166,6 +1169,9 @@ msgstr "{noun, select, repository {請至少指定一個倉庫。} channel {請�
 
 msgid "{openCount} open"
 msgstr "{openCount}項已開啟"
+
+msgid "{openCount} open · {linkedCount} linked"
+msgstr "{openCount} 個開啟 · {linkedCount} 個已連結"
 
 msgid "{othersCount, plural, one {Also changed in this workspace: # file} other {Also changed in this workspace: # files}}"
 msgstr "{othersCount, plural, one {此工作區中還有更改：# 個檔案} other {此工作區中還有更改：# 個檔案}}"
@@ -6455,6 +6461,9 @@ msgstr "我建立的"
 msgid "Created ENG-142 Login fails on Safari"
 msgstr "已建立 ENG-142 Safari 上登入失敗"
 
+msgid "Created in an agent session in this workspace"
+msgstr "在此工作區的代理程式工作階段中建立"
+
 msgid "Created team \"{trimmedName}\""
 msgstr "已建立團隊「{trimmedName}」"
 
@@ -11095,6 +11104,12 @@ msgstr "連結此任務"
 msgid "Linked {slug} to workspace"
 msgstr "已將{slug}關聯到工作區"
 
+msgid "Linked by you"
+msgstr "由你連結"
+
+msgid "Linking…"
+msgstr "正在連結…"
+
 msgid "Liquid Glass"
 msgstr "Liquid Glass"
 
@@ -11588,6 +11603,9 @@ msgstr "沿用現有模式"
 
 msgid "Match shortcuts to the labels on your keyboard (e.g. ⌘Z always fires on the key labeled \"Z\" — physical KeyY on QWERTZ). When off, shortcuts are anchored to physical key positions and ignore the current input source."
 msgstr "讓快速鍵匹配鍵盤上的標籤（例如⌘Z始終觸發標有「Z」的按鍵——在QWERTZ上是物理KeyY）。關閉後，快速鍵錨定在物理按鍵位置，忽略目前輸入源。"
+
+msgid "Matched by this workspace's branch"
+msgstr "與此工作區的分支相符"
 
 msgid "Max"
 msgstr "最大"
@@ -12628,6 +12646,9 @@ msgstr "找不到標籤。"
 
 msgid "No lead"
 msgstr "無負責人"
+
+msgid "No linked pull requests"
+msgstr "沒有已連結的拉取請求"
 
 msgid "No listening agents"
 msgstr "沒有監聽代理"
@@ -14869,6 +14890,11 @@ msgstr "PR #{0}（{1}）"
 msgid "PR #{0} created"
 msgstr "已建立PR #{0}"
 
+#. placeholder {0}: first.number
+#. placeholder {1}: first.title
+msgid "PR #{0}: {1}"
+msgstr "PR #{0}：{1}"
+
 msgid "PR Closed"
 msgstr "PR已關閉"
 
@@ -15244,6 +15270,10 @@ msgstr "供應商：{0}"
 msgid "Provisioning failed and the sandbox was torn down. Nothing is running, and this workspace can't be opened — create a new one to try again."
 msgstr "預配失敗，沙箱已被銷燬。目前沒有任何處理程序在執行，此工作區也無法開啟 — 請新建一個再試。"
 
+msgctxt "workspace sidebar tab"
+msgid "PRs"
+msgstr "PR"
+
 msgid "PRs a week"
 msgstr "PR/週"
 
@@ -15310,6 +15340,9 @@ msgstr "找不到拉取請求"
 msgid "Pull request title"
 msgstr "拉取請求標題"
 
+msgid "Pull request URL or #123"
+msgstr "拉取請求 URL 或 #123"
+
 msgid "Pull request…"
 msgstr "拉取請求…"
 
@@ -15318,6 +15351,9 @@ msgstr "拉取請求"
 
 msgid "Pull Requests"
 msgstr "拉取請求"
+
+msgid "Pull requests an agent opens from this workspace, or its workers, land here. Link others by URL or number."
+msgstr "代理程式在此工作區或其子工作區中建立的拉取請求會顯示在這裡。其他拉取請求可透過 URL 或編號連結。"
 
 msgid "Pull requests, comments and pushes from Superset are made as you."
 msgstr "來自 Superset 的拉取請求、留言和推送以你的身分進行。"
@@ -15749,8 +15785,15 @@ msgstr "重新整理指標"
 msgid "Refresh pull request"
 msgstr "重新整理拉取請求"
 
+#. placeholder {0}: pullRequest.number
+msgid "Refresh pull request #{0}"
+msgstr "重新整理提取要求 #{0}"
+
 msgid "Refresh pull requests"
 msgstr "重新整理拉取請求"
+
+msgid "Refresh status"
+msgstr "重新整理狀態"
 
 msgid "Refreshes when Claude Code next runs."
 msgstr "下次執行 Claude Code 時重新整理。"
@@ -20909,8 +20952,15 @@ msgstr "未知工作區"
 msgid "Unlimited"
 msgstr "無限"
 
+msgid "Unlink"
+msgstr "取消連結"
+
 msgid "Unlink project"
 msgstr "取消關聯專案"
+
+#. placeholder {0}: pullRequest.number
+msgid "Unlink pull request #{0}"
+msgstr "取消連結拉取請求 #{0}"
 
 msgid "Unlink task"
 msgstr "取消連結任務"

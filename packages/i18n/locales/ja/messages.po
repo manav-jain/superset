@@ -935,6 +935,9 @@ msgstr "GitHubスター{count}件"
 msgid "{count} hosts run an older host service than this app"
 msgstr "{count}台のホストがこのアプリより古いホストサービスを実行しています"
 
+msgid "{count} linked pull requests"
+msgstr "{count}件のリンク済みプルリクエスト"
+
 msgid "{count} selected"
 msgstr "{count}件を選択中"
 
@@ -1166,6 +1169,9 @@ msgstr "{noun, select, repository {リポジトリを1つ以上指定してく�
 
 msgid "{openCount} open"
 msgstr "{openCount}件通過"
+
+msgid "{openCount} open · {linkedCount} linked"
+msgstr "{openCount}件オープン · {linkedCount}件リンク済み"
 
 msgid "{othersCount, plural, one {Also changed in this workspace: # file} other {Also changed in this workspace: # files}}"
 msgstr "{othersCount, plural, one {このワークスペースで他にも変更: #件のファイル} other {このワークスペースで他にも変更: #件のファイル}}"
@@ -6455,6 +6461,9 @@ msgstr "自分が作成"
 msgid "Created ENG-142 Login fails on Safari"
 msgstr "ENG-142「Safariでログインに失敗する」を作成しました"
 
+msgid "Created in an agent session in this workspace"
+msgstr "このワークスペースのエージェントセッションで作成"
+
 msgid "Created team \"{trimmedName}\""
 msgstr "チーム「{trimmedName}」を作成しました"
 
@@ -11095,6 +11104,12 @@ msgstr "このタスクをリンク"
 msgid "Linked {slug} to workspace"
 msgstr "{slug}をワークスペースにリンクしました"
 
+msgid "Linked by you"
+msgstr "あなたがリンク"
+
+msgid "Linking…"
+msgstr "リンク中…"
+
 msgid "Liquid Glass"
 msgstr "Liquid Glass"
 
@@ -11588,6 +11603,9 @@ msgstr "既存のパターンに合わせて"
 
 msgid "Match shortcuts to the labels on your keyboard (e.g. ⌘Z always fires on the key labeled \"Z\" — physical KeyY on QWERTZ). When off, shortcuts are anchored to physical key positions and ignore the current input source."
 msgstr "ショートカットをキーボードの刻印に合わせます(例: ⌘Zは常に「Z」と刻印されたキーで発火 — QWERTZでは物理KeyY)。オフの場合、ショートカットは物理キー位置に固定され、現在の入力ソースを無視します。"
+
+msgid "Matched by this workspace's branch"
+msgstr "このワークスペースのブランチと一致"
 
 msgid "Max"
 msgstr "最大"
@@ -12628,6 +12646,9 @@ msgstr "ラベルが見つかりません。"
 
 msgid "No lead"
 msgstr "リードなし"
+
+msgid "No linked pull requests"
+msgstr "リンク済みのプルリクエストはありません"
 
 msgid "No listening agents"
 msgstr "コメントを受け取るエージェントはいません"
@@ -14869,6 +14890,11 @@ msgstr "PR #{0} ({1})"
 msgid "PR #{0} created"
 msgstr "PR #{0} を作成しました"
 
+#. placeholder {0}: first.number
+#. placeholder {1}: first.title
+msgid "PR #{0}: {1}"
+msgstr "PR #{0}: {1}"
+
 msgid "PR Closed"
 msgstr "PRはクローズ済み"
 
@@ -15244,6 +15270,10 @@ msgstr "プロバイダー: {0}"
 msgid "Provisioning failed and the sandbox was torn down. Nothing is running, and this workspace can't be opened — create a new one to try again."
 msgstr "プロビジョニングに失敗し、サンドボックスは破棄されました。何も実行されておらず、このワークスペースは開けません — 新しく作成してやり直してください。"
 
+msgctxt "workspace sidebar tab"
+msgid "PRs"
+msgstr "PR"
+
 msgid "PRs a week"
 msgstr "週あたりPR"
 
@@ -15310,6 +15340,9 @@ msgstr "プルリクエストが見つかりません"
 msgid "Pull request title"
 msgstr "プルリクエストのタイトル"
 
+msgid "Pull request URL or #123"
+msgstr "プルリクエストのURLまたは#123"
+
 msgid "Pull request…"
 msgstr "プルリクエスト…"
 
@@ -15318,6 +15351,9 @@ msgstr "プルリクエスト"
 
 msgid "Pull Requests"
 msgstr "プルリクエスト"
+
+msgid "Pull requests an agent opens from this workspace, or its workers, land here. Link others by URL or number."
+msgstr "このワークスペースやそのワーカーでエージェントが作成したプルリクエストがここに表示されます。その他はURLか番号でリンクできます。"
 
 msgid "Pull requests, comments and pushes from Superset are made as you."
 msgstr "Superset からのプルリクエスト、コメント、プッシュはあなたとして行われます。"
@@ -15749,8 +15785,15 @@ msgstr "メトリクスを更新"
 msgid "Refresh pull request"
 msgstr "プルリクエストを更新"
 
+#. placeholder {0}: pullRequest.number
+msgid "Refresh pull request #{0}"
+msgstr "プルリクエスト #{0} を更新"
+
 msgid "Refresh pull requests"
 msgstr "プルリクエストを更新"
+
+msgid "Refresh status"
+msgstr "ステータスを更新"
 
 msgid "Refreshes when Claude Code next runs."
 msgstr "次に Claude Code を実行すると更新されます。"
@@ -20909,8 +20952,15 @@ msgstr "不明なワークスペース"
 msgid "Unlimited"
 msgstr "無制限"
 
+msgid "Unlink"
+msgstr "リンク解除"
+
 msgid "Unlink project"
 msgstr "プロジェクトのリンクを解除"
+
+#. placeholder {0}: pullRequest.number
+msgid "Unlink pull request #{0}"
+msgstr "プルリクエスト#{0}のリンクを解除"
 
 msgid "Unlink task"
 msgstr "タスクのリンクを解除"

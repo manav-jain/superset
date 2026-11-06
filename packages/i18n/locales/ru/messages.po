@@ -935,6 +935,9 @@ msgstr "{count} звёзд на GitHub"
 msgid "{count} hosts run an older host service than this app"
 msgstr "{count} хостов работают на более старой версии службы хоста, чем это приложение"
 
+msgid "{count} linked pull requests"
+msgstr "Связанных пул-реквестов: {count}"
+
 msgid "{count} selected"
 msgstr "Выбрано: {count}"
 
@@ -1166,6 +1169,9 @@ msgstr "{noun, select, repository {Укажите хотя бы один реп�
 
 msgid "{openCount} open"
 msgstr "{openCount} открыто"
+
+msgid "{openCount} open · {linkedCount} linked"
+msgstr "Открыто: {openCount} · Связано: {linkedCount}"
 
 msgid "{othersCount, plural, one {Also changed in this workspace: # file} other {Also changed in this workspace: # files}}"
 msgstr "{othersCount, plural, one {Также изменён в этой рабочей области: # файл} few {Также изменены в этой рабочей области: # файла} many {Также изменены в этой рабочей области: # файлов} other {Также изменены в этой рабочей области: # файла}}"
@@ -6455,6 +6461,9 @@ msgstr "Созданные мной"
 msgid "Created ENG-142 Login fails on Safari"
 msgstr "Создана ENG-142 Login fails on Safari"
 
+msgid "Created in an agent session in this workspace"
+msgstr "Создан в сессии агента этой рабочей области"
+
 msgid "Created team \"{trimmedName}\""
 msgstr "Команда «{trimmedName}» создана"
 
@@ -11095,6 +11104,12 @@ msgstr "Связать эту задачу"
 msgid "Linked {slug} to workspace"
 msgstr "{slug} привязана к рабочей области"
 
+msgid "Linked by you"
+msgstr "Связан вами"
+
+msgid "Linking…"
+msgstr "Связывание…"
+
 msgid "Liquid Glass"
 msgstr "Liquid Glass"
 
@@ -11588,6 +11603,9 @@ msgstr "Следуй существующим шаблонам"
 
 msgid "Match shortcuts to the labels on your keyboard (e.g. ⌘Z always fires on the key labeled \"Z\" — physical KeyY on QWERTZ). When off, shortcuts are anchored to physical key positions and ignore the current input source."
 msgstr "Привязывать сочетания к обозначениям на вашей клавиатуре (например, ⌘Z всегда срабатывает на клавише с надписью «Z» — физическая KeyY на QWERTZ). Когда выключено, сочетания привязаны к физическим позициям клавиш и не зависят от текущего источника ввода."
+
+msgid "Matched by this workspace's branch"
+msgstr "Совпадает с веткой этой рабочей области"
 
 msgid "Max"
 msgstr "Макс."
@@ -12628,6 +12646,9 @@ msgstr "Метки не найдены."
 
 msgid "No lead"
 msgstr "Без руководителя"
+
+msgid "No linked pull requests"
+msgstr "Нет связанных пул-реквестов"
 
 msgid "No listening agents"
 msgstr "Нет агентов, получающих комментарии"
@@ -14869,6 +14890,11 @@ msgstr "PR #{0} ({1})"
 msgid "PR #{0} created"
 msgstr "PR #{0} создан"
 
+#. placeholder {0}: first.number
+#. placeholder {1}: first.title
+msgid "PR #{0}: {1}"
+msgstr "PR #{0}: {1}"
+
 msgid "PR Closed"
 msgstr "PR закрыт"
 
@@ -15244,6 +15270,10 @@ msgstr "Провайдер: {0}"
 msgid "Provisioning failed and the sandbox was torn down. Nothing is running, and this workspace can't be opened — create a new one to try again."
 msgstr "Создание не удалось, песочница снесена. Ничего не работает, и эту рабочую область нельзя открыть — создайте новую, чтобы попробовать снова."
 
+msgctxt "workspace sidebar tab"
+msgid "PRs"
+msgstr "PR"
+
 msgid "PRs a week"
 msgstr "PR в неделю"
 
@@ -15310,6 +15340,9 @@ msgstr "Пул-реквест не найден"
 msgid "Pull request title"
 msgstr "Заголовок пул-реквеста"
 
+msgid "Pull request URL or #123"
+msgstr "URL пул-реквеста или #123"
+
 msgid "Pull request…"
 msgstr "Пул-реквест…"
 
@@ -15318,6 +15351,9 @@ msgstr "Пул-реквесты"
 
 msgid "Pull Requests"
 msgstr "Пул-реквесты"
+
+msgid "Pull requests an agent opens from this workspace, or its workers, land here. Link others by URL or number."
+msgstr "Здесь появляются пул-реквесты, которые агент открывает из этой рабочей области или её воркеров. Другие можно связать по URL или номеру."
 
 msgid "Pull requests, comments and pushes from Superset are made as you."
 msgstr "Пул-реквесты, комментарии и пуши из Superset выполняются от вашего имени."
@@ -15749,8 +15785,15 @@ msgstr "Обновить метрики"
 msgid "Refresh pull request"
 msgstr "Обновить пул-реквест"
 
+#. placeholder {0}: pullRequest.number
+msgid "Refresh pull request #{0}"
+msgstr "Обновить пул-реквест #{0}"
+
 msgid "Refresh pull requests"
 msgstr "Обновить пул-реквесты"
+
+msgid "Refresh status"
+msgstr "Обновить статус"
 
 msgid "Refreshes when Claude Code next runs."
 msgstr "Обновится при следующем запуске Claude Code."
@@ -20909,8 +20952,15 @@ msgstr "Неизвестная рабочая область"
 msgid "Unlimited"
 msgstr "Без ограничений"
 
+msgid "Unlink"
+msgstr "Отвязать"
+
 msgid "Unlink project"
 msgstr "Отвязать проект"
+
+#. placeholder {0}: pullRequest.number
+msgid "Unlink pull request #{0}"
+msgstr "Отвязать пул-реквест #{0}"
 
 msgid "Unlink task"
 msgstr "Отвязать задачу"

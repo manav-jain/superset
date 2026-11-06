@@ -53,6 +53,7 @@ import {
 	buildDashboardSidebarProjects,
 	buildDashboardSidebarSessions,
 	partitionSidebarWorkspacesByPinned,
+	type SidebarPullRequestEntry,
 } from "./buildDashboardSidebarProjects";
 import {
 	derivePullRequestQueryTargets,
@@ -70,10 +71,8 @@ import {
 // Module-level so remounting the sidebar doesn't reset the cool-down.
 const pullRequestRefreshGate = createPullRequestRefreshGate();
 
-type SidebarPullRequest = DashboardSidebarWorkspace["pullRequest"];
-type PullRequestWorkspaceRow = {
+type PullRequestWorkspaceRow = SidebarPullRequestEntry & {
 	workspaceId: string;
-	pullRequest: SidebarPullRequest;
 };
 
 function getPullRequestRowsFingerprint(
@@ -81,7 +80,7 @@ function getPullRequestRowsFingerprint(
 ): string {
 	return JSON.stringify(
 		rows
-			.map((row) => [row.workspaceId, row.pullRequest] as const)
+			.map((row) => [row.workspaceId, row.pullRequest, row.links] as const)
 			.sort(([leftWorkspaceId], [rightWorkspaceId]) =>
 				leftWorkspaceId.localeCompare(rightWorkspaceId),
 			),
@@ -90,10 +89,10 @@ function getPullRequestRowsFingerprint(
 
 function useStablePullRequestsByWorkspaceId(
 	rows: PullRequestWorkspaceRow[] | undefined,
-): Map<string, SidebarPullRequest> {
+): Map<string, SidebarPullRequestEntry> {
 	const previousRef = useRef<{
 		fingerprint: string;
-		map: Map<string, SidebarPullRequest>;
+		map: Map<string, SidebarPullRequestEntry>;
 	} | null>(null);
 
 	return useMemo(() => {
@@ -105,10 +104,7 @@ function useStablePullRequestsByWorkspaceId(
 		}
 
 		const map = new Map(
-			nextRows.map((workspace) => [
-				workspace.workspaceId,
-				workspace.pullRequest,
-			]),
+			nextRows.map(({ workspaceId, ...entry }) => [workspaceId, entry]),
 		);
 		previousRef.current = { fingerprint, map };
 		return map;
@@ -663,6 +659,8 @@ export function useDashboardSidebarData() {
 				rows.push({
 					workspaceId: row.workspaceId,
 					pullRequest: row.pullRequest,
+					// Absent from hosts that predate PR links.
+					links: row.links ?? [],
 				});
 			}
 		}

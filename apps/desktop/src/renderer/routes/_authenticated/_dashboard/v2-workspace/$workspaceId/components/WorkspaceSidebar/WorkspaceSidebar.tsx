@@ -21,6 +21,7 @@ import { FilesTab } from "./components/FilesTab";
 import { PRActionHeader } from "./components/PRActionHeader";
 import { SidebarHeader } from "./components/SidebarHeader";
 import { type SelectedDiffTarget, useChangesTab } from "./hooks/useChangesTab";
+import { usePullRequestsTab } from "./hooks/usePullRequestsTab";
 import { useReviewTab } from "./hooks/useReviewTab";
 import type { SidebarTabDefinition } from "./types";
 
@@ -133,6 +134,11 @@ export function WorkspaceSidebar({
 		onOpenInDiff,
 	});
 
+	const pullRequestsTab = usePullRequestsTab({
+		workspaceId,
+		onOpenPullRequest,
+	});
+
 	const filesTab: SidebarTabDefinition = {
 		id: "files",
 		label: t({ message: "Files" }),
@@ -149,7 +155,12 @@ export function WorkspaceSidebar({
 		),
 	};
 
-	const tabs: SidebarTabDefinition[] = [filesTab, changesTab, reviewTab];
+	const tabs: SidebarTabDefinition[] = [
+		filesTab,
+		changesTab,
+		reviewTab,
+		pullRequestsTab,
+	];
 	const activeTabDef = tabs.find((t) => t.id === activeTab) ?? tabs[0];
 
 	const tabCount = tabs.length;

@@ -935,6 +935,9 @@ msgstr "{count} GitHub-sterren"
 msgid "{count} hosts run an older host service than this app"
 msgstr "{count} hosts draaien een oudere hostservice dan deze app"
 
+msgid "{count} linked pull requests"
+msgstr "{count} gekoppelde pull requests"
+
 msgid "{count} selected"
 msgstr "{count} geselecteerd"
 
@@ -1166,6 +1169,9 @@ msgstr "{noun, select, repository {Geef minstens één repository op.} channel {
 
 msgid "{openCount} open"
 msgstr "{openCount} open"
+
+msgid "{openCount} open · {linkedCount} linked"
+msgstr "{openCount} open · {linkedCount} gekoppeld"
 
 msgid "{othersCount, plural, one {Also changed in this workspace: # file} other {Also changed in this workspace: # files}}"
 msgstr "{othersCount, plural, one {Ook gewijzigd in deze werkruimte: # bestand} other {Ook gewijzigd in deze werkruimte: # bestanden}}"
@@ -6455,6 +6461,9 @@ msgstr "Door mij gemaakt"
 msgid "Created ENG-142 Login fails on Safari"
 msgstr "ENG-142 aangemaakt: Inloggen mislukt in Safari"
 
+msgid "Created in an agent session in this workspace"
+msgstr "Gemaakt in een agentsessie in deze werkruimte"
+
 msgid "Created team \"{trimmedName}\""
 msgstr "Team \"{trimmedName}\" aangemaakt"
 
@@ -11095,6 +11104,12 @@ msgstr "Deze taak koppelen"
 msgid "Linked {slug} to workspace"
 msgstr "{slug} gekoppeld aan werkruimte"
 
+msgid "Linked by you"
+msgstr "Door jou gekoppeld"
+
+msgid "Linking…"
+msgstr "Koppelen…"
+
 msgid "Liquid Glass"
 msgstr "Liquid Glass"
 
@@ -11588,6 +11603,9 @@ msgstr "Volg bestaande patronen"
 
 msgid "Match shortcuts to the labels on your keyboard (e.g. ⌘Z always fires on the key labeled \"Z\" — physical KeyY on QWERTZ). When off, shortcuts are anchored to physical key positions and ignore the current input source."
 msgstr "Koppel sneltoetsen aan de opschriften op je toetsenbord (bijv. ⌘Z werkt altijd op de toets met \"Z\" — fysiek KeyY op QWERTZ). Staat dit uit, dan zijn sneltoetsen aan fysieke toetsposities gekoppeld en negeren ze de huidige invoerbron."
+
+msgid "Matched by this workspace's branch"
+msgstr "Komt overeen met de branch van deze werkruimte"
 
 msgid "Max"
 msgstr "Max"
@@ -12628,6 +12646,9 @@ msgstr "Geen labels gevonden."
 
 msgid "No lead"
 msgstr "Geen leider"
+
+msgid "No linked pull requests"
+msgstr "Geen gekoppelde pull requests"
 
 msgid "No listening agents"
 msgstr "Geen luisterende agents"
@@ -14869,6 +14890,11 @@ msgstr "PR #{0} ({1})"
 msgid "PR #{0} created"
 msgstr "PR #{0} aangemaakt"
 
+#. placeholder {0}: first.number
+#. placeholder {1}: first.title
+msgid "PR #{0}: {1}"
+msgstr "PR #{0}: {1}"
+
 msgid "PR Closed"
 msgstr "PR gesloten"
 
@@ -15244,6 +15270,10 @@ msgstr "Provider: {0}"
 msgid "Provisioning failed and the sandbox was torn down. Nothing is running, and this workspace can't be opened — create a new one to try again."
 msgstr "Het provisioneren is mislukt en de sandbox is afgebroken. Er draait niets en deze werkruimte kan niet worden geopend — maak een nieuwe aan om het opnieuw te proberen."
 
+msgctxt "workspace sidebar tab"
+msgid "PRs"
+msgstr "PR's"
+
 msgid "PRs a week"
 msgstr "PR's per week"
 
@@ -15310,6 +15340,9 @@ msgstr "Pull request niet gevonden"
 msgid "Pull request title"
 msgstr "Titel van pull request"
 
+msgid "Pull request URL or #123"
+msgstr "Pull request-URL of #123"
+
 msgid "Pull request…"
 msgstr "Pull request…"
 
@@ -15318,6 +15351,9 @@ msgstr "Pull requests"
 
 msgid "Pull Requests"
 msgstr "Pull requests"
+
+msgid "Pull requests an agent opens from this workspace, or its workers, land here. Link others by URL or number."
+msgstr "Pull requests die een agent vanuit deze werkruimte of zijn workers opent, verschijnen hier. Koppel andere via URL of nummer."
 
 msgid "Pull requests, comments and pushes from Superset are made as you."
 msgstr "Pull requests, reacties en pushes vanuit Superset worden namens jou gedaan."
@@ -15749,8 +15785,15 @@ msgstr "Statistieken vernieuwen"
 msgid "Refresh pull request"
 msgstr "Pull request vernieuwen"
 
+#. placeholder {0}: pullRequest.number
+msgid "Refresh pull request #{0}"
+msgstr "Pull request #{0} vernieuwen"
+
 msgid "Refresh pull requests"
 msgstr "Pull requests vernieuwen"
+
+msgid "Refresh status"
+msgstr "Status vernieuwen"
 
 msgid "Refreshes when Claude Code next runs."
 msgstr "Wordt vernieuwd zodra Claude Code opnieuw draait."
@@ -20909,8 +20952,15 @@ msgstr "Onbekende werkruimte"
 msgid "Unlimited"
 msgstr "Onbeperkt"
 
+msgid "Unlink"
+msgstr "Ontkoppelen"
+
 msgid "Unlink project"
 msgstr "Project ontkoppelen"
+
+#. placeholder {0}: pullRequest.number
+msgid "Unlink pull request #{0}"
+msgstr "Pull request #{0} ontkoppelen"
 
 msgid "Unlink task"
 msgstr "Taak ontkoppelen"
