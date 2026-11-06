@@ -974,6 +974,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "před {distance}"
 
+msgid "{doneCount} of {total} done"
+msgstr "Hotovo {doneCount} z {total}"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {Přemýšlel # sekundu} few {Přemýšlel # sekundy} many {Přemýšlel # sekundy} other {Přemýšlel # sekund}}"
 
@@ -4229,6 +4232,10 @@ msgstr "Kontroluji…"
 msgid "Checklist"
 msgstr "Zaškrtávací seznam"
 
+msgctxt "workspace sidebar tab"
+msgid "Checklist"
+msgstr "Kontrolní seznam"
+
 msgid "Checkout: {label}"
 msgstr "Checkout: {label}"
 
@@ -4310,6 +4317,9 @@ msgstr "Vyberte MCP servery pro tuto zprávu"
 
 msgid "Choose one"
 msgstr "Vyberte"
+
+msgid "Choose tabs"
+msgstr "Vybrat karty"
 
 msgid "Choose the model"
 msgstr "Vybrat model"
@@ -11447,6 +11457,9 @@ msgstr "Ujistěte se, že je zařízení probuzené, online a běží na něm Pa
 msgid "Make the chip style the TooltipContent default"
 msgstr "Udělat ze stylu čipu výchozí TooltipContent"
 
+msgid "Make these the default tabs"
+msgstr "Nastavit tyto karty jako výchozí"
+
 msgid "Make this page public?"
 msgstr "Zveřejnit tuto stránku?"
 
@@ -12461,6 +12474,9 @@ msgstr "Žádné kanály"
 msgid "No chats found"
 msgstr "Nebyly nalezeny žádné chaty"
 
+msgid "No checklist yet"
+msgstr "Zatím žádný kontrolní seznam"
+
 msgid "No checks"
 msgstr "Žádné kontroly"
 
@@ -12923,6 +12939,9 @@ msgstr "V tomto období žádné hvězdy."
 
 msgid "No Stripe customer found"
 msgstr "Nenalezen žádný zákazník ve Stripe"
+
+msgid "No tabs open"
+msgstr "Žádné otevřené karty"
 
 msgid "no tags"
 msgstr "žádné štítky"
@@ -18554,6 +18573,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "Vylepšení stability"
 
+msgid "Stack tabs vertically"
+msgstr "Skládat karty svisle"
+
 msgid "Stacked"
 msgstr "Nad sebou"
 
@@ -19493,6 +19515,9 @@ msgstr "Agent zkopíruje konverzaci; větev se otevře na nové kartě"
 
 msgid "The agent crashed"
 msgstr "Agent spadl"
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "Agent v tomto pracovním prostoru ho může vést pomocí <0>superset ws checklist set</0>"
 
 msgid "The agent is signed out"
 msgstr "Agent je odhlášený"

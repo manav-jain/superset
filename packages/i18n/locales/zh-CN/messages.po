@@ -974,6 +974,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "{distance}前"
 
+msgid "{doneCount} of {total} done"
+msgstr "已完成 {doneCount}/{total}"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {思考了#秒} other {思考了#秒}}"
 
@@ -4229,6 +4232,10 @@ msgstr "正在检查…"
 msgid "Checklist"
 msgstr "清单"
 
+msgctxt "workspace sidebar tab"
+msgid "Checklist"
+msgstr "清单"
+
 msgid "Checkout: {label}"
 msgstr "检出：{label}"
 
@@ -4310,6 +4317,9 @@ msgstr "为这条消息选择MCP服务器"
 
 msgid "Choose one"
 msgstr "请选择"
+
+msgid "Choose tabs"
+msgstr "选择标签页"
 
 msgid "Choose the model"
 msgstr "选择模型"
@@ -11447,6 +11457,9 @@ msgstr "请确认设备未休眠、已联网且正在运行 Paradev。"
 msgid "Make the chip style the TooltipContent default"
 msgstr "把chip样式设为TooltipContent的默认样式"
 
+msgid "Make these the default tabs"
+msgstr "将这些标签页设为默认"
+
 msgid "Make this page public?"
 msgstr "公开此页面？"
 
@@ -12461,6 +12474,9 @@ msgstr "没有频道"
 msgid "No chats found"
 msgstr "未找到聊天"
 
+msgid "No checklist yet"
+msgstr "还没有清单"
+
 msgid "No checks"
 msgstr "无检查"
 
@@ -12923,6 +12939,9 @@ msgstr "此区间内没有星标。"
 
 msgid "No Stripe customer found"
 msgstr "未找到Stripe客户"
+
+msgid "No tabs open"
+msgstr "没有打开的标签页"
 
 msgid "no tags"
 msgstr "无标签"
@@ -18554,6 +18573,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "稳定性改进"
 
+msgid "Stack tabs vertically"
+msgstr "垂直堆叠标签页"
+
 msgid "Stacked"
 msgstr "堆叠"
 
@@ -19493,6 +19515,9 @@ msgstr "智能体复制该对话，分支在新标签页中打开"
 
 msgid "The agent crashed"
 msgstr "智能体崩溃了"
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "此工作区中的智能体可以用 <0>superset ws checklist set</0> 维护清单"
 
 msgid "The agent is signed out"
 msgstr "智能体已退出登录"

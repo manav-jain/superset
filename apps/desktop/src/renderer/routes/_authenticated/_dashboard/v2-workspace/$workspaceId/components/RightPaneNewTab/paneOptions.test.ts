@@ -12,6 +12,8 @@ describe("getRightPaneOptions", () => {
 			"diff",
 			"files",
 			"pages-list",
+			"pull-requests",
+			"checklist",
 			"desktop",
 			"mobile",
 		]);
@@ -36,6 +38,8 @@ describe("createRightPane", () => {
 			"diff",
 			"files",
 			"pages-list",
+			"pull-requests",
+			"checklist",
 			"desktop",
 			"mobile",
 		]);

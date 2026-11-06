@@ -974,6 +974,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "{distance} 전"
 
+msgid "{doneCount} of {total} done"
+msgstr "{total}개 중 {doneCount}개 완료"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {#초 동안 생각함} other {#초 동안 생각함}}"
 
@@ -4229,6 +4232,10 @@ msgstr "확인하는 중…"
 msgid "Checklist"
 msgstr "체크리스트"
 
+msgctxt "workspace sidebar tab"
+msgid "Checklist"
+msgstr "체크리스트"
+
 msgid "Checkout: {label}"
 msgstr "체크아웃: {label}"
 
@@ -4310,6 +4317,9 @@ msgstr "이 메시지에 사용할 MCP 서버 선택"
 
 msgid "Choose one"
 msgstr "선택하세요"
+
+msgid "Choose tabs"
+msgstr "탭 선택"
 
 msgid "Choose the model"
 msgstr "모델 선택"
@@ -11447,6 +11457,9 @@ msgstr "기기가 절전 모드가 아니고 온라인 상태이며 Paradev가 �
 msgid "Make the chip style the TooltipContent default"
 msgstr "칩 스타일을 TooltipContent 기본값으로 만들기"
 
+msgid "Make these the default tabs"
+msgstr "이 탭들을 기본값으로 설정"
+
 msgid "Make this page public?"
 msgstr "이 페이지를 공개할까요?"
 
@@ -12461,6 +12474,9 @@ msgstr "채널 없음"
 msgid "No chats found"
 msgstr "채팅을 찾을 수 없습니다"
 
+msgid "No checklist yet"
+msgstr "아직 체크리스트가 없습니다"
+
 msgid "No checks"
 msgstr "검사 없음"
 
@@ -12923,6 +12939,9 @@ msgstr "이 기간에는 스타가 없습니다."
 
 msgid "No Stripe customer found"
 msgstr "Stripe 고객을 찾을 수 없습니다"
+
+msgid "No tabs open"
+msgstr "열린 탭 없음"
 
 msgid "no tags"
 msgstr "태그 없음"
@@ -18554,6 +18573,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "안정성 개선"
 
+msgid "Stack tabs vertically"
+msgstr "탭을 세로로 쌓기"
+
 msgid "Stacked"
 msgstr "스택"
 
@@ -19493,6 +19515,9 @@ msgstr "에이전트가 대화를 복사하고 분기는 새 탭에서 열립니
 
 msgid "The agent crashed"
 msgstr "에이전트가 비정상 종료되었습니다"
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "이 워크스페이스의 에이전트가 <0>superset ws checklist set</0>으로 체크리스트를 관리할 수 있습니다"
 
 msgid "The agent is signed out"
 msgstr "에이전트가 로그아웃되었습니다"

@@ -974,6 +974,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "hace {distance}"
 
+msgid "{doneCount} of {total} done"
+msgstr "{doneCount} de {total} hechas"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {Pensó durante # segundo} other {Pensó durante # segundos}}"
 
@@ -4229,6 +4232,10 @@ msgstr "Comprobando…"
 msgid "Checklist"
 msgstr "Lista de tareas"
 
+msgctxt "workspace sidebar tab"
+msgid "Checklist"
+msgstr "Lista de tareas"
+
 msgid "Checkout: {label}"
 msgstr "Checkout: {label}"
 
@@ -4310,6 +4317,9 @@ msgstr "Elige servidores MCP para este mensaje"
 
 msgid "Choose one"
 msgstr "Elige una"
+
+msgid "Choose tabs"
+msgstr "Elegir pestañas"
 
 msgid "Choose the model"
 msgstr "Elegir el modelo"
@@ -11447,6 +11457,9 @@ msgstr "Asegúrate de que el dispositivo esté activo, conectado y con Paradev e
 msgid "Make the chip style the TooltipContent default"
 msgstr "Hacer que el estilo de chip sea el predeterminado de TooltipContent"
 
+msgid "Make these the default tabs"
+msgstr "Usar estas pestañas por defecto"
+
 msgid "Make this page public?"
 msgstr "¿Hacer pública esta página?"
 
@@ -12461,6 +12474,9 @@ msgstr "No hay canales"
 msgid "No chats found"
 msgstr "No se encontraron chats"
 
+msgid "No checklist yet"
+msgstr "Aún no hay lista de tareas"
+
 msgid "No checks"
 msgstr "Sin comprobaciones"
 
@@ -12923,6 +12939,9 @@ msgstr "No hay estrellas en este intervalo."
 
 msgid "No Stripe customer found"
 msgstr "No se encontró ningún cliente de Stripe"
+
+msgid "No tabs open"
+msgstr "No hay pestañas abiertas"
 
 msgid "no tags"
 msgstr "sin etiquetas"
@@ -18554,6 +18573,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "Mejoras de estabilidad"
 
+msgid "Stack tabs vertically"
+msgstr "Apilar pestañas verticalmente"
+
 msgid "Stacked"
 msgstr "Apilado"
 
@@ -19493,6 +19515,9 @@ msgstr "El agente copia la conversación; la rama se abre en una pestaña nueva"
 
 msgid "The agent crashed"
 msgstr "El agente se cerró inesperadamente"
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "El agente de este espacio de trabajo puede llevar una con <0>superset ws checklist set</0>"
 
 msgid "The agent is signed out"
 msgstr "El agente ha cerrado sesión"

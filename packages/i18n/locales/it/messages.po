@@ -974,6 +974,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "{distance} fa"
 
+msgid "{doneCount} of {total} done"
+msgstr "{doneCount} di {total} completati"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {Ha pensato per # secondo} other {Ha pensato per # secondi}}"
 
@@ -4229,6 +4232,10 @@ msgstr "Verifica…"
 msgid "Checklist"
 msgstr "Elenco di controllo"
 
+msgctxt "workspace sidebar tab"
+msgid "Checklist"
+msgstr "Checklist"
+
 msgid "Checkout: {label}"
 msgstr "Checkout: {label}"
 
@@ -4310,6 +4317,9 @@ msgstr "Scegli i server MCP per questo messaggio"
 
 msgid "Choose one"
 msgstr "Scegli"
+
+msgid "Choose tabs"
+msgstr "Scegli le schede"
 
 msgid "Choose the model"
 msgstr "Scegli il modello"
@@ -11447,6 +11457,9 @@ msgstr "Assicurati che il dispositivo sia attivo, online e che Paradev sia in es
 msgid "Make the chip style the TooltipContent default"
 msgstr "Rendi lo stile chip il predefinito di TooltipContent"
 
+msgid "Make these the default tabs"
+msgstr "Imposta queste schede come predefinite"
+
 msgid "Make this page public?"
 msgstr "Rendere pubblica questa pagina?"
 
@@ -12461,6 +12474,9 @@ msgstr "Nessun canale"
 msgid "No chats found"
 msgstr "Nessuna chat trovata"
 
+msgid "No checklist yet"
+msgstr "Nessuna checklist per ora"
+
 msgid "No checks"
 msgstr "Nessun controllo"
 
@@ -12923,6 +12939,9 @@ msgstr "Nessuna star in questo intervallo."
 
 msgid "No Stripe customer found"
 msgstr "Nessun cliente Stripe trovato"
+
+msgid "No tabs open"
+msgstr "Nessuna scheda aperta"
 
 msgid "no tags"
 msgstr "nessun tag"
@@ -18554,6 +18573,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "Miglioramenti di stabilità"
 
+msgid "Stack tabs vertically"
+msgstr "Impila le schede in verticale"
+
 msgid "Stacked"
 msgstr "Impilato"
 
@@ -19493,6 +19515,9 @@ msgstr "L'agente copia la conversazione; il ramo si apre in una nuova scheda"
 
 msgid "The agent crashed"
 msgstr "L'agente si è arrestato in modo anomalo"
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "L'agente di questo workspace può tenerne una con <0>superset ws checklist set</0>"
 
 msgid "The agent is signed out"
 msgstr "L'agente è disconnesso"

@@ -968,6 +968,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "{distance} тому"
 
+msgid "{doneCount} of {total} done"
+msgstr "Виконано {doneCount} з {total}"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {Думав # секунду} few {Думав # секунди} many {Думав # секунд} other {Думав # секунди}}"
 
@@ -4223,6 +4226,10 @@ msgstr "Перевірка…"
 msgid "Checklist"
 msgstr "Чекліст"
 
+msgctxt "workspace sidebar tab"
+msgid "Checklist"
+msgstr "Чекліст"
+
 msgid "Checkout: {label}"
 msgstr "Checkout: {label}"
 
@@ -4304,6 +4311,9 @@ msgstr "Виберіть MCP-сервери для цього повідомле
 
 msgid "Choose one"
 msgstr "Виберіть варіант"
+
+msgid "Choose tabs"
+msgstr "Вибрати вкладки"
 
 msgid "Choose the model"
 msgstr "Виберіть модель"
@@ -11441,6 +11451,9 @@ msgstr "Переконайтеся, що пристрій не в режимі �
 msgid "Make the chip style the TooltipContent default"
 msgstr "Зробити стиль чипа типовим для TooltipContent"
 
+msgid "Make these the default tabs"
+msgstr "Зробити ці вкладки типовими"
+
 msgid "Make this page public?"
 msgstr "Зробити цю сторінку публічною?"
 
@@ -12455,6 +12468,9 @@ msgstr "Немає каналів"
 msgid "No chats found"
 msgstr "Чатів не знайдено"
 
+msgid "No checklist yet"
+msgstr "Чекліста ще немає"
+
 msgid "No checks"
 msgstr "Немає перевірок"
 
@@ -12917,6 +12933,9 @@ msgstr "Немає зірок за цей період."
 
 msgid "No Stripe customer found"
 msgstr "Клієнта Stripe не знайдено"
+
+msgid "No tabs open"
+msgstr "Немає відкритих вкладок"
 
 msgid "no tags"
 msgstr "немає тегів"
@@ -18548,6 +18567,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "Покращення стабільності"
 
+msgid "Stack tabs vertically"
+msgstr "Розташувати вкладки вертикально"
+
 msgid "Stacked"
 msgstr "Стосом"
 
@@ -19487,6 +19509,9 @@ msgstr "Агент копіює розмову; гілка відкриваєт�
 
 msgid "The agent crashed"
 msgstr "Агент аварійно завершив роботу"
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "Агент у цьому робочому просторі може вести його командою <0>superset ws checklist set</0>"
 
 msgid "The agent is signed out"
 msgstr "Агент вийшов із системи"

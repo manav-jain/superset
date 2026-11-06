@@ -974,6 +974,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "il y a {distance}"
 
+msgid "{doneCount} of {total} done"
+msgstr "{doneCount} sur {total} terminées"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {A réfléchi pendant # seconde} other {A réfléchi pendant # secondes}}"
 
@@ -4229,6 +4232,10 @@ msgstr "Vérification…"
 msgid "Checklist"
 msgstr "Liste de cases à cocher"
 
+msgctxt "workspace sidebar tab"
+msgid "Checklist"
+msgstr "Checklist"
+
 msgid "Checkout: {label}"
 msgstr "Checkout : {label}"
 
@@ -4310,6 +4317,9 @@ msgstr "Choisir des serveurs MCP pour ce message"
 
 msgid "Choose one"
 msgstr "Choisir"
+
+msgid "Choose tabs"
+msgstr "Choisir les onglets"
 
 msgid "Choose the model"
 msgstr "Choisir le modèle"
@@ -11447,6 +11457,9 @@ msgstr "Assurez-vous que l’appareil est actif, en ligne et que Paradev y est l
 msgid "Make the chip style the TooltipContent default"
 msgstr "Faire du style chip la valeur par défaut de TooltipContent"
 
+msgid "Make these the default tabs"
+msgstr "Définir ces onglets par défaut"
+
 msgid "Make this page public?"
 msgstr "Rendre cette page publique ?"
 
@@ -12461,6 +12474,9 @@ msgstr "Aucun canal"
 msgid "No chats found"
 msgstr "Aucune discussion trouvée"
 
+msgid "No checklist yet"
+msgstr "Pas encore de checklist"
+
 msgid "No checks"
 msgstr "Aucune vérification"
 
@@ -12923,6 +12939,9 @@ msgstr "Aucune étoile sur cette période."
 
 msgid "No Stripe customer found"
 msgstr "Aucun client Stripe trouvé"
+
+msgid "No tabs open"
+msgstr "Aucun onglet ouvert"
 
 msgid "no tags"
 msgstr "aucun tag"
@@ -18554,6 +18573,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "Améliorations de la stabilité"
 
+msgid "Stack tabs vertically"
+msgstr "Empiler les onglets verticalement"
+
 msgid "Stacked"
 msgstr "Empilé"
 
@@ -19493,6 +19515,9 @@ msgstr "L'agent copie la conversation ; la branche s'ouvre dans un nouvel onglet
 
 msgid "The agent crashed"
 msgstr "L'agent a planté"
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "L'agent de cet espace de travail peut en tenir une avec <0>superset ws checklist set</0>"
 
 msgid "The agent is signed out"
 msgstr "L’agent est déconnecté"

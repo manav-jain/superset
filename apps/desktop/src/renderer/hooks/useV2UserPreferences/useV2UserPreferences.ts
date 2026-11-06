@@ -12,6 +12,7 @@ import {
 	type SidebarProjectSortMode,
 	V2_USER_PREFERENCES_ID,
 	type V2UserPreferencesRow,
+	type WorkspaceSidebarTab,
 } from "renderer/routes/_authenticated/providers/CollectionsProvider/dashboardSidebarLocal/schema";
 
 export interface V2UserPreferencesApi {
@@ -30,6 +31,8 @@ export interface V2UserPreferencesApi {
 	setShowPresetsBar: (next: boolean | ((prev: boolean) => boolean)) => void;
 	toggleShowPresetsBar: () => void;
 	setChangesViewMode: (next: ChangesViewMode) => void;
+	setDefaultSidebarTabs: (next: WorkspaceSidebarTab[]) => void;
+	setSidebarTabsStacked: (next: boolean) => void;
 	setSidebarProjectSortMode: (next: SidebarProjectSortMode) => void;
 	setSidebarProjectHostFilter: (next: SidebarProjectHostFilter) => void;
 	setBuiltinPresetHidden: (presetId: string, hidden: boolean) => void;
@@ -257,6 +260,44 @@ export function useV2UserPreferences(): V2UserPreferencesApi {
 		setShowPresetsBar((prev) => !prev);
 	}, [setShowPresetsBar]);
 
+	const setDefaultSidebarTabs = useCallback(
+		(next: WorkspaceSidebarTab[]) => {
+			const existing = collections.v2UserPreferences.get(
+				V2_USER_PREFERENCES_ID,
+			);
+			if (!existing) {
+				collections.v2UserPreferences.insert({
+					...DEFAULT_V2_USER_PREFERENCES,
+					defaultSidebarTabs: next,
+				});
+				return;
+			}
+			collections.v2UserPreferences.update(V2_USER_PREFERENCES_ID, (draft) => {
+				draft.defaultSidebarTabs = next;
+			});
+		},
+		[collections],
+	);
+
+	const setSidebarTabsStacked = useCallback(
+		(next: boolean) => {
+			const existing = collections.v2UserPreferences.get(
+				V2_USER_PREFERENCES_ID,
+			);
+			if (!existing) {
+				collections.v2UserPreferences.insert({
+					...DEFAULT_V2_USER_PREFERENCES,
+					sidebarTabsStacked: next,
+				});
+				return;
+			}
+			collections.v2UserPreferences.update(V2_USER_PREFERENCES_ID, (draft) => {
+				draft.sidebarTabsStacked = next;
+			});
+		},
+		[collections],
+	);
+
 	const setChangesViewMode = useCallback(
 		(next: ChangesViewMode) => {
 			const existing = collections.v2UserPreferences.get(
@@ -394,6 +435,8 @@ export function useV2UserPreferences(): V2UserPreferencesApi {
 		setShowPresetsBar,
 		toggleShowPresetsBar,
 		setChangesViewMode,
+		setDefaultSidebarTabs,
+		setSidebarTabsStacked,
 		setSidebarProjectSortMode,
 		setSidebarProjectHostFilter,
 		setBuiltinPresetHidden,

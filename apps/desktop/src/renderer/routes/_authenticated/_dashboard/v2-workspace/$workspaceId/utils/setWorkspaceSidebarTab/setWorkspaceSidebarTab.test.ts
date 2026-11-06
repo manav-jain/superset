@@ -8,7 +8,7 @@ import {
 type Collections = Parameters<typeof setWorkspaceSidebarTab>[0];
 
 interface StubRow {
-	sidebarState: { activeTab: string };
+	sidebarState: { activeTab: string; openTabs?: string[] | null };
 }
 
 function stubCollections(rows: Record<string, StubRow>): Collections {
@@ -20,12 +20,13 @@ function stubCollections(rows: Record<string, StubRow>): Collections {
 				if (row) mutate(row);
 			},
 		},
+		v2UserPreferences: { get: () => undefined },
 	} as unknown as Collections;
 }
 
 describe("setWorkspaceSidebarTab", () => {
 	beforeEach(() => {
-		useRowlessSidebarTabStore.setState({ tabs: {} });
+		useRowlessSidebarTabStore.setState({ tabs: {}, openTabs: {} });
 	});
 
 	it("writes the tab onto the workspace's local-state row when one exists", () => {
@@ -35,6 +36,16 @@ describe("setWorkspaceSidebarTab", () => {
 
 		expect(rows["ws-1"].sidebarState.activeTab).toBe("files");
 		expect(useRowlessSidebarTabStore.getState().tabs["ws-1"]).toBeUndefined();
+	});
+
+	it("reopens a closed tab when switching to it", () => {
+		const rows = {
+			"ws-1": { sidebarState: { activeTab: "files", openTabs: ["files"] } },
+		};
+
+		setWorkspaceSidebarTab(stubCollections(rows), "ws-1", "changes");
+
+		expect(rows["ws-1"].sidebarState.openTabs).toEqual(["files", "changes"]);
 	});
 
 	it("falls back to the session store for a workspace without a row", () => {

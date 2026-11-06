@@ -974,6 +974,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "{distance}前"
 
+msgid "{doneCount} of {total} done"
+msgstr "{total} 件中 {doneCount} 件完了"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {#秒間思考しました} other {#秒間思考しました}}"
 
@@ -4229,6 +4232,10 @@ msgstr "確認中…"
 msgid "Checklist"
 msgstr "チェックリスト"
 
+msgctxt "workspace sidebar tab"
+msgid "Checklist"
+msgstr "チェックリスト"
+
 msgid "Checkout: {label}"
 msgstr "チェックアウト: {label}"
 
@@ -4310,6 +4317,9 @@ msgstr "このメッセージで使うMCPサーバーを選択"
 
 msgid "Choose one"
 msgstr "選択してください"
+
+msgid "Choose tabs"
+msgstr "タブを選択"
 
 msgid "Choose the model"
 msgstr "モデルを選択"
@@ -11447,6 +11457,9 @@ msgstr "デバイスがスリープ状態ではなく、オンラインで Parad
 msgid "Make the chip style the TooltipContent default"
 msgstr "チップスタイルをTooltipContentのデフォルトにする"
 
+msgid "Make these the default tabs"
+msgstr "これらのタブをデフォルトにする"
+
 msgid "Make this page public?"
 msgstr "このページを公開しますか？"
 
@@ -12461,6 +12474,9 @@ msgstr "チャンネルがありません"
 msgid "No chats found"
 msgstr "チャットが見つかりません"
 
+msgid "No checklist yet"
+msgstr "チェックリストはまだありません"
+
 msgid "No checks"
 msgstr "チェックなし"
 
@@ -12923,6 +12939,9 @@ msgstr "この期間にスターはありません。"
 
 msgid "No Stripe customer found"
 msgstr "Stripeの顧客が見つかりません"
+
+msgid "No tabs open"
+msgstr "開いているタブはありません"
 
 msgid "no tags"
 msgstr "タグなし"
@@ -18554,6 +18573,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "安定性の改善"
 
+msgid "Stack tabs vertically"
+msgstr "タブを縦に並べる"
+
 msgid "Stacked"
 msgstr "積み重ね"
 
@@ -19493,6 +19515,9 @@ msgstr "エージェントが会話を複製し、分岐は新しいタブで開
 
 msgid "The agent crashed"
 msgstr "エージェントがクラッシュしました"
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "このワークスペースのエージェントは <0>superset ws checklist set</0> でチェックリストを管理できます"
 
 msgid "The agent is signed out"
 msgstr "エージェントがサインアウトしています"

@@ -1,8 +1,10 @@
-import { useLingui } from "@lingui/react/macro";
+import { Trans, useLingui } from "@lingui/react/macro";
+import { Button } from "@superset/ui/button";
 import { eq } from "@tanstack/db";
 import { useLiveQuery } from "@tanstack/react-db";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 import { LuFile } from "react-icons/lu";
+import { useV2UserPreferences } from "renderer/hooks/useV2UserPreferences";
 import type { OpenPullRequestPane } from "renderer/lib/github/openPullRequestLink";
 import { useWorkspaceGitStatus } from "renderer/routes/_authenticated/_dashboard/v2-workspace/$workspaceId/providers/WorkspaceGitStatusProvider";
 import { useCollections } from "renderer/routes/_authenticated/providers/CollectionsProvider";
@@ -10,18 +12,22 @@ import {
 	WORKSPACE_SIDEBAR_TABS,
 	type WorkspaceSidebarTab,
 } from "renderer/routes/_authenticated/providers/CollectionsProvider/dashboardSidebarLocal/schema";
+import { usePullRequestsTab } from "../../hooks/usePullRequestsTab";
 import { useReviewCommentNavigation } from "../../hooks/useReviewCommentNavigation";
 import { useRowlessSidebarTabStore } from "../../state/rowlessSidebarTabStore";
 import type { CommentPaneData, DiffFocusSide } from "../../types";
 import {
 	DEFAULT_WORKSPACE_SIDEBAR_TAB,
+	setWorkspaceSidebarOpenTabs,
 	setWorkspaceSidebarTab,
 } from "../../utils/setWorkspaceSidebarTab";
 import { FilesTab } from "./components/FilesTab";
 import { PRActionHeader } from "./components/PRActionHeader";
 import { SidebarHeader } from "./components/SidebarHeader";
+import { SidebarTabsMenu } from "./components/SidebarTabsMenu";
+import { StackedSidebarTabs } from "./components/StackedSidebarTabs";
 import { type SelectedDiffTarget, useChangesTab } from "./hooks/useChangesTab";
-import { usePullRequestsTab } from "./hooks/usePullRequestsTab";
+import { useChecklistTab } from "./hooks/useChecklistTab";
 import { useReviewTab } from "./hooks/useReviewTab";
 import type { SidebarTabDefinition } from "./types";
 
@@ -86,7 +92,12 @@ export function WorkspaceSidebar({
 	// Workspaces without a local row (auto-included local mains) keep their
 	// tab in the session-only fallback that setWorkspaceSidebarTab writes.
 	const rowlessTab = useRowlessSidebarTabStore((s) => s.tabs[workspaceId]);
+	const rowlessOpenTabs = useRowlessSidebarTabStore(
+		(s) => s.openTabs[workspaceId],
+	);
 	const clearRowlessTab = useRowlessSidebarTabStore((s) => s.clearTab);
+	const { preferences, setDefaultSidebarTabs, setSidebarTabsStacked } =
+		useV2UserPreferences();
 	// The live query can lag a render when the workspace switches; a row that
 	// still belongs to the previous workspace must not speak for this one.
 	const row = localState?.workspaceId === workspaceId ? localState : undefined;
@@ -94,20 +105,42 @@ export function WorkspaceSidebar({
 		row && isSidebarTabId(row.sidebarState.activeTab)
 			? row.sidebarState.activeTab
 			: (rowlessTab ?? DEFAULT_WORKSPACE_SIDEBAR_TAB);
+	const defaultTabIds = preferences.defaultSidebarTabs;
+	const openTabIds =
+		(row ? row.sidebarState.openTabs : rowlessOpenTabs) ?? defaultTabIds;
 
 	// A row created while a rowless choice is pending (pinning a local main)
 	// starts on the default tab: carry the choice into the row once, then
 	// drop the session entry so it can't resurface if the row goes away.
 	const hasRow = row != null;
 	useEffect(() => {
-		if (!hasRow || rowlessTab === undefined) return;
-		setWorkspaceSidebarTab(collections, workspaceId, rowlessTab);
+		if (!hasRow) return;
+		if (rowlessTab === undefined && rowlessOpenTabs === undefined) return;
+		if (rowlessOpenTabs)
+			setWorkspaceSidebarOpenTabs(collections, workspaceId, rowlessOpenTabs);
+		if (rowlessTab)
+			setWorkspaceSidebarTab(collections, workspaceId, rowlessTab);
 		clearRowlessTab(workspaceId);
-	}, [hasRow, rowlessTab, collections, workspaceId, clearRowlessTab]);
+	}, [
+		hasRow,
+		rowlessTab,
+		rowlessOpenTabs,
+		collections,
+		workspaceId,
+		clearRowlessTab,
+	]);
 
 	function setActiveTab(tab: string) {
 		if (!isSidebarTabId(tab)) return;
 		setWorkspaceSidebarTab(collections, workspaceId, tab);
+	}
+
+	function closeTab(tab: string) {
+		setWorkspaceSidebarOpenTabs(
+			collections,
+			workspaceId,
+			openTabIds.filter((id) => id !== tab),
+		);
 	}
 
 	const containerRef = useRef<HTMLDivElement>(null);
@@ -139,6 +172,8 @@ export function WorkspaceSidebar({
 		onOpenPullRequest,
 	});
 
+	const checklistTab = useChecklistTab({ workspaceId });
+
 	const filesTab: SidebarTabDefinition = {
 		id: "files",
 		label: t({ message: "Files" }),
@@ -155,13 +190,33 @@ export function WorkspaceSidebar({
 		),
 	};
 
-	const tabs: SidebarTabDefinition[] = [
+	const allTabs: SidebarTabDefinition[] = [
 		filesTab,
 		changesTab,
 		reviewTab,
 		pullRequestsTab,
+		checklistTab,
 	];
+	const tabs = allTabs.filter((tab) =>
+		(openTabIds as readonly string[]).includes(tab.id),
+	);
 	const activeTabDef = tabs.find((t) => t.id === activeTab) ?? tabs[0];
+	const isDefault =
+		openTabIds.length === defaultTabIds.length &&
+		openTabIds.every((id) => defaultTabIds.includes(id));
+
+	const stacked = preferences.sidebarTabsStacked && tabs.length > 0;
+	const tabsMenu = (
+		<SidebarTabsMenu
+			tabs={allTabs}
+			openTabIds={openTabIds}
+			onToggleTab={(id, open) => (open ? setActiveTab(id) : closeTab(id))}
+			onSaveAsDefault={() => setDefaultSidebarTabs(openTabIds)}
+			isDefault={isDefault}
+			stacked={preferences.sidebarTabsStacked}
+			onStackedChange={setSidebarTabsStacked}
+		/>
+	);
 
 	const tabCount = tabs.length;
 	useEffect(() => {
@@ -185,14 +240,44 @@ export function WorkspaceSidebar({
 			className="isolate flex h-full w-full min-h-0 flex-col overflow-hidden bg-background"
 		>
 			<PRActionHeader runButton={runButton} />
-			<SidebarHeader
-				tabs={tabs}
-				activeTab={activeTabDef?.id ?? activeTab}
-				onTabChange={setActiveTab}
-				compact={compact}
-			/>
+			{!stacked && (
+				<SidebarHeader
+					tabs={tabs}
+					activeTab={activeTabDef?.id ?? activeTab}
+					onTabChange={setActiveTab}
+					compact={compact}
+					onCloseTab={closeTab}
+					tabsMenu={tabsMenu}
+				/>
+			)}
 			<div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
-				{activeTabDef?.content}
+				{stacked ? (
+					<StackedSidebarTabs
+						tabs={tabs}
+						onCloseTab={closeTab}
+						tabsMenu={tabsMenu}
+					/>
+				) : (
+					activeTabDef?.content
+				)}
+				{!activeTabDef && (
+					<div className="flex flex-1 flex-col items-center justify-center gap-3 p-4 text-muted-foreground text-xs">
+						<Trans>No tabs open</Trans>
+						<div className="flex flex-wrap justify-center gap-1.5">
+							{allTabs.map((tab) => (
+								<Button
+									key={tab.id}
+									variant="outline"
+									size="sm"
+									onClick={() => setActiveTab(tab.id)}
+								>
+									{tab.icon && <tab.icon className="size-3.5" />}
+									{tab.label}
+								</Button>
+							))}
+						</div>
+					</div>
+				)}
 			</div>
 		</div>
 	);

@@ -974,6 +974,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "vor {distance}"
 
+msgid "{doneCount} of {total} done"
+msgstr "{doneCount} von {total} erledigt"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {# Sekunde nachgedacht} other {# Sekunden nachgedacht}}"
 
@@ -4229,6 +4232,10 @@ msgstr "Wird geprüft…"
 msgid "Checklist"
 msgstr "Checkliste"
 
+msgctxt "workspace sidebar tab"
+msgid "Checklist"
+msgstr "Checkliste"
+
 msgid "Checkout: {label}"
 msgstr "Checkout: {label}"
 
@@ -4310,6 +4317,9 @@ msgstr "MCP-Server für diese Nachricht wählen"
 
 msgid "Choose one"
 msgstr "Auswählen"
+
+msgid "Choose tabs"
+msgstr "Tabs auswählen"
 
 msgid "Choose the model"
 msgstr "Modell auswählen"
@@ -11447,6 +11457,9 @@ msgstr "Stelle sicher, dass das Gerät wach und online ist und Paradev darauf l�
 msgid "Make the chip style the TooltipContent default"
 msgstr "Den Chip-Stil zum TooltipContent-Standard machen"
 
+msgid "Make these the default tabs"
+msgstr "Diese Tabs als Standard festlegen"
+
 msgid "Make this page public?"
 msgstr "Diese Seite öffentlich machen?"
 
@@ -12461,6 +12474,9 @@ msgstr "Keine Kanäle"
 msgid "No chats found"
 msgstr "Keine Chats gefunden"
 
+msgid "No checklist yet"
+msgstr "Noch keine Checkliste"
+
 msgid "No checks"
 msgstr "Keine Prüfungen"
 
@@ -12923,6 +12939,9 @@ msgstr "Keine Stars in diesem Zeitraum."
 
 msgid "No Stripe customer found"
 msgstr "Kein Stripe-Kunde gefunden"
+
+msgid "No tabs open"
+msgstr "Keine Tabs geöffnet"
 
 msgid "no tags"
 msgstr "keine Tags"
@@ -18554,6 +18573,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "Stabilitätsverbesserungen"
 
+msgid "Stack tabs vertically"
+msgstr "Tabs vertikal stapeln"
+
 msgid "Stacked"
 msgstr "Gestapelt"
 
@@ -19493,6 +19515,9 @@ msgstr "Der Agent kopiert die Unterhaltung; der Zweig öffnet sich in einem neue
 
 msgid "The agent crashed"
 msgstr "Der Agent ist abgestürzt"
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "Der Agent in diesem Arbeitsbereich kann eine mit <0>superset ws checklist set</0> führen"
 
 msgid "The agent is signed out"
 msgstr "Der Agent ist abgemeldet"

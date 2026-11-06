@@ -974,6 +974,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "{distance}前"
 
+msgid "{doneCount} of {total} done"
+msgstr "已完成 {doneCount}/{total}"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {思考了#秒} other {思考了#秒}}"
 
@@ -4229,6 +4232,10 @@ msgstr "正在檢查…"
 msgid "Checklist"
 msgstr "清單"
 
+msgctxt "workspace sidebar tab"
+msgid "Checklist"
+msgstr "清單"
+
 msgid "Checkout: {label}"
 msgstr "簽出：{label}"
 
@@ -4310,6 +4317,9 @@ msgstr "為這則訊息選擇MCP伺服器"
 
 msgid "Choose one"
 msgstr "請選擇"
+
+msgid "Choose tabs"
+msgstr "選擇分頁"
 
 msgid "Choose the model"
 msgstr "選擇模型"
@@ -11447,6 +11457,9 @@ msgstr "請確認裝置未進入睡眠模式、已連上網路且正在執行 Pa
 msgid "Make the chip style the TooltipContent default"
 msgstr "把chip樣式設為TooltipContent的預設樣式"
 
+msgid "Make these the default tabs"
+msgstr "將這些分頁設為預設"
+
 msgid "Make this page public?"
 msgstr "公開此頁面？"
 
@@ -12461,6 +12474,9 @@ msgstr "沒有頻道"
 msgid "No chats found"
 msgstr "找不到聊天"
 
+msgid "No checklist yet"
+msgstr "還沒有清單"
+
 msgid "No checks"
 msgstr "無檢查"
 
@@ -12923,6 +12939,9 @@ msgstr "此區間內沒有星標。"
 
 msgid "No Stripe customer found"
 msgstr "未找到Stripe客戶"
+
+msgid "No tabs open"
+msgstr "沒有開啟的分頁"
 
 msgid "no tags"
 msgstr "無標籤"
@@ -18554,6 +18573,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "穩定性改進"
 
+msgid "Stack tabs vertically"
+msgstr "垂直堆疊分頁"
+
 msgid "Stacked"
 msgstr "堆疊"
 
@@ -19493,6 +19515,9 @@ msgstr "代理複製該對話，分支在新分頁中開啟"
 
 msgid "The agent crashed"
 msgstr "代理當機了"
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "此工作區中的代理程式可以用 <0>superset ws checklist set</0> 維護清單"
 
 msgid "The agent is signed out"
 msgstr "代理程式已登出"

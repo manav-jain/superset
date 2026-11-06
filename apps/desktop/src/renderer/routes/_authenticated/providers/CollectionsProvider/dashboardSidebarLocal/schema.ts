@@ -182,11 +182,20 @@ export const WORKSPACE_SIDEBAR_TABS = [
 	"files",
 	"review",
 	"pull-requests",
+	"checklist",
 ] as const;
 
 const WORKSPACE_SIDEBAR_TAB_SCHEMA = z.enum(WORKSPACE_SIDEBAR_TABS);
 
 export type WorkspaceSidebarTab = (typeof WORKSPACE_SIDEBAR_TABS)[number];
+
+/** Known tabs only, each once; null when `value` is not an array. */
+export function sanitizeSidebarTabs(
+	value: unknown,
+): WorkspaceSidebarTab[] | null {
+	if (!Array.isArray(value)) return null;
+	return WORKSPACE_SIDEBAR_TABS.filter((tab) => value.includes(tab));
+}
 
 export const workspaceLocalStateSchema = z.object({
 	workspaceId: z.string().uuid(),
@@ -204,6 +213,8 @@ export const workspaceLocalStateSchema = z.object({
 		sectionId: z.string().min(1).nullable().default(null),
 		changesFilter: changesFilterSchema.default({ kind: "all" }),
 		activeTab: WORKSPACE_SIDEBAR_TAB_SCHEMA.default("changes"),
+		// Null = the user's default tabs (v2UserPreferences.defaultSidebarTabs).
+		openTabs: z.array(WORKSPACE_SIDEBAR_TAB_SCHEMA).nullable().default(null),
 		isHidden: z.boolean().default(false),
 		// Epoch ms when the user pinned this workspace to the sidebar's Pinned
 		// section; null = not pinned. Ordering is pinnedAt ascending.
@@ -272,6 +283,7 @@ const SIDEBAR_STATE_DEFAULTS = {
 	sectionId: null,
 	changesFilter: { kind: "all" },
 	activeTab: "changes",
+	openTabs: null,
 	isHidden: false,
 	pinnedAt: null,
 	suppressedPullRequestUrl: null,
@@ -520,6 +532,10 @@ export const v2UserPreferencesSchema = z.object({
 	rightSidebarOpen: z.boolean().default(true),
 	rightSidebarTab: z.enum(["changes", "files"]).default("changes"),
 	rightSidebarWidth: z.number().default(340),
+	defaultSidebarTabs: z
+		.array(WORKSPACE_SIDEBAR_TAB_SCHEMA)
+		.default([...WORKSPACE_SIDEBAR_TABS]),
+	sidebarTabsStacked: z.boolean().default(false),
 	rightPaneAreaWidth: z.number().optional(),
 	changesFileListWidth: z.number().optional(),
 	deleteLocalBranch: z.boolean().default(false),
@@ -565,6 +581,8 @@ export const DEFAULT_V2_USER_PREFERENCES: V2UserPreferencesRow = {
 	rightSidebarOpen: true,
 	rightSidebarTab: "changes",
 	rightSidebarWidth: 340,
+	defaultSidebarTabs: [...WORKSPACE_SIDEBAR_TABS],
+	sidebarTabsStacked: false,
 	deleteLocalBranch: false,
 	showPresetsBar: true,
 	changesViewMode: "folders",
@@ -621,6 +639,7 @@ export function healWorkspaceLocalState(raw: unknown): WorkspaceLocalStateRow {
 			activeTab: WORKSPACE_SIDEBAR_TAB_SCHEMA.catch("changes").parse(
 				sidebar.activeTab,
 			),
+			openTabs: sanitizeSidebarTabs(sidebar.openTabs),
 		} as WorkspaceLocalStateRow["sidebarState"],
 	} as WorkspaceLocalStateRow;
 }
@@ -667,6 +686,9 @@ export function healV2UserPreferences(raw: unknown): V2UserPreferencesRow {
 			...DEFAULT_V2_USER_PREFERENCES.folderLinks,
 			...r.folderLinks,
 		},
+		defaultSidebarTabs:
+			sanitizeSidebarTabs(r.defaultSidebarTabs) ??
+			DEFAULT_V2_USER_PREFERENCES.defaultSidebarTabs,
 		sidebarProjectSortMode: persistedSidebarProjectSortModeSchema.parse(
 			r.sidebarProjectSortMode,
 		),

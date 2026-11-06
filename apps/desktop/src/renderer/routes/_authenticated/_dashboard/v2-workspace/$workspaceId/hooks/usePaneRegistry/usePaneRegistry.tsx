@@ -19,6 +19,7 @@ import {
 	GitPullRequest,
 	GitPullRequestArrow,
 	Globe,
+	ListChecks,
 	MessageSquare,
 	Monitor,
 	Plus,
@@ -53,6 +54,7 @@ import { getV2NotificationSourcesForPane } from "renderer/stores/v2-notification
 import type { StoreApi } from "zustand/vanilla";
 import { RightPaneNewTab } from "../../components/RightPaneNewTab";
 import { V2NotificationStatusIndicator } from "../../components/V2NotificationStatusIndicator";
+import { WorkspaceChecklist } from "../../components/WorkspaceChecklist";
 import {
 	getDocument,
 	useSharedFileDocument,
@@ -81,6 +83,7 @@ import {
 	focusTerminalPane,
 } from "../../utils/focusTerminalPane";
 import { openPagePaneInStore } from "../../utils/openPagePaneInStore";
+import { openPullRequestPaneInStore } from "../../utils/openPullRequestPaneInStore";
 import { replaceNewTabPane } from "../../utils/replaceNewTabPane";
 import { useAgentSessionLauncher } from "../useAgentSessionLauncher";
 import type { OpenReviewDiff } from "../useReviewCommentNavigation";
@@ -116,6 +119,7 @@ import { PagesListPaneTitle } from "./components/PagesListPaneTitle";
 import { PendingCloudChatPane } from "./components/PendingCloudChatPane";
 import { PullRequestPane } from "./components/PullRequestPane";
 import { PullRequestPaneHeaderExtras } from "./components/PullRequestPane/components/PullRequestPaneHeaderExtras";
+import { PullRequestsListPane } from "./components/PullRequestsListPane";
 import { ReviewPane } from "./components/ReviewPane";
 import { SubagentPane } from "./components/SubagentPane";
 import { TerminalPaneHeaderExtras } from "./components/TerminalPane/components/TerminalPaneHeaderExtras";
@@ -814,6 +818,25 @@ export function usePaneRegistry({
 						onSearch={onSearch}
 					/>
 				),
+			},
+			"pull-requests": {
+				getIcon: () => <GitPullRequest className="size-3.5" />,
+				getTitle: () => t({ message: "Pull requests" }),
+				renderPane: (ctx: RendererContext<PaneViewerData>) => (
+					<PullRequestsListPane
+						workspaceId={workspaceId}
+						onOpenPullRequest={(ref) =>
+							openPullRequestPaneInStore(ctx.store, ref, "tab")
+						}
+					/>
+				),
+			},
+			checklist: {
+				keepAlive: true,
+				getIcon: () => <ListChecks className="size-3.5" />,
+				getTitle: () =>
+					t({ message: "Checklist", context: "workspace sidebar tab" }),
+				renderPane: () => <WorkspaceChecklist workspaceId={workspaceId} />,
 			},
 			"changes-list": {
 				getIcon: () => <Files className="size-3.5" />,

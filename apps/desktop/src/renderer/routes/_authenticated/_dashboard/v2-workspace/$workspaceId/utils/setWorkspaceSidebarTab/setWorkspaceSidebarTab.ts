@@ -1,5 +1,9 @@
 import type { useCollections } from "renderer/routes/_authenticated/providers/CollectionsProvider";
-import type { WorkspaceSidebarTab } from "renderer/routes/_authenticated/providers/CollectionsProvider/dashboardSidebarLocal/schema";
+import {
+	DEFAULT_V2_USER_PREFERENCES,
+	V2_USER_PREFERENCES_ID,
+	type WorkspaceSidebarTab,
+} from "renderer/routes/_authenticated/providers/CollectionsProvider/dashboardSidebarLocal/schema";
 import { useRowlessSidebarTabStore } from "../../state/rowlessSidebarTabStore";
 
 type Collections = ReturnType<typeof useCollections>;
@@ -24,8 +28,41 @@ export function getWorkspaceSidebarTab(
 	);
 }
 
+export function getDefaultSidebarTabs(
+	collections: Collections,
+): WorkspaceSidebarTab[] {
+	return (
+		collections.v2UserPreferences.get(V2_USER_PREFERENCES_ID)
+			?.defaultSidebarTabs ?? DEFAULT_V2_USER_PREFERENCES.defaultSidebarTabs
+	);
+}
+
+function openTabsWith(
+	collections: Collections,
+	openTabs: WorkspaceSidebarTab[] | null | undefined,
+	tab: WorkspaceSidebarTab,
+): WorkspaceSidebarTab[] | null {
+	const current = openTabs ?? getDefaultSidebarTabs(collections);
+	return current.includes(tab) ? null : [...current, tab];
+}
+
+/** Set which tabs a workspace's right sidebar shows. */
+export function setWorkspaceSidebarOpenTabs(
+	collections: Collections,
+	workspaceId: string,
+	tabs: WorkspaceSidebarTab[],
+): void {
+	if (!collections.v2WorkspaceLocalState.get(workspaceId)) {
+		useRowlessSidebarTabStore.getState().setOpenTabs(workspaceId, tabs);
+		return;
+	}
+	collections.v2WorkspaceLocalState.update(workspaceId, (draft) => {
+		draft.sidebarState.openTabs = tabs;
+	});
+}
+
 /**
- * Switch a workspace's right-sidebar tab. The sidebar reads its active tab
+ * Switch a workspace's right-sidebar tab, reopening it if it was closed. The sidebar reads its active tab
  * from per-workspace local state (not the global v2 preferences row), so
  * every flow that surfaces a tab's content — a file reveal, opening Changes,
  * the tab strip itself — writes here. An auto-included local `main`
@@ -39,10 +76,23 @@ export function setWorkspaceSidebarTab(
 	tab: WorkspaceSidebarTab,
 ): void {
 	if (!collections.v2WorkspaceLocalState.get(workspaceId)) {
-		useRowlessSidebarTabStore.getState().setTab(workspaceId, tab);
+		const store = useRowlessSidebarTabStore.getState();
+		store.setTab(workspaceId, tab);
+		const openTabs = openTabsWith(
+			collections,
+			store.openTabs[workspaceId],
+			tab,
+		);
+		if (openTabs) store.setOpenTabs(workspaceId, openTabs);
 		return;
 	}
 	collections.v2WorkspaceLocalState.update(workspaceId, (draft) => {
 		draft.sidebarState.activeTab = tab;
+		const openTabs = openTabsWith(
+			collections,
+			draft.sidebarState.openTabs,
+			tab,
+		);
+		if (openTabs) draft.sidebarState.openTabs = openTabs;
 	});
 }

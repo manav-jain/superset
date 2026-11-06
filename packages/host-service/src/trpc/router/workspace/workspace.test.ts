@@ -54,3 +54,29 @@ describe("workspace.update parentWorkspaceId", () => {
 		expect(messages.at(-1)?.workspace?.parentWorkspaceId).toBeNull();
 	});
 });
+
+describe("workspace checklist", () => {
+	it("replaces the list and refuses a write based on a stale read", async () => {
+		const { caller } = createCaller();
+		expect(await caller.checklist({ id: MASTER })).toEqual({
+			items: [],
+			updatedAt: null,
+		});
+
+		const items = [
+			{ text: "Ship", done: false, children: [{ text: "Merge", done: true }] },
+		];
+		const saved = await caller.setChecklist({ id: MASTER, items });
+		expect(await caller.checklist({ id: MASTER })).toEqual(saved);
+
+		await expect(
+			caller.setChecklist({ id: MASTER, items: [], baseUpdatedAt: null }),
+		).rejects.toThrow("changed since it was read");
+		await caller.setChecklist({
+			id: MASTER,
+			items: [],
+			baseUpdatedAt: saved.updatedAt,
+		});
+		expect((await caller.checklist({ id: MASTER })).items).toEqual([]);
+	});
+});

@@ -3,7 +3,7 @@ import { useRowlessSidebarTabStore } from "./rowlessSidebarTabStore";
 
 describe("useRowlessSidebarTabStore", () => {
 	beforeEach(() => {
-		useRowlessSidebarTabStore.setState({ tabs: {} });
+		useRowlessSidebarTabStore.setState({ tabs: {}, openTabs: {} });
 	});
 
 	it("clears one workspace's entry and leaves the others", () => {
