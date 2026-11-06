@@ -1,8 +1,8 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "09acb008-049f-490f-8cc9-9a5cd06d13bc",
-  "prevId": "fefea3af-3326-40ef-9cd7-ecd4cd140af5",
+  "id": "fefea3af-3326-40ef-9cd7-ecd4cd140af5",
+  "prevId": "2872f560-198a-46ee-82e0-024a6fc50ad8",
   "tables": {
     "host_agent_configs": {
       "name": "host_agent_configs",
@@ -807,52 +807,6 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "workspace_checklists": {
-      "name": "workspace_checklists",
-      "columns": {
-        "workspace_id": {
-          "name": "workspace_id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "items_json": {
-          "name": "items_json",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "'[]'"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "workspace_checklists_workspace_id_workspaces_id_fk": {
-          "name": "workspace_checklists_workspace_id_workspaces_id_fk",
-          "tableFrom": "workspace_checklists",
-          "tableTo": "workspaces",
-          "columnsFrom": [
-            "workspace_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
     "workspace_pull_requests": {
       "name": "workspace_pull_requests",
       "columns": {
@@ -1232,6 +1186,97 @@
         }
       },
       "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "mobile_last_devices": {
+      "name": "mobile_last_devices",
+      "columns": {
+        "workspace_id": {
+          "name": "workspace_id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "platform": {
+          "name": "platform",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "device_key": {
+          "name": "device_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "picked_at": {
+          "name": "picked_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "mobile_last_devices_workspace_id_workspaces_id_fk": {
+          "name": "mobile_last_devices_workspace_id_workspaces_id_fk",
+          "tableFrom": "mobile_last_devices",
+          "tableTo": "workspaces",
+          "columnsFrom": [
+            "workspace_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "mobile_owned_devices": {
+      "name": "mobile_owned_devices",
+      "columns": {
+        "platform": {
+          "name": "platform",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "device_key": {
+          "name": "device_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "booted_at": {
+          "name": "booted_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "mobile_owned_devices_platform_device_key_pk": {
+          "columns": [
+            "platform",
+            "device_key"
+          ],
+          "name": "mobile_owned_devices_platform_device_key_pk"
+        }
+      },
       "uniqueConstraints": {},
       "checkConstraints": {}
     }
