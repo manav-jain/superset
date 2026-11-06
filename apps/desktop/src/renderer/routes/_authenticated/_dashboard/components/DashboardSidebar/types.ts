@@ -72,6 +72,10 @@ export interface DashboardSidebarWorkspace {
 	pullRequestLinks?: DashboardSidebarPullRequestLink[];
 	isPinned: boolean;
 	pendingTransaction: WorkspaceTransactionSnapshot | null;
+	/** Whether the signed-in user created it; null when the host doesn't say. */
+	isMine: boolean | null;
+	/** A cloud sandbox still being made, or one that failed; null otherwise. */
+	sandboxStatus: "provisioning" | "failed" | null;
 }
 
 /**
@@ -137,6 +141,11 @@ export interface DashboardSidebarProject {
 	updatedAt: Date;
 	isCollapsed: boolean;
 	children: DashboardSidebarProjectChild[];
+	/**
+	 * A `cloud-repo` project stands in for a GitHub repo that no host has a
+	 * checkout of; it exists only to hold that repo's cloud workspaces.
+	 */
+	kind?: "cloud-repo";
 }
 
 export type DashboardSidebarGithubHoldReason =
@@ -152,4 +161,13 @@ export interface DashboardSidebarGithubStatus {
 	reason: DashboardSidebarGithubHoldReason;
 	since: number;
 	until: number;
+	/** What the failing call reported. Absent from hosts older than the field. */
+	detail?: string;
+}
+
+export interface DashboardSidebarGithubHold
+	extends DashboardSidebarGithubStatus {
+	machineId: string;
+	hostName: string | null;
+	isLocalHost: boolean;
 }
