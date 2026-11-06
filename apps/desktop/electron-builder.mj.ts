@@ -10,6 +10,7 @@ import { join } from "node:path";
 import type { Configuration } from "electron-builder";
 import baseConfig from "./electron-builder";
 import pkg from "./package.json";
+import { localizeMacDisplayName } from "./scripts/localize-display-name";
 
 // No "Superset (…)": upstream cleanup deletes app data dirs of that shape.
 const productName = "Superset MJ";
@@ -18,6 +19,8 @@ const config: Configuration = {
 	...baseConfig,
 	appId: "com.superset.desktop.mj",
 	productName,
+	// The base config localizes the official display name into the bundle.
+	afterPack: localizeMacDisplayName(productName),
 	// Electron names the app (and its userData dir and single-instance lock)
 	// from the packaged package.json, not from this config.
 	extraMetadata: { ...baseConfig.extraMetadata, productName },
