@@ -1,19 +1,21 @@
-import { describe, expect, test } from "bun:test";
-import { desktopWorkspaceLink } from "./open-url";
+import { expect, test } from "bun:test";
+import { env } from "./env";
+import { desktopWorkspaceLink, workspaceLinks } from "./open-url";
 
-describe("desktopWorkspaceLink", () => {
-	test("links to the desktop app that owns the CLI's home", () => {
-		expect(desktopWorkspaceLink("ws-1", "/Users/me/.superset")).toBe(
-			"superset://v2-workspace/ws-1",
-		);
-		expect(desktopWorkspaceLink("ws-1", "/Users/me/.superset-mj")).toBe(
-			"superset-mj://v2-workspace/ws-1",
-		);
-		expect(desktopWorkspaceLink("ws-1", "/repo/superset-dev-data")).toBe(
-			"superset://v2-workspace/ws-1",
-		);
-		expect(desktopWorkspaceLink("ws-1", undefined)).toBe(
-			"superset://v2-workspace/ws-1",
-		);
-	});
+test("workspaceLinks gives the deep link and the web handoff link on SUPERSET_WEB_URL", () => {
+	const id = "b502bf30-8693-4815-be65-795035e0ce5f";
+	const { url, webUrl } = workspaceLinks(id);
+	expect(url).toBe(`superset://v2-workspace/${id}`);
+	const web = new URL(webUrl);
+	expect(web.origin).toBe(new URL(env.SUPERSET_WEB_URL).origin);
+	expect(web.pathname).toBe(`/workspaces/${id}`);
+});
+
+test("desktopWorkspaceLink opens the desktop app that owns the CLI's home", () => {
+	const link = (homeDir: string) => desktopWorkspaceLink("ws-1", { homeDir });
+	expect(link("/Users/me/.superset")).toBe("superset://v2-workspace/ws-1");
+	expect(link("/Users/me/.superset-mj")).toBe(
+		"superset-mj://v2-workspace/ws-1",
+	);
+	expect(link("/repo/superset-dev-data")).toBe("superset://v2-workspace/ws-1");
 });
