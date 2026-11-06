@@ -14,12 +14,14 @@ export function WorkspaceChecklist({ workspaceId }: { workspaceId: string }) {
 
 	if (!checklist?.items.length) {
 		return (
-			<div className="flex flex-1 flex-col items-center justify-center gap-1 p-4 text-center text-muted-foreground text-xs">
+			<div className="flex h-full w-full min-w-0 flex-1 flex-col items-center justify-center gap-1 p-4 text-center text-muted-foreground text-xs">
 				<Trans>No checklist yet</Trans>
-				<span className="text-[11px]">
+				<span className="max-w-full break-words text-[11px]">
 					<Trans>
 						The agent in this workspace can keep one with{" "}
-						<code>superset ws checklist set</code>
+						<code className="whitespace-normal break-words">
+							superset ws checklist set
+						</code>
 					</Trans>
 				</span>
 			</div>
@@ -50,7 +52,7 @@ export function WorkspaceChecklist({ workspaceId }: { workspaceId: string }) {
 	}
 
 	return (
-		<div className="flex min-h-0 flex-1 flex-col overflow-y-auto p-2 text-xs">
+		<div className="flex h-full min-h-0 w-full min-w-0 flex-1 flex-col overflow-y-auto p-2 text-xs">
 			<div className="px-1.5 pb-1 text-muted-foreground">
 				<Trans>
 					{doneCount} of {total} done

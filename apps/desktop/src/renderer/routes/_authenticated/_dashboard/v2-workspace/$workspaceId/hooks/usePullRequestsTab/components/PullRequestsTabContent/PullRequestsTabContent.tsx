@@ -73,7 +73,7 @@ export function PullRequestsTabContent({
 	};
 
 	return (
-		<div className="flex h-full min-h-0 flex-col">
+		<div className="flex h-full min-h-0 w-full min-w-0 flex-col">
 			<div className="min-h-0 flex-1 overflow-y-auto py-1">
 				{linkedCount === 0 ? (
 					<div className="flex flex-col items-center gap-1.5 px-4 py-8 text-center">
