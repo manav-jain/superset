@@ -12,6 +12,7 @@ import {
 	WORKSPACE_SIDEBAR_TABS,
 	type WorkspaceSidebarTab,
 } from "renderer/routes/_authenticated/providers/CollectionsProvider/dashboardSidebarLocal/schema";
+import { usePullRequestsTab } from "../../hooks/usePullRequestsTab";
 import { useReviewCommentNavigation } from "../../hooks/useReviewCommentNavigation";
 import { useRowlessSidebarTabStore } from "../../state/rowlessSidebarTabStore";
 import type { CommentPaneData, DiffFocusSide } from "../../types";
@@ -27,7 +28,6 @@ import { SidebarTabsMenu } from "./components/SidebarTabsMenu";
 import { StackedSidebarTabs } from "./components/StackedSidebarTabs";
 import { type SelectedDiffTarget, useChangesTab } from "./hooks/useChangesTab";
 import { useChecklistTab } from "./hooks/useChecklistTab";
-import { usePullRequestsTab } from "./hooks/usePullRequestsTab";
 import { useReviewTab } from "./hooks/useReviewTab";
 import type { SidebarTabDefinition } from "./types";
 

@@ -3,8 +3,8 @@ import { workspaceTrpc } from "@superset/workspace-client";
 import { useMemo } from "react";
 import { LuGitPullRequest } from "react-icons/lu";
 import type { PullRequestRef } from "renderer/lib/github/pullRequestRef";
-import { collectWorkspaceTree } from "../../../../utils/collectWorkspaceTree";
-import type { SidebarTabDefinition } from "../../types";
+import type { SidebarTabDefinition } from "../../components/WorkspaceSidebar/types";
+import { collectWorkspaceTree } from "../../utils/collectWorkspaceTree";
 import { PullRequestsTabContent } from "./components/PullRequestsTabContent";
 import type { PullRequestSection } from "./types";
 

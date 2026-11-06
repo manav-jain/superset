@@ -7,6 +7,7 @@ import {
 	LuFileDiff,
 	LuFileText,
 	LuFolderTree,
+	LuGitPullRequest,
 	LuListChecks,
 } from "react-icons/lu";
 import { TbDeviceDesktop, TbDeviceMobile, TbWorld } from "react-icons/tb";
@@ -54,6 +55,11 @@ const RIGHT_PANE_OPTIONS: RightPaneOption[] = [
 	{ kind: "files", label: msg({ message: "Files" }), Icon: LuFolderTree },
 	{ kind: "pages-list", label: msg({ message: "Pages" }), Icon: LuFileText },
 	{
+		kind: "pull-requests",
+		label: msg({ message: "Pull requests" }),
+		Icon: LuGitPullRequest,
+	},
+	{
 		kind: "checklist",
 		label: msg({ message: "Checklist", context: "workspace sidebar tab" }),
 		Icon: LuListChecks,
@@ -88,6 +94,7 @@ export function createRightPane(
 	switch (kind) {
 		case "files":
 		case "pages-list":
+		case "pull-requests":
 		case "checklist":
 		case "desktop":
 		case "mobile":
