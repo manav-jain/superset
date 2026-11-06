@@ -10,6 +10,7 @@ import {
 } from "react-icons/lu";
 import type { pullRequestClickProps } from "renderer/lib/github/pullRequestClickProps";
 import { PRIcon } from "renderer/screens/main/components/PRIcon";
+import { usePullRequestCounts } from "../../../../../usePullRequestCounts";
 import type { WorkspacePullRequest } from "../../../../types";
 
 interface PullRequestLinkRowProps {
@@ -30,6 +31,10 @@ export function PullRequestLinkRow({
 	onUnlink,
 }: PullRequestLinkRowProps) {
 	const { t } = useLingui();
+	const { additions, deletions } = usePullRequestCounts({
+		repoFullName: `${pullRequest.repoOwner}/${pullRequest.repoName}`,
+		number: pullRequest.number,
+	});
 	const utils = workspaceTrpc.useUtils();
 	const refresh = workspaceTrpc.pullRequests.refreshPullRequests.useMutation({
 		onSettled: () => utils.pullRequests.historyByWorkspaces.invalidate(),
@@ -66,6 +71,12 @@ export function PullRequestLinkRow({
 					{pullRequest.title}
 				</span>
 			</button>
+			{additions !== undefined && deletions !== undefined && (
+				<span className="shrink-0 font-mono text-[11px] tabular-nums">
+					<span className="text-emerald-500">+{additions}</span>{" "}
+					<span className="text-destructive">−{deletions}</span>
+				</span>
+			)}
 			{checks && (
 				<checks.icon className={cn("size-3 shrink-0", checks.className)} />
 			)}
