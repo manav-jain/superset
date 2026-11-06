@@ -373,6 +373,10 @@
 			"types": "./src/workspace-tags.ts",
 			"default": "./src/workspace-tags.ts"
 		},
+		"./workspace-checklist": {
+			"types": "./src/workspace-checklist.ts",
+			"default": "./src/workspace-checklist.ts"
+		},
 		"./workspace-attachments": {
 			"types": "./src/workspace-attachments.ts",
 			"default": "./src/workspace-attachments.ts"

@@ -16,6 +16,8 @@ interface SidebarTabsMenuProps {
 	onToggleTab: (id: string, open: boolean) => void;
 	onSaveAsDefault: () => void;
 	isDefault: boolean;
+	stacked: boolean;
+	onStackedChange: (stacked: boolean) => void;
 }
 
 export function SidebarTabsMenu({
@@ -24,6 +26,8 @@ export function SidebarTabsMenu({
 	onToggleTab,
 	onSaveAsDefault,
 	isDefault,
+	stacked,
+	onStackedChange,
 }: SidebarTabsMenuProps) {
 	const { t } = useLingui();
 	return (
@@ -50,6 +54,12 @@ export function SidebarTabsMenu({
 					</DropdownMenuCheckboxItem>
 				))}
 				<DropdownMenuSeparator />
+				<DropdownMenuCheckboxItem
+					checked={stacked}
+					onCheckedChange={onStackedChange}
+				>
+					<Trans>Stack tabs vertically</Trans>
+				</DropdownMenuCheckboxItem>
 				<DropdownMenuItem disabled={isDefault} onSelect={onSaveAsDefault}>
 					<Trans>Make these the default tabs</Trans>
 				</DropdownMenuItem>

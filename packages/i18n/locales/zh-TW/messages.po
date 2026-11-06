@@ -974,6 +974,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "{distance}前"
 
+msgid "{doneCount} of {total} done"
+msgstr "已完成 {doneCount}/{total}"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {思考了#秒} other {思考了#秒}}"
 
@@ -4226,6 +4229,10 @@ msgstr "正在檢查..."
 msgid "Checking…"
 msgstr "正在檢查…"
 
+msgid "Checklist"
+msgstr "清單"
+
+msgctxt "workspace sidebar tab"
 msgid "Checklist"
 msgstr "清單"
 
@@ -12470,6 +12477,9 @@ msgstr "沒有頻道"
 msgid "No chats found"
 msgstr "找不到聊天"
 
+msgid "No checklist yet"
+msgstr "還沒有清單"
+
 msgid "No checks"
 msgstr "無檢查"
 
@@ -18554,6 +18564,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "穩定性改進"
 
+msgid "Stack tabs vertically"
+msgstr "垂直堆疊分頁"
+
 msgid "Stacked"
 msgstr "堆疊"
 
@@ -19493,6 +19506,9 @@ msgstr "代理複製該對話，分支在新分頁中開啟"
 
 msgid "The agent crashed"
 msgstr "代理當機了"
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "此工作區中的代理程式可以用 <0>superset ws checklist set</0> 維護清單"
 
 msgid "The agent is signed out"
 msgstr "代理程式已登出"

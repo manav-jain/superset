@@ -974,6 +974,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "{distance} geleden"
 
+msgid "{doneCount} of {total} done"
+msgstr "{doneCount} van {total} klaar"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {# seconde nagedacht} other {# seconden nagedacht}}"
 
@@ -4226,6 +4229,10 @@ msgstr "Controleren..."
 msgid "Checking…"
 msgstr "Controleren…"
 
+msgid "Checklist"
+msgstr "Checklist"
+
+msgctxt "workspace sidebar tab"
 msgid "Checklist"
 msgstr "Checklist"
 
@@ -12470,6 +12477,9 @@ msgstr "Geen kanalen"
 msgid "No chats found"
 msgstr "Geen chats gevonden"
 
+msgid "No checklist yet"
+msgstr "Nog geen checklist"
+
 msgid "No checks"
 msgstr "Geen checks"
 
@@ -18554,6 +18564,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "Stabiliteitsverbeteringen"
 
+msgid "Stack tabs vertically"
+msgstr "Tabbladen verticaal stapelen"
+
 msgid "Stacked"
 msgstr "Gestapeld"
 
@@ -19493,6 +19506,9 @@ msgstr "De agent kopieert het gesprek; de aftakking opent in een nieuw tabblad"
 
 msgid "The agent crashed"
 msgstr "De agent is gecrasht"
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "De agent in deze werkruimte kan er een bijhouden met <0>superset ws checklist set</0>"
 
 msgid "The agent is signed out"
 msgstr "De agent is uitgelogd"

@@ -182,6 +182,7 @@ export const WORKSPACE_SIDEBAR_TABS = [
 	"files",
 	"review",
 	"pull-requests",
+	"checklist",
 ] as const;
 
 const WORKSPACE_SIDEBAR_TAB_SCHEMA = z.enum(WORKSPACE_SIDEBAR_TABS);
@@ -540,6 +541,7 @@ export const v2UserPreferencesSchema = z.object({
 	defaultSidebarTabs: z
 		.array(WORKSPACE_SIDEBAR_TAB_SCHEMA)
 		.default([...WORKSPACE_SIDEBAR_TABS]),
+	sidebarTabsStacked: z.boolean().default(false),
 	rightPaneAreaWidth: z.number().optional(),
 	changesFileListWidth: z.number().optional(),
 	deleteLocalBranch: z.boolean().default(false),
@@ -588,6 +590,7 @@ export const DEFAULT_V2_USER_PREFERENCES: V2UserPreferencesRow = {
 	rightSidebarTab: "changes",
 	rightSidebarWidth: 340,
 	defaultSidebarTabs: [...WORKSPACE_SIDEBAR_TABS],
+	sidebarTabsStacked: false,
 	deleteLocalBranch: false,
 	showPresetsBar: true,
 	changesViewMode: "folders",

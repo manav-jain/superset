@@ -974,6 +974,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "{distance} temu"
 
+msgid "{doneCount} of {total} done"
+msgstr "Ukończono {doneCount} z {total}"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {Myślał # sekundę} few {Myślał # sekundy} many {Myślał # sekund} other {Myślał # sekundy}}"
 
@@ -4228,6 +4231,10 @@ msgstr "Sprawdzanie…"
 
 msgid "Checklist"
 msgstr "Lista zadań"
+
+msgctxt "workspace sidebar tab"
+msgid "Checklist"
+msgstr "Lista kontrolna"
 
 msgid "Checkout: {label}"
 msgstr "Checkout: {label}"
@@ -12470,6 +12477,9 @@ msgstr "Brak kanałów"
 msgid "No chats found"
 msgstr "Nie znaleziono czatów"
 
+msgid "No checklist yet"
+msgstr "Brak listy kontrolnej"
+
 msgid "No checks"
 msgstr "Brak kontroli"
 
@@ -18554,6 +18564,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "Poprawki stabilności"
 
+msgid "Stack tabs vertically"
+msgstr "Układaj karty pionowo"
+
 msgid "Stacked"
 msgstr "Ułożone w stos"
 
@@ -19493,6 +19506,9 @@ msgstr "Agent kopiuje rozmowę; gałąź otworzy się w nowej karcie"
 
 msgid "The agent crashed"
 msgstr "Agent uległ awarii"
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "Agent w tym obszarze roboczym może ją prowadzić poleceniem <0>superset ws checklist set</0>"
 
 msgid "The agent is signed out"
 msgstr "Agent jest wylogowany"

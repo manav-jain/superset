@@ -974,6 +974,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "{distance}前"
 
+msgid "{doneCount} of {total} done"
+msgstr "{total} 件中 {doneCount} 件完了"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {#秒間思考しました} other {#秒間思考しました}}"
 
@@ -4226,6 +4229,10 @@ msgstr "確認中..."
 msgid "Checking…"
 msgstr "確認中…"
 
+msgid "Checklist"
+msgstr "チェックリスト"
+
+msgctxt "workspace sidebar tab"
 msgid "Checklist"
 msgstr "チェックリスト"
 
@@ -12470,6 +12477,9 @@ msgstr "チャンネルがありません"
 msgid "No chats found"
 msgstr "チャットが見つかりません"
 
+msgid "No checklist yet"
+msgstr "チェックリストはまだありません"
+
 msgid "No checks"
 msgstr "チェックなし"
 
@@ -18554,6 +18564,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "安定性の改善"
 
+msgid "Stack tabs vertically"
+msgstr "タブを縦に並べる"
+
 msgid "Stacked"
 msgstr "積み重ね"
 
@@ -19493,6 +19506,9 @@ msgstr "エージェントが会話を複製し、分岐は新しいタブで開
 
 msgid "The agent crashed"
 msgstr "エージェントがクラッシュしました"
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "このワークスペースのエージェントは <0>superset ws checklist set</0> でチェックリストを管理できます"
 
 msgid "The agent is signed out"
 msgstr "エージェントがサインアウトしています"

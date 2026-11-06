@@ -974,6 +974,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "{distance} lalu"
 
+msgid "{doneCount} of {total} done"
+msgstr "{doneCount} dari {total} selesai"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {Berpikir # detik} other {Berpikir # detik}}"
 
@@ -4228,6 +4231,10 @@ msgstr "Memeriksa…"
 
 msgid "Checklist"
 msgstr "Daftar centang"
+
+msgctxt "workspace sidebar tab"
+msgid "Checklist"
+msgstr "Daftar periksa"
 
 msgid "Checkout: {label}"
 msgstr "Checkout: {label}"
@@ -12470,6 +12477,9 @@ msgstr "Tidak ada saluran"
 msgid "No chats found"
 msgstr "Tidak ada obrolan ditemukan"
 
+msgid "No checklist yet"
+msgstr "Belum ada daftar periksa"
+
 msgid "No checks"
 msgstr "Tidak ada check"
 
@@ -18554,6 +18564,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "Peningkatan stabilitas"
 
+msgid "Stack tabs vertically"
+msgstr "Tumpuk tab secara vertikal"
+
 msgid "Stacked"
 msgstr "Bertumpuk"
 
@@ -19493,6 +19506,9 @@ msgstr "Agen menyalin percakapan; cabang terbuka di tab baru"
 
 msgid "The agent crashed"
 msgstr "Agen mengalami crash"
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "Agen di workspace ini dapat membuatnya dengan <0>superset ws checklist set</0>"
 
 msgid "The agent is signed out"
 msgstr "Agen sudah keluar"

@@ -974,6 +974,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "{distance} ago"
 
+msgid "{doneCount} of {total} done"
+msgstr "{doneCount} of {total} done"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 
@@ -4226,6 +4229,10 @@ msgstr "Checking..."
 msgid "Checking…"
 msgstr "Checking…"
 
+msgid "Checklist"
+msgstr "Checklist"
+
+msgctxt "workspace sidebar tab"
 msgid "Checklist"
 msgstr "Checklist"
 
@@ -12470,6 +12477,9 @@ msgstr "No channels"
 msgid "No chats found"
 msgstr "No chats found"
 
+msgid "No checklist yet"
+msgstr "No checklist yet"
+
 msgid "No checks"
 msgstr "No checks"
 
@@ -18554,6 +18564,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "Stability improvements"
 
+msgid "Stack tabs vertically"
+msgstr "Stack tabs vertically"
+
 msgid "Stacked"
 msgstr "Stacked"
 
@@ -19493,6 +19506,9 @@ msgstr "The agent copies the conversation; the branch opens in a new tab"
 
 msgid "The agent crashed"
 msgstr "The agent crashed"
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
 
 msgid "The agent is signed out"
 msgstr "The agent is signed out"

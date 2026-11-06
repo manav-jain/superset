@@ -428,3 +428,11 @@ export const mobileLastDevices = sqliteTable("mobile_last_devices", {
 	deviceKey: text("device_key").notNull(),
 	pickedAt: integer("picked_at").notNull(),
 });
+
+export const workspaceChecklists = sqliteTable("workspace_checklists", {
+	workspaceId: text("workspace_id")
+		.primaryKey()
+		.references(() => workspaces.id, { onDelete: "cascade" }),
+	itemsJson: text("items_json").notNull().default("[]"),
+	updatedAt: integer("updated_at").notNull(),
+});

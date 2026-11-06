@@ -974,6 +974,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "před {distance}"
 
+msgid "{doneCount} of {total} done"
+msgstr "Hotovo {doneCount} z {total}"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {Přemýšlel # sekundu} few {Přemýšlel # sekundy} many {Přemýšlel # sekundy} other {Přemýšlel # sekund}}"
 
@@ -4228,6 +4231,10 @@ msgstr "Kontroluji…"
 
 msgid "Checklist"
 msgstr "Zaškrtávací seznam"
+
+msgctxt "workspace sidebar tab"
+msgid "Checklist"
+msgstr "Kontrolní seznam"
 
 msgid "Checkout: {label}"
 msgstr "Checkout: {label}"
@@ -12470,6 +12477,9 @@ msgstr "Žádné kanály"
 msgid "No chats found"
 msgstr "Nebyly nalezeny žádné chaty"
 
+msgid "No checklist yet"
+msgstr "Zatím žádný kontrolní seznam"
+
 msgid "No checks"
 msgstr "Žádné kontroly"
 
@@ -18554,6 +18564,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "Vylepšení stability"
 
+msgid "Stack tabs vertically"
+msgstr "Skládat karty svisle"
+
 msgid "Stacked"
 msgstr "Nad sebou"
 
@@ -19493,6 +19506,9 @@ msgstr "Agent zkopíruje konverzaci; větev se otevře na nové kartě"
 
 msgid "The agent crashed"
 msgstr "Agent spadl"
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "Agent v tomto pracovním prostoru ho může vést pomocí <0>superset ws checklist set</0>"
 
 msgid "The agent is signed out"
 msgstr "Agent je odhlášený"

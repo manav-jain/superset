@@ -974,6 +974,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "{distance} önce"
 
+msgid "{doneCount} of {total} done"
+msgstr "{total} öğeden {doneCount} tanesi tamamlandı"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {# saniye düşündü} other {# saniye düşündü}}"
 
@@ -4226,6 +4229,10 @@ msgstr "Denetleniyor..."
 msgid "Checking…"
 msgstr "Denetleniyor…"
 
+msgid "Checklist"
+msgstr "Kontrol listesi"
+
+msgctxt "workspace sidebar tab"
 msgid "Checklist"
 msgstr "Kontrol listesi"
 
@@ -12470,6 +12477,9 @@ msgstr "Kanal yok"
 msgid "No chats found"
 msgstr "Sohbet bulunamadı"
 
+msgid "No checklist yet"
+msgstr "Henüz kontrol listesi yok"
+
 msgid "No checks"
 msgstr "Kontrol yok"
 
@@ -18554,6 +18564,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "Kararlılık iyileştirmeleri"
 
+msgid "Stack tabs vertically"
+msgstr "Sekmeleri dikey olarak yığ"
+
 msgid "Stacked"
 msgstr "Üst üste"
 
@@ -19493,6 +19506,9 @@ msgstr "Aracı konuşmayı kopyalar; çatal yeni bir sekmede açılır"
 
 msgid "The agent crashed"
 msgstr "Ajan çöktü"
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "Bu çalışma alanındaki ajan <0>superset ws checklist set</0> ile bir liste tutabilir"
 
 msgid "The agent is signed out"
 msgstr "Ajanın oturumu kapalı"

@@ -974,6 +974,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "{distance} trước"
 
+msgid "{doneCount} of {total} done"
+msgstr "Đã xong {doneCount}/{total}"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {Đã suy nghĩ # giây} other {Đã suy nghĩ # giây}}"
 
@@ -4228,6 +4231,10 @@ msgstr "Đang kiểm tra…"
 
 msgid "Checklist"
 msgstr "Danh sách kiểm"
+
+msgctxt "workspace sidebar tab"
+msgid "Checklist"
+msgstr "Danh sách kiểm tra"
 
 msgid "Checkout: {label}"
 msgstr "Checkout: {label}"
@@ -12470,6 +12477,9 @@ msgstr "Không có kênh nào"
 msgid "No chats found"
 msgstr "Không tìm thấy cuộc trò chuyện"
 
+msgid "No checklist yet"
+msgstr "Chưa có danh sách kiểm tra"
+
 msgid "No checks"
 msgstr "Không có check"
 
@@ -18554,6 +18564,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "Cải thiện độ ổn định"
 
+msgid "Stack tabs vertically"
+msgstr "Xếp các tab theo chiều dọc"
+
 msgid "Stacked"
 msgstr "Xếp chồng"
 
@@ -19493,6 +19506,9 @@ msgstr "Tác nhân sao chép hội thoại; nhánh mở trong một thẻ mới"
 
 msgid "The agent crashed"
 msgstr "Agent đã gặp sự cố"
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "Agent trong workspace này có thể duy trì danh sách bằng <0>superset ws checklist set</0>"
 
 msgid "The agent is signed out"
 msgstr "Agent đã đăng xuất"
