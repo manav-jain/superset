@@ -83,6 +83,7 @@ import {
 	focusTerminalPane,
 } from "../../utils/focusTerminalPane";
 import { openPagePaneInStore } from "../../utils/openPagePaneInStore";
+import { openPullRequestPaneInStore } from "../../utils/openPullRequestPaneInStore";
 import { replaceNewTabPane } from "../../utils/replaceNewTabPane";
 import { useAgentSessionLauncher } from "../useAgentSessionLauncher";
 import type { OpenReviewDiff } from "../useReviewCommentNavigation";
@@ -118,6 +119,7 @@ import { PagesListPaneTitle } from "./components/PagesListPaneTitle";
 import { PendingCloudChatPane } from "./components/PendingCloudChatPane";
 import { PullRequestPane } from "./components/PullRequestPane";
 import { PullRequestPaneHeaderExtras } from "./components/PullRequestPane/components/PullRequestPaneHeaderExtras";
+import { PullRequestsListPane } from "./components/PullRequestsListPane";
 import { ReviewPane } from "./components/ReviewPane";
 import { SubagentPane } from "./components/SubagentPane";
 import { TerminalPaneHeaderExtras } from "./components/TerminalPane/components/TerminalPaneHeaderExtras";
@@ -814,6 +816,18 @@ export function usePaneRegistry({
 						context={ctx}
 						workspaceId={workspaceId}
 						onSearch={onSearch}
+					/>
+				),
+			},
+			"pull-requests": {
+				getIcon: () => <GitPullRequest className="size-3.5" />,
+				getTitle: () => t({ message: "Pull requests" }),
+				renderPane: (ctx: RendererContext<PaneViewerData>) => (
+					<PullRequestsListPane
+						workspaceId={workspaceId}
+						onOpenPullRequest={(ref) =>
+							openPullRequestPaneInStore(ctx.store, ref, "tab")
+						}
 					/>
 				),
 			},
