@@ -16,6 +16,8 @@ export interface DashboardSidebarActions
 	extends Pick<
 		DashboardSidebarState,
 		| "createSection"
+		| "createThreadSection"
+		| "moveThreadWorkspaceToSection"
 		| "moveWorkspaceToSection"
 		| "setSectionColor"
 		| "setWorkspacePinned"
@@ -46,6 +48,10 @@ export function DashboardSidebarActionsProvider({
 	const actions = useMemo<DashboardSidebarActions>(
 		() => ({
 			createSection: (...args) => latest.current.state.createSection(...args),
+			createThreadSection: (...args) =>
+				latest.current.state.createThreadSection(...args),
+			moveThreadWorkspaceToSection: (...args) =>
+				latest.current.state.moveThreadWorkspaceToSection(...args),
 			moveWorkspaceToSection: (...args) =>
 				latest.current.state.moveWorkspaceToSection(...args),
 			setSectionColor: (...args) =>

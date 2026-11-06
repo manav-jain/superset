@@ -55,3 +55,11 @@ export function filterDashboardSidebarProjectsByHost(
 		return [{ ...project, children }];
 	});
 }
+
+/** One lane's children (the Threads list) through the same filter. */
+export function filterDashboardSidebarChildrenByHost(
+	children: DashboardSidebarProjectChild[],
+	filter: SidebarProjectHostFilter,
+): DashboardSidebarProjectChild[] {
+	return filter === "all" ? children : filterChildren(children, filter);
+}

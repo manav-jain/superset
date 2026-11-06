@@ -6,16 +6,19 @@ import { useProjectTagFolderSections } from "../../../../../../hooks/useProjectT
 
 interface MoveToGroupItemsProps {
 	projectId: string | null;
+	/** Threads view: the folders of the one cross-repo list. */
+	threads?: boolean;
 	onMoveToSection: (sectionId: string) => void;
 }
 
 export function MoveToGroupItems({
 	projectId,
+	threads,
 	onMoveToSection,
 }: MoveToGroupItemsProps) {
 	// The derived union — a tag-only folder with no stored row is a valid
 	// move target.
-	const { sections } = useProjectTagFolderSections(projectId);
+	const { sections } = useProjectTagFolderSections(projectId, { threads });
 
 	return (
 		<>

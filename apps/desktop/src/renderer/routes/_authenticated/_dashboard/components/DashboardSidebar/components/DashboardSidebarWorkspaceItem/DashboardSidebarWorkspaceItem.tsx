@@ -71,6 +71,8 @@ export function DashboardSidebarWorkspaceItem({
 		isMine,
 	} = workspace;
 	const isSessionWorkspace = workspace.type === "session";
+	// Only the Threads builder sets repoContext; there groups span every repo.
+	const isThreadsRow = workspace.repoContext !== undefined;
 	const isCloudWorkspace = hostType === "cloud";
 	const { status: workspaceStatus } = useSidebarWorkspaceStatus(id);
 	const {
@@ -100,6 +102,7 @@ export function DashboardSidebarWorkspaceItem({
 		workspaceId: id,
 		projectId,
 		isSessionWorkspace,
+		isThreadsRow,
 		isCloudWorkspace,
 		workspaceName: name,
 		branch,
@@ -267,6 +270,7 @@ export function DashboardSidebarWorkspaceItem({
 							workspaceId={id}
 							projectId={projectId}
 							isSessionWorkspace={isSessionWorkspace}
+							isThreadsRow={isThreadsRow}
 							isInSection={isInSection}
 							isUnread={isUnread}
 							hasStatus={!!workspaceStatus}
@@ -357,6 +361,7 @@ export function DashboardSidebarWorkspaceItem({
 						workspaceId={id}
 						projectId={projectId}
 						isSessionWorkspace={isSessionWorkspace}
+						isThreadsRow={isThreadsRow}
 						isInSection={isInSection}
 						isUnread={isUnread}
 						hasStatus={!!workspaceStatus}

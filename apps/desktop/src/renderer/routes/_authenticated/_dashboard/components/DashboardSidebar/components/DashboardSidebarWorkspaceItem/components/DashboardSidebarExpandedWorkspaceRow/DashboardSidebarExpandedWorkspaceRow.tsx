@@ -22,7 +22,6 @@ import { usePullRequestLinkPolicy } from "renderer/lib/clickPolicy";
 import { openPullRequestLink } from "renderer/lib/github/openPullRequestLink";
 import { useDashboardSidebarWorkspacePorts } from "renderer/routes/_authenticated/_dashboard/components/DashboardSidebar/providers/DashboardSidebarPortsProvider";
 import { navigateToV2Workspace } from "renderer/routes/_authenticated/_dashboard/utils/workspace-navigation";
-import { ProjectThumbnail } from "renderer/routes/_authenticated/components/ProjectThumbnail";
 import { getStatusTooltip } from "renderer/screens/main/components/StatusIndicator";
 import { RenameInput } from "renderer/screens/main/components/WorkspaceSidebar/RenameInput";
 import { useInlineWorkspacePortsEnabled } from "renderer/stores/inline-workspace-ports";
@@ -41,6 +40,7 @@ import { DashboardSidebarWorkspaceChips } from "./components/DashboardSidebarWor
 import { DashboardSidebarWorkspaceHostGlyph } from "./components/DashboardSidebarWorkspaceHostGlyph";
 import { DashboardSidebarWorkspaceLeadIndicator } from "./components/DashboardSidebarWorkspaceLeadIndicator";
 import { DashboardSidebarWorkspacePullRequestsBadge } from "./components/DashboardSidebarWorkspacePullRequestsBadge";
+import { getNameInitials } from "./utils/getNameInitials";
 
 const PR_STATE_LABEL: Record<
 	DashboardSidebarWorkspacePullRequest["state"],
@@ -122,6 +122,7 @@ export const DashboardSidebarExpandedWorkspaceRow = forwardRef<
 		ref,
 	) => {
 		const { t } = useLingui();
+		const repoContext = pinnedContext ?? workspace.repoContext;
 		const resolvedIndentation =
 			indentation ?? (isInSection ? "grouped" : "workspace");
 		const {
@@ -317,24 +318,20 @@ export const DashboardSidebarExpandedWorkspaceRow = forwardRef<
 						</span>
 					)}
 
-					{pinnedContext && (
+					{repoContext && (
 						<Tooltip delayDuration={500}>
 							<TooltipTrigger asChild>
-								<div className="mr-1.5 flex shrink-0 items-center">
-									<ProjectThumbnail
-										projectName={
-											pinnedContext.projectName ??
+								<span className="mr-1.5 flex size-4 shrink-0 items-center justify-center rounded-full border border-foreground/10 bg-muted text-[8px] font-semibold leading-none text-muted-foreground">
+									{getNameInitials(
+										repoContext.projectName ??
 											t({
 												message: "Session",
-											})
-										}
-										iconUrl={pinnedContext.projectIconUrl}
-										className="size-3.5 text-[8px]"
-									/>
-								</div>
+											}),
+									)}
+								</span>
 							</TooltipTrigger>
 							<TooltipContent side="right" sideOffset={8}>
-								{pinnedContext.projectName ??
+								{repoContext.projectName ??
 									t({
 										message: "Session",
 									})}

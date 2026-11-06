@@ -337,6 +337,8 @@ export interface DashboardSidebarDndValue {
 	collapsedSectionIds: Set<string>;
 	/** Rows and folders are a sorted view: their sortables are inert. */
 	isChildDragDisabled: boolean;
+	/** The Sessions lane holds every repo's rows (Threads view). */
+	isThreadsView: boolean;
 }
 
 const DashboardSidebarDndContext =
@@ -409,6 +411,11 @@ interface UseSidebarDndOptions {
 	 * land in a project.
 	 */
 	childDragDisabled?: boolean;
+	/**
+	 * Threads view: the Sessions lane holds every repo's rows. Each row's
+	 * home is that lane, and drops keep the row's projectId.
+	 */
+	threadsView?: boolean;
 }
 
 export function useSidebarDnd({
@@ -418,13 +425,21 @@ export function useSidebarDnd({
 	onReorderProjects,
 	projectDragDisabled = false,
 	childDragDisabled = false,
+	threadsView = false,
 }: UseSidebarDndOptions) {
 	const {
 		reorderPinnedWorkspaces,
 		reorderProjectChildren,
+		reorderThreadChildren,
 		setSectionWorkspaceOrder,
+		setThreadSectionWorkspaceOrder,
 		setWorkspacePinned,
 	} = useDashboardSidebarState();
+	const homeOf = useCallback(
+		(ws: DashboardSidebarWorkspace) =>
+			threadsView ? SESSIONS_CONTAINER : (ws.projectId ?? SESSIONS_CONTAINER),
+		[threadsView],
+	);
 
 	const noDragsPossible = projectDragDisabled && childDragDisabled;
 	// useSensor memoizes on the options object's identity, and this hook
@@ -651,8 +666,8 @@ export function useSidebarDnd({
 		if (!parsed) return null;
 		const ws = workspacesById.get(parsed.realId);
 		if (!ws) return null;
-		return ws.projectId ?? SESSIONS_CONTAINER;
-	}, [activeId, activeType, workspacesById]);
+		return homeOf(ws);
+	}, [activeId, activeType, workspacesById, homeOf]);
 
 	const activeItem = useMemo<SidebarDndActiveItem | null>(() => {
 		if (!activeId) return null;
@@ -784,7 +799,7 @@ export function useSidebarDnd({
 
 				const parsed = parseId(args.active.id);
 				const ws = parsed ? workspacesById.get(parsed.realId) : null;
-				const home = ws ? (ws.projectId ?? SESSIONS_CONTAINER) : null;
+				const home = ws ? homeOf(ws) : null;
 				const droppableContainers = args.droppableContainers.filter(
 					(candidate) => {
 						const container =
@@ -815,7 +830,7 @@ export function useSidebarDnd({
 
 			return closestCenter(args);
 		},
-		[typeOf, projectIds, workspacesById],
+		[typeOf, projectIds, workspacesById, homeOf],
 	);
 
 	// ── Persistence ──────────────────────────────────────────────────
@@ -828,8 +843,15 @@ export function useSidebarDnd({
 			list: UniqueIdentifier[],
 			membership: Record<string, string>,
 		) => {
-			const projectId = laneProjectIdForScope(container);
 			const parsed = parseFlatItems(list, membership);
+			if (threadsView && container === SESSIONS_CONTAINER) {
+				reorderThreadChildren(parsed.topLevel);
+				for (const [sectionId, wsIds] of Object.entries(parsed.sections)) {
+					setThreadSectionWorkspaceOrder(sectionId, wsIds);
+				}
+				return;
+			}
+			const projectId = laneProjectIdForScope(container);
 
 			// Top-level order (ungrouped workspaces + sections interleaved)
 			reorderProjectChildren(projectId, parsed.topLevel);
@@ -839,7 +861,13 @@ export function useSidebarDnd({
 				setSectionWorkspaceOrder(projectId, sectionId, wsIds);
 			}
 		},
-		[reorderProjectChildren, setSectionWorkspaceOrder],
+		[
+			threadsView,
+			reorderProjectChildren,
+			reorderThreadChildren,
+			setSectionWorkspaceOrder,
+			setThreadSectionWorkspaceOrder,
+		],
 	);
 
 	const persistWorkspaceDrop = useCallback(
@@ -1166,6 +1194,7 @@ export function useSidebarDnd({
 			groupInfo,
 			collapsedSectionIds,
 			isChildDragDisabled: childDragDisabled,
+			isThreadsView: threadsView,
 		}),
 		[
 			items,
@@ -1181,6 +1210,7 @@ export function useSidebarDnd({
 			groupInfo,
 			collapsedSectionIds,
 			childDragDisabled,
+			threadsView,
 		],
 	);
 

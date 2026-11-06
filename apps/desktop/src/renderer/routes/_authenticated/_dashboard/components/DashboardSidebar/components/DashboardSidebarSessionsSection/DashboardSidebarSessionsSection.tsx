@@ -18,6 +18,8 @@ interface DashboardSidebarSessionsSectionProps {
 	/** Every session in render order; only the collapsed rail reads it. */
 	sessionWorkspaces: DashboardSidebarWorkspace[];
 	isCollapsed?: boolean;
+	/** Threads view: the lane alone, under the Workspaces header. */
+	headerless?: boolean;
 	workspaceShortcutLabels?: Map<string, string>;
 	onWorkspaceHover: (workspaceId: string) => void | Promise<void>;
 	onDeleteSection: (sectionId: string) => void;
@@ -39,6 +41,7 @@ interface DashboardSidebarSessionsSectionProps {
 export function DashboardSidebarSessionsSection({
 	sessionWorkspaces,
 	isCollapsed = false,
+	headerless = false,
 	workspaceShortcutLabels = new Map(),
 	onWorkspaceHover,
 	onDeleteSection,
@@ -59,6 +62,21 @@ export function DashboardSidebarSessionsSection({
 		sessionItems.length === 0 &&
 		activeWorkspaceHome === SESSIONS_CONTAINER;
 
+	const lane = (
+		<DashboardSidebarExpandedProjectContent
+			containerId={SESSIONS_CONTAINER}
+			projectId={null}
+			isCollapsed={!headerless && isSectionCollapsed}
+			topLevelIndentation="top-level"
+			groupedIndentation="workspace"
+			workspaceShortcutLabels={workspaceShortcutLabels}
+			onWorkspaceHover={onWorkspaceHover}
+			onDeleteSection={onDeleteSection}
+			onRenameSection={onRenameSection}
+			onToggleSectionCollapse={onToggleSectionCollapse}
+		/>
+	);
+
 	if (isCollapsed) {
 		if (sessionWorkspaces.length === 0) return null;
 		return (
@@ -76,6 +94,8 @@ export function DashboardSidebarSessionsSection({
 			</div>
 		);
 	}
+
+	if (headerless) return lane;
 
 	return (
 		<div className="mt-3 pb-1 first:mt-0">
@@ -107,18 +127,7 @@ export function DashboardSidebarSessionsSection({
 					</TooltipContent>
 				</Tooltip>
 			</DashboardSidebarSectionHeader>
-			<DashboardSidebarExpandedProjectContent
-				containerId={SESSIONS_CONTAINER}
-				projectId={null}
-				isCollapsed={isSectionCollapsed}
-				topLevelIndentation="top-level"
-				groupedIndentation="workspace"
-				workspaceShortcutLabels={workspaceShortcutLabels}
-				onWorkspaceHover={onWorkspaceHover}
-				onDeleteSection={onDeleteSection}
-				onRenameSection={onRenameSection}
-				onToggleSectionCollapse={onToggleSectionCollapse}
-			/>
+			{lane}
 			{collapsedDropZoneEligible && (
 				<SidebarDropZone
 					dropZoneId={dropZoneId(SESSIONS_CONTAINER)}

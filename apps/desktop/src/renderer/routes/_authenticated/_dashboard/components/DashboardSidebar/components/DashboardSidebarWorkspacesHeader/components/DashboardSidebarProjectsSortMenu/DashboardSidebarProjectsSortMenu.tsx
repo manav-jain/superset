@@ -1,6 +1,7 @@
 import { useLingui } from "@lingui/react/macro";
 import {
 	DropdownMenu,
+	DropdownMenuCheckboxItem,
 	DropdownMenuContent,
 	DropdownMenuLabel,
 	DropdownMenuRadioGroup,
@@ -20,6 +21,9 @@ const SORT_MODES: SidebarProjectSortMode[] = ["manual", "active", "created"];
 const HOST_FILTERS: SidebarProjectHostFilter[] = ["all", "local", "cloud"];
 
 interface DashboardSidebarProjectsSortMenuProps {
+	/** One list for every repo, instead of one list per project. */
+	isThreadsView: boolean;
+	onGroupByRepoChange: (groupByRepo: boolean) => void;
 	sortMode: SidebarProjectSortMode;
 	onSortModeChange: (mode: SidebarProjectSortMode) => void;
 	/** Null hides the host filter (cloud rows are not inline). */
@@ -34,6 +38,8 @@ interface DashboardSidebarProjectsSortMenuProps {
  * and the (portaled, but React-bubbling) menu content both stop propagation.
  */
 export function DashboardSidebarProjectsSortMenu({
+	isThreadsView,
+	onGroupByRepoChange,
 	sortMode,
 	onSortModeChange,
 	hostFilter,
@@ -130,6 +136,15 @@ export function DashboardSidebarProjectsSortMenu({
 						})}
 					</div>
 				)}
+				<DropdownMenuSeparator />
+				<DropdownMenuCheckboxItem
+					checked={!isThreadsView}
+					onCheckedChange={(checked) => onGroupByRepoChange(checked === true)}
+				>
+					{t({
+						message: "Group by repo",
+					})}
+				</DropdownMenuCheckboxItem>
 				{hostFilter !== null && (
 					<>
 						<DropdownMenuSeparator />

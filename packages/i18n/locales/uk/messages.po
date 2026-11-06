@@ -9474,6 +9474,9 @@ msgstr "Дії з групою"
 msgid "Group by"
 msgstr "Групувати за"
 
+msgid "Group by repo"
+msgstr "Групувати за репозиторієм"
+
 msgid "Group new branches under a folder."
 msgstr "Групувати нові гілки в папці."
 
@@ -13013,6 +13016,9 @@ msgstr "Робочих просторів не знайдено."
 
 msgid "No workspaces in this project yet."
 msgstr "У цьому проєкті ще немає робочих просторів."
+
+msgid "No workspaces match \"{trimmedFilterQuery}\""
+msgstr "Немає робочих просторів, що відповідають «{trimmedFilterQuery}»"
 
 msgid "No workspaces match your filters"
 msgstr "Немає робочих просторів, що відповідають фільтрам"

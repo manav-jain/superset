@@ -33,6 +33,8 @@ import { DashboardSidebarProjectsSortMenu } from "./components/DashboardSidebarP
 import { useProjectFilterExpanded } from "./hooks/useProjectFilterExpanded";
 
 interface DashboardSidebarWorkspacesHeaderProps {
+	isThreadsView: boolean;
+	onGroupByRepoChange: (groupByRepo: boolean) => void;
 	sortMode: SidebarProjectSortMode;
 	onSortModeChange: (mode: SidebarProjectSortMode) => void;
 	/** Null hides the host filter (cloud rows are not inline). */
@@ -43,6 +45,8 @@ interface DashboardSidebarWorkspacesHeaderProps {
 }
 
 export function DashboardSidebarWorkspacesHeader({
+	isThreadsView,
+	onGroupByRepoChange,
 	sortMode,
 	onSortModeChange,
 	hostFilter,
@@ -126,9 +130,15 @@ export function DashboardSidebarWorkspacesHeader({
 
 	return (
 		<DashboardSidebarSectionHeader
-			label={t({
-				message: "Projects",
-			})}
+			label={
+				isThreadsView
+					? t({
+							message: "Workspaces",
+						})
+					: t({
+							message: "Projects",
+						})
+			}
 			section="workspaces"
 			labelHidden={isFilterExpanded}
 		>
@@ -139,6 +149,8 @@ export function DashboardSidebarWorkspacesHeader({
 				onExpandedChange={handleFilterExpandedChange}
 			/>
 			<DashboardSidebarProjectsSortMenu
+				isThreadsView={isThreadsView}
+				onGroupByRepoChange={onGroupByRepoChange}
 				sortMode={sortMode}
 				onSortModeChange={onSortModeChange}
 				hostFilter={hostFilter}

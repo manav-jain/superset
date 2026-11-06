@@ -46,6 +46,8 @@ interface DashboardSidebarWorkspaceContextMenuProps {
 	projectId: string | null;
 	/** Only sessions and project workspaces can join a group. */
 	isSessionWorkspace?: boolean;
+	/** Threads view row: groups are tags across every repo. */
+	isThreadsRow?: boolean;
 	isInSection?: boolean;
 	isLocalWorkspace: boolean;
 	/**
@@ -80,6 +82,7 @@ export function DashboardSidebarWorkspaceContextMenu({
 	workspaceId,
 	projectId,
 	isSessionWorkspace = false,
+	isThreadsRow = false,
 	isInSection,
 	isLocalWorkspace,
 	isCloudWorkspace = false,
@@ -220,6 +223,7 @@ export function DashboardSidebarWorkspaceContextMenu({
 							<ContextMenuSubContent>
 								<MoveToGroupItems
 									projectId={projectId}
+									threads={isThreadsRow}
 									onMoveToSection={onMoveToSection}
 								/>
 								<ContextMenuItem onSelect={onCreateSection}>

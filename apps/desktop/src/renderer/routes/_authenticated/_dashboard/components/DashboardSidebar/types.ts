@@ -72,6 +72,8 @@ export interface DashboardSidebarWorkspace {
 	pullRequestLinks?: DashboardSidebarPullRequestLink[];
 	isPinned: boolean;
 	pendingTransaction: WorkspaceTransactionSnapshot | null;
+	/** Set in the Threads view, where rows from every repo share one list. */
+	repoContext?: { projectName: string | null; projectIconUrl: string | null };
 	/** Whether the signed-in user created it; null when the host doesn't say. */
 	isMine: boolean | null;
 	/** A cloud sandbox still being made, or one that failed; null otherwise. */

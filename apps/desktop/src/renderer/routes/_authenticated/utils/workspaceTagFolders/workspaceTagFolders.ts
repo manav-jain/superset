@@ -168,6 +168,23 @@ export function parseSidebarFolderKey(
 }
 
 /**
+ * Folders of the Threads view's single lane: the Sessions lane's rule
+ * applied to every workspace, so each tag on any workspace is a
+ * Sessions-scope folder.
+ */
+export function deriveThreadTagFolders(
+	sections: readonly TagFolderSectionInput[],
+	workspaces: readonly TagFolderWorkspaceInput[],
+	context: TagFolderContext,
+): TagFolderSection[] {
+	return deriveTagFolders(
+		sections.filter((section) => section.projectId === SESSIONS_TAG_SCOPE),
+		workspaces.map((workspace) => ({ ...workspace, projectId: null })),
+		context,
+	);
+}
+
+/**
  * Union of stored presentation rows and tag-only folders. A folder exists
  * for every (project, tag) some workspace carries; a stored row only adds
  * presentation. Derived folders are appended per project in tag order at

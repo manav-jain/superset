@@ -78,8 +78,12 @@ import type {
 	DashboardSidebarProject,
 	DashboardSidebarWorkspace,
 } from "./types";
-import { filterDashboardSidebarProjects } from "./utils/filterDashboardSidebarProjects";
 import {
+	filterDashboardSidebarChildren,
+	filterDashboardSidebarProjects,
+} from "./utils/filterDashboardSidebarProjects";
+import {
+	filterDashboardSidebarChildrenByHost,
 	filterDashboardSidebarProjectsByHost,
 	matchesHostFilter,
 } from "./utils/filterDashboardSidebarProjectsByHost";
@@ -170,6 +174,7 @@ const DashboardSidebarContent = memo(function DashboardSidebarContent({
 	const isChannelsEnabled =
 		useFeatureFlagEnabled(FEATURE_FLAGS.CHANNELS) === true;
 	const {
+		isThreadsView,
 		groups,
 		hiddenProjects,
 		pinnedWorkspaces,
@@ -180,12 +185,14 @@ const DashboardSidebarContent = memo(function DashboardSidebarContent({
 		toggleProjectCollapsed,
 	} = useDashboardSidebarData();
 	const {
-		deleteSection,
+		deleteSection: deleteRepoSection,
+		deleteThreadSection,
 		reorderProjects,
 		renameSection,
 		setProjectHidden,
 		toggleSectionCollapsed,
 	} = useDashboardSidebarState();
+	const deleteSection = isThreadsView ? deleteThreadSection : deleteRepoSection;
 	const showHiddenProject = useCallback(
 		(projectId: string) => setProjectHidden(projectId, false),
 		[setProjectHidden],
@@ -209,6 +216,7 @@ const DashboardSidebarContent = memo(function DashboardSidebarContent({
 		preferences,
 		setSidebarProjectSortMode,
 		setSidebarProjectHostFilter,
+		setSidebarGroupByRepo,
 	} = useV2UserPreferences();
 	const sortMode = preferences.sidebarProjectSortMode;
 	// The icon rail has no control for the filter, so it rests there.
@@ -240,12 +248,15 @@ const DashboardSidebarContent = memo(function DashboardSidebarContent({
 
 	// Sort, then filter, as derived views: `orderedGroups` and the persisted
 	// tabOrder stay untouched, so Manual restores the drag order exactly.
+	// The Threads view renders every row in the Sessions lane, no project lists.
 	const sortedGroups = useMemo(
 		() =>
-			sortMode === "manual"
-				? orderedGroups
-				: sortDashboardSidebarProjects(orderedGroups, sortMode),
-		[sortMode, orderedGroups],
+			isThreadsView
+				? []
+				: sortMode === "manual"
+					? orderedGroups
+					: sortDashboardSidebarProjects(orderedGroups, sortMode),
+		[isThreadsView, sortMode, orderedGroups],
 	);
 	const hostFilteredGroups = useMemo(
 		() => filterDashboardSidebarProjectsByHost(sortedGroups, hostFilter),
@@ -273,6 +284,16 @@ const DashboardSidebarContent = memo(function DashboardSidebarContent({
 		() =>
 			filterDashboardSidebarProjects(hostFilteredGroups, projectFilterQuery),
 		[hostFilteredGroups, projectFilterQuery],
+	);
+	const displayedSessionChildren = useMemo(
+		() =>
+			isThreadsView
+				? filterDashboardSidebarChildren(
+						filterDashboardSidebarChildrenByHost(sessionChildren, hostFilter),
+						projectFilterQuery,
+					)
+				: sessionChildren,
+		[isThreadsView, sessionChildren, hostFilter, projectFilterQuery],
 	);
 	const displayedProjectIds = useMemo(
 		() => displayedGroups.map((project) => project.id),
@@ -315,8 +336,11 @@ const DashboardSidebarContent = memo(function DashboardSidebarContent({
 				ids.add(workspace.id);
 			}
 		};
-		for (const project of displayedGroups) {
-			for (const child of project.children) {
+		const lanes = isThreadsView
+			? [displayedSessionChildren]
+			: displayedGroups.map((project) => project.children);
+		for (const children of lanes) {
+			for (const child of children) {
 				if (child.type === "workspace") {
 					addWorkspace(child.workspace);
 					continue;
@@ -331,7 +355,7 @@ const DashboardSidebarContent = memo(function DashboardSidebarContent({
 			}
 		}
 		return ids;
-	}, [displayedGroups]);
+	}, [isThreadsView, displayedSessionChildren, displayedGroups]);
 
 	// Every workspace the sidebar can render (pinned, sessions, project rows) —
 	// the status provider fans out bindings queries and event subscriptions for
@@ -397,7 +421,7 @@ const DashboardSidebarContent = memo(function DashboardSidebarContent({
 			byId.set(workspace.id, {
 				id: workspace.id,
 				name: workspace.name,
-				detail: null,
+				detail: workspace.repoContext?.projectName ?? null,
 			});
 		}
 		for (const project of sortedGroups) {
@@ -484,19 +508,26 @@ const DashboardSidebarContent = memo(function DashboardSidebarContent({
 					onWorkspaceHover={refreshWorkspacePullRequest}
 				/>
 			)}
-			<DashboardSidebarSessionsSection
-				sessionWorkspaces={displayedSessionWorkspaces}
-				isCollapsed={isCollapsed}
-				workspaceShortcutLabels={workspaceShortcutLabels}
-				onWorkspaceHover={refreshWorkspacePullRequest}
-				onDeleteSection={deleteSection}
-				onRenameSection={renameSection}
-				onToggleSectionCollapse={toggleSectionCollapsed}
-			/>
+			{(!isThreadsView || isCollapsed) && (
+				<DashboardSidebarSessionsSection
+					sessionWorkspaces={displayedSessionWorkspaces}
+					isCollapsed={isCollapsed}
+					workspaceShortcutLabels={workspaceShortcutLabels}
+					onWorkspaceHover={refreshWorkspacePullRequest}
+					onDeleteSection={deleteSection}
+					onRenameSection={renameSection}
+					onToggleSectionCollapse={toggleSectionCollapsed}
+				/>
+			)}
 			{!isCollapsed && (
 				<div className="mt-3 first:mt-0">
-					<DashboardSidebarBulkActions projects={orderedGroups}>
+					<DashboardSidebarBulkActions
+						projects={orderedGroups}
+						threadChildren={isThreadsView ? displayedSessionChildren : null}
+					>
 						<DashboardSidebarWorkspacesHeader
+							isThreadsView={isThreadsView}
+							onGroupByRepoChange={setSidebarGroupByRepo}
 							sortMode={sortMode}
 							onSortModeChange={setSidebarProjectSortMode}
 							hostFilter={isCloudEnabled ? hostFilter : null}
@@ -506,6 +537,17 @@ const DashboardSidebarContent = memo(function DashboardSidebarContent({
 						/>
 					</DashboardSidebarBulkActions>
 				</div>
+			)}
+			{isThreadsView && !isCollapsed && !workspacesListCollapsed && (
+				<DashboardSidebarSessionsSection
+					headerless
+					sessionWorkspaces={displayedSessionWorkspaces}
+					workspaceShortcutLabels={workspaceShortcutLabels}
+					onWorkspaceHover={refreshWorkspacePullRequest}
+					onDeleteSection={deleteSection}
+					onRenameSection={renameSection}
+					onToggleSectionCollapse={toggleSectionCollapsed}
+				/>
 			)}
 			{(isCollapsed || !workspacesListCollapsed) && (
 				<SortableContext
@@ -531,17 +573,25 @@ const DashboardSidebarContent = memo(function DashboardSidebarContent({
 					onShow={showHiddenProject}
 				/>
 			)}
-			{!isCollapsed && isFilterActive && displayedGroups.length === 0 && (
-				<div className="select-text cursor-text px-4 py-2 text-xs text-muted-foreground">
-					{trimmedFilterQuery !== ""
-						? t({
-								message: `No projects match "${trimmedFilterQuery}"`,
-							})
-						: hostFilter === "cloud"
-							? t({ message: "No cloud workspaces" })
-							: t({ message: "No local workspaces" })}
-				</div>
-			)}
+			{!isCollapsed &&
+				isFilterActive &&
+				(isThreadsView
+					? displayedSessionChildren.length === 0
+					: displayedGroups.length === 0) && (
+					<div className="select-text cursor-text px-4 py-2 text-xs text-muted-foreground">
+						{trimmedFilterQuery !== ""
+							? isThreadsView
+								? t({
+										message: `No workspaces match "${trimmedFilterQuery}"`,
+									})
+								: t({
+										message: `No projects match "${trimmedFilterQuery}"`,
+									})
+							: hostFilter === "cloud"
+								? t({ message: "No cloud workspaces" })
+								: t({ message: "No local workspaces" })}
+					</div>
+				)}
 		</>
 	);
 	const cardSlot = (
@@ -580,12 +630,13 @@ const DashboardSidebarContent = memo(function DashboardSidebarContent({
 							<DashboardSidebarDndProvider
 								projects={displayedGroups}
 								pinnedWorkspaces={pinnedWorkspaces}
-								sessionChildren={sessionChildren}
+								sessionChildren={displayedSessionChildren}
 								isSidebarCollapsed={isCollapsed}
 								workspaceShortcutLabels={workspaceShortcutLabels}
 								onReorderProjects={handleReorderProjects}
 								isProjectDragDisabled={isProjectDragDisabled}
 								isChildDragDisabled={isChildDragDisabled}
+								isThreadsView={isThreadsView}
 							>
 								{isParadevShell ? (
 									!isCollapsed && (
