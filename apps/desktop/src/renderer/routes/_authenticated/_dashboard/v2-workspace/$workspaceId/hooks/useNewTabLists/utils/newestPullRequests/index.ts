@@ -1,1 +1,4 @@
-export { newestPullRequests } from "./newestPullRequests";
+export {
+	newestPullRequests,
+	newestPullRequestsAcrossWorkspaces,
+} from "./newestPullRequests";

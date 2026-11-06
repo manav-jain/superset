@@ -1,8 +1,10 @@
 import { useLingui } from "@lingui/react/macro";
-import { workspaceTrpc } from "@superset/workspace-client";
 import { LuListChecks } from "react-icons/lu";
+import {
+	useWorkspaceChecklist,
+	WorkspaceChecklist,
+} from "../../../WorkspaceChecklist";
 import type { SidebarTabDefinition } from "../../types";
-import { ChecklistTabContent } from "./components/ChecklistTabContent";
 
 /** The checklist the workspace's agent keeps with `superset ws checklist set`. */
 export function useChecklistTab({
@@ -11,10 +13,7 @@ export function useChecklistTab({
 	workspaceId: string;
 }): SidebarTabDefinition {
 	const { t } = useLingui();
-	const { data } = workspaceTrpc.workspace.checklist.useQuery(
-		{ id: workspaceId },
-		{ refetchInterval: 3_000, refetchOnWindowFocus: true },
-	);
+	const { data } = useWorkspaceChecklist(workspaceId);
 	const openCount = (data?.items ?? [])
 		.flatMap((item) => [item, ...item.children])
 		.filter((entry) => !entry.done).length;
@@ -24,6 +23,6 @@ export function useChecklistTab({
 		label: t({ message: "Checklist", context: "workspace sidebar tab" }),
 		icon: LuListChecks,
 		badge: openCount > 0 ? openCount : undefined,
-		content: <ChecklistTabContent workspaceId={workspaceId} checklist={data} />,
+		content: <WorkspaceChecklist workspaceId={workspaceId} />,
 	};
 }

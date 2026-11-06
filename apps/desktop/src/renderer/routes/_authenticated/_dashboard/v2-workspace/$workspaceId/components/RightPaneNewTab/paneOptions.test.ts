@@ -12,6 +12,7 @@ describe("getRightPaneOptions", () => {
 			"diff",
 			"files",
 			"pages-list",
+			"checklist",
 			"desktop",
 			"mobile",
 		]);
@@ -36,6 +37,7 @@ describe("createRightPane", () => {
 			"diff",
 			"files",
 			"pages-list",
+			"checklist",
 			"desktop",
 			"mobile",
 		]);

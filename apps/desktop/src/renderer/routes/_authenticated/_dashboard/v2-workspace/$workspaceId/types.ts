@@ -148,6 +148,10 @@ export interface ReviewPaneData {
 	kind: "review";
 }
 
+export interface ChecklistPaneData {
+	kind: "checklist";
+}
+
 export interface PagesListPaneData {
 	kind: "pages-list";
 	page?: PagePaneData;
@@ -215,5 +219,6 @@ export type PaneViewerData =
 	| ChangesListPaneData
 	| ReviewPaneData
 	| PagesListPaneData
+	| ChecklistPaneData
 	| NewTabPaneData
 	| SubagentPaneData;

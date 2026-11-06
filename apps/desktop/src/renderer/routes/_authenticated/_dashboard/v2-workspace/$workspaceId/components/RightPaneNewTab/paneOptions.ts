@@ -3,7 +3,12 @@ import { msg } from "@lingui/core/macro";
 import type { CreatePaneInput } from "@superset/panes";
 import type { IconType } from "react-icons";
 import { BsTerminalPlus } from "react-icons/bs";
-import { LuFileDiff, LuFileText, LuFolderTree } from "react-icons/lu";
+import {
+	LuFileDiff,
+	LuFileText,
+	LuFolderTree,
+	LuListChecks,
+} from "react-icons/lu";
 import { TbDeviceDesktop, TbDeviceMobile, TbWorld } from "react-icons/tb";
 import type { HotkeyId } from "renderer/hotkeys";
 import type {
@@ -49,6 +54,11 @@ const RIGHT_PANE_OPTIONS: RightPaneOption[] = [
 	{ kind: "files", label: msg({ message: "Files" }), Icon: LuFolderTree },
 	{ kind: "pages-list", label: msg({ message: "Pages" }), Icon: LuFileText },
 	{
+		kind: "checklist",
+		label: msg({ message: "Checklist", context: "workspace sidebar tab" }),
+		Icon: LuListChecks,
+	},
+	{
 		kind: "desktop",
 		label: msg({ message: "Desktop" }),
 		Icon: TbDeviceDesktop,
@@ -78,6 +88,7 @@ export function createRightPane(
 	switch (kind) {
 		case "files":
 		case "pages-list":
+		case "checklist":
 		case "desktop":
 		case "mobile":
 			return { kind, data: { kind } };
