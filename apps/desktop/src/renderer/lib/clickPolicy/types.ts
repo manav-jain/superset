@@ -10,6 +10,7 @@ export interface ModifierEvent {
 	metaKey: boolean;
 	ctrlKey: boolean;
 	shiftKey: boolean;
+	button?: number;
 }
 
 /**
