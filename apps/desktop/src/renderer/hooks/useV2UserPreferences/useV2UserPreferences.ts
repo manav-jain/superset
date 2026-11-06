@@ -8,6 +8,7 @@ import {
 	type FolderTierMap,
 	type LinkAction,
 	type LinkTierMap,
+	type SidebarProjectHostFilter,
 	type SidebarProjectSortMode,
 	V2_USER_PREFERENCES_ID,
 	type V2UserPreferencesRow,
@@ -25,12 +26,14 @@ export interface V2UserPreferencesApi {
 	setRightSidebarOpen: (next: boolean | ((prev: boolean) => boolean)) => void;
 	setRightSidebarWidth: (next: number) => void;
 	setRightPaneAreaWidth: (next: number) => void;
+	setChangesFileListWidth: (next: number) => void;
 	setDeleteLocalBranch: (next: boolean) => void;
 	setShowPresetsBar: (next: boolean | ((prev: boolean) => boolean)) => void;
 	toggleShowPresetsBar: () => void;
 	setChangesViewMode: (next: ChangesViewMode) => void;
 	setDefaultSidebarTabs: (next: WorkspaceSidebarTab[]) => void;
 	setSidebarProjectSortMode: (next: SidebarProjectSortMode) => void;
+	setSidebarProjectHostFilter: (next: SidebarProjectHostFilter) => void;
 	setBuiltinPresetHidden: (presetId: string, hidden: boolean) => void;
 	/** Hide/show a tag folder in one project without touching anyone's tags. */
 	setTagFolderHidden: (projectId: string, tag: string, hidden: boolean) => void;
@@ -190,6 +193,25 @@ export function useV2UserPreferences(): V2UserPreferencesApi {
 		[collections],
 	);
 
+	const setChangesFileListWidth = useCallback(
+		(next: number) => {
+			const existing = collections.v2UserPreferences.get(
+				V2_USER_PREFERENCES_ID,
+			);
+			if (!existing) {
+				collections.v2UserPreferences.insert({
+					...DEFAULT_V2_USER_PREFERENCES,
+					changesFileListWidth: next,
+				});
+				return;
+			}
+			collections.v2UserPreferences.update(V2_USER_PREFERENCES_ID, (draft) => {
+				draft.changesFileListWidth = next;
+			});
+		},
+		[collections],
+	);
+
 	const setDeleteLocalBranch = useCallback(
 		(next: boolean) => {
 			const existing = collections.v2UserPreferences.get(
@@ -294,6 +316,25 @@ export function useV2UserPreferences(): V2UserPreferencesApi {
 		[collections],
 	);
 
+	const setSidebarProjectHostFilter = useCallback(
+		(next: SidebarProjectHostFilter) => {
+			const existing = collections.v2UserPreferences.get(
+				V2_USER_PREFERENCES_ID,
+			);
+			if (!existing) {
+				collections.v2UserPreferences.insert({
+					...DEFAULT_V2_USER_PREFERENCES,
+					sidebarProjectHostFilter: next,
+				});
+				return;
+			}
+			collections.v2UserPreferences.update(V2_USER_PREFERENCES_ID, (draft) => {
+				draft.sidebarProjectHostFilter = next;
+			});
+		},
+		[collections],
+	);
+
 	const setBuiltinPresetHidden = useCallback(
 		(presetId: string, hidden: boolean) => {
 			const existing = collections.v2UserPreferences.get(
@@ -369,12 +410,14 @@ export function useV2UserPreferences(): V2UserPreferencesApi {
 		setRightSidebarOpen,
 		setRightSidebarWidth,
 		setRightPaneAreaWidth,
+		setChangesFileListWidth,
 		setDeleteLocalBranch,
 		setShowPresetsBar,
 		toggleShowPresetsBar,
 		setChangesViewMode,
 		setDefaultSidebarTabs,
 		setSidebarProjectSortMode,
+		setSidebarProjectHostFilter,
 		setBuiltinPresetHidden,
 		setTagFolderHidden,
 	};
