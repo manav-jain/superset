@@ -1,4 +1,5 @@
 import { spawn } from "node:child_process";
+import { basename } from "node:path";
 import { env } from "./env";
 
 /**
@@ -15,11 +16,21 @@ export function canReachDesktop(): boolean {
 	);
 }
 
+/**
+ * The desktop app whose home this CLI uses: a build named `<name>` keeps its
+ * home in `~/.superset-<name>` and answers `superset-<name>://`.
+ */
 export function desktopWorkspaceLink(
 	workspaceId: string,
-	options?: { sessionId?: string },
+	options?: { sessionId?: string; homeDir?: string },
 ): string {
-	const base = `superset://v2-workspace/${workspaceId}`;
+	const home = basename(
+		options?.homeDir ?? process.env.SUPERSET_HOME_DIR ?? "",
+	);
+	const scheme = /^\.superset-[a-z0-9-]+$/.test(home)
+		? home.slice(1)
+		: "superset";
+	const base = `${scheme}://v2-workspace/${workspaceId}`;
 	if (!options?.sessionId) return base;
 	const params = new URLSearchParams({ sessionId: options.sessionId });
 	return `${base}?${params.toString()}`;
