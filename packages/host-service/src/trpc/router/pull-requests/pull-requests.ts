@@ -112,6 +112,17 @@ export const pullRequestsRouter = router({
 			);
 			return { ok: true };
 		}),
+	/** Re-fetch linked PRs from GitHub by id (from `historyByWorkspaces`). */
+	refreshPullRequests: protectedProcedure
+		.input(
+			z.object({
+				pullRequestIds: z.array(z.string()),
+			}),
+		)
+		.mutation(async ({ ctx, input }) => {
+			await ctx.runtime.pullRequests.refreshPullRequests(input.pullRequestIds);
+			return { ok: true };
+		}),
 	/** @deprecated Use the API's `integration.github.addPullRequestComment`, which acts as the viewer. Kept for released clients. */
 	addComment,
 	createForWorkspace,
