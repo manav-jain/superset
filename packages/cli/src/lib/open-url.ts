@@ -1,5 +1,6 @@
 import { spawn } from "node:child_process";
 import { basename } from "node:path";
+import { env } from "./env";
 
 /**
  * A cloud workspace sandbox ships `xdg-utils` and sets `DISPLAY`, so
@@ -21,13 +22,31 @@ export function canReachDesktop(): boolean {
  */
 export function desktopWorkspaceLink(
 	workspaceId: string,
-	homeDir = process.env.SUPERSET_HOME_DIR,
+	options?: { sessionId?: string; homeDir?: string },
 ): string {
-	const home = basename(homeDir ?? "");
+	const home = basename(
+		options?.homeDir ?? process.env.SUPERSET_HOME_DIR ?? "",
+	);
 	const scheme = /^\.superset-[a-z0-9-]+$/.test(home)
 		? home.slice(1)
 		: "superset";
-	return `${scheme}://v2-workspace/${workspaceId}`;
+	const base = `${scheme}://v2-workspace/${workspaceId}`;
+	if (!options?.sessionId) return base;
+	const params = new URLSearchParams({ sessionId: options.sessionId });
+	return `${base}?${params.toString()}`;
+}
+
+export function workspaceLinks(workspaceId: string): {
+	url: string;
+	webUrl: string;
+} {
+	return {
+		url: desktopWorkspaceLink(workspaceId),
+		webUrl: new URL(
+			`/workspaces/${workspaceId}`,
+			env.SUPERSET_WEB_URL,
+		).toString(),
+	};
 }
 
 export function openUrl(url: string): Promise<void> {

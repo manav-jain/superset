@@ -1,8 +1,10 @@
 import { useLingui } from "@lingui/react/macro";
+import { headerTabClassName } from "@superset/ui/lib/header-controls";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@superset/ui/tooltip";
 import { cn } from "@superset/ui/utils";
 import type { ReactNode } from "react";
 import { LuX } from "react-icons/lu";
+import { useParadevShell } from "renderer/hooks/useParadevShell";
 import { getSidebarHeaderTabButtonClassName } from "renderer/screens/main/components/WorkspaceView/RightSidebar/headerTabStyles";
 import type { SidebarTabDefinition } from "../../types";
 
@@ -25,10 +27,23 @@ export function SidebarHeader({
 }: SidebarHeaderProps) {
 	const { t } = useLingui();
 	const actions = tabs.find((tab) => tab.id === activeTab)?.actions;
+	const isParadevShell = useParadevShell();
 
 	return (
-		<div className="-mt-px flex h-10 shrink-0 items-stretch bg-muted/45 shadow-[inset_0_-1px_0_var(--border)] dark:bg-muted/35">
-			<div className="flex min-w-0 flex-1 items-center h-full overflow-hidden pt-1">
+		<div
+			className={
+				isParadevShell
+					? "-mt-px flex h-10 shrink-0 items-center shadow-[inset_0_-1px_0_var(--border)]"
+					: "-mt-px flex h-10 shrink-0 items-stretch bg-muted/45 shadow-[inset_0_-1px_0_var(--border)] dark:bg-muted/35"
+			}
+		>
+			<div
+				className={
+					isParadevShell
+						? "flex h-full min-w-0 flex-1 items-center gap-1 overflow-hidden px-1.5"
+						: "flex min-w-0 flex-1 items-center h-full overflow-hidden pt-1"
+				}
+			>
 				{tabs.map((tab) => {
 					const isActive = activeTab === tab.id;
 					const badge =
@@ -48,11 +63,16 @@ export function SidebarHeader({
 							}}
 							aria-label={label}
 							className={cn(
-								getSidebarHeaderTabButtonClassName({
-									isActive,
-									compact,
-									inverted: true,
-								}),
+								isParadevShell
+									? cn(
+											headerTabClassName(isActive),
+											compact ? "w-10" : "gap-1.5 px-2.5",
+										)
+									: getSidebarHeaderTabButtonClassName({
+											isActive,
+											compact,
+											inverted: true,
+										}),
 								// Size by content: equal thirds truncate "Changes 99+" to
 								// "Ch…" at the default width while "Files" sits on slack.
 								"relative min-w-0 justify-center",
