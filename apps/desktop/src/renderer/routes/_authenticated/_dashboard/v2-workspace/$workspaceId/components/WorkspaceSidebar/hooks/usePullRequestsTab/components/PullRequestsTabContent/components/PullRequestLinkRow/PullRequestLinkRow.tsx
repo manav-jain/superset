@@ -1,9 +1,11 @@
 import { useLingui } from "@lingui/react/macro";
 import { cn } from "@superset/ui/utils";
+import { workspaceTrpc } from "@superset/workspace-client";
 import {
 	LuCircleCheck,
 	LuCircleDashed,
 	LuCircleX,
+	LuRefreshCw,
 	LuUnlink,
 } from "react-icons/lu";
 import type { pullRequestClickProps } from "renderer/lib/github/pullRequestClickProps";
@@ -28,6 +30,10 @@ export function PullRequestLinkRow({
 	onUnlink,
 }: PullRequestLinkRowProps) {
 	const { t } = useLingui();
+	const utils = workspaceTrpc.useUtils();
+	const refresh = workspaceTrpc.pullRequests.refreshPullRequests.useMutation({
+		onSettled: () => utils.pullRequests.historyByWorkspaces.invalidate(),
+	});
 	const sourceLabel =
 		pullRequest.source === "created"
 			? t({ message: "Created in an agent session in this workspace" })
@@ -63,6 +69,28 @@ export function PullRequestLinkRow({
 			{checks && (
 				<checks.icon className={cn("size-3 shrink-0", checks.className)} />
 			)}
+			<button
+				type="button"
+				onClick={() => refresh.mutate({ pullRequestIds: [pullRequest.id] })}
+				disabled={refresh.isPending}
+				aria-label={t({
+					message: `Refresh pull request #${pullRequest.number}`,
+				})}
+				title={
+					refresh.error
+						? refresh.error.message
+						: t({ message: "Refresh status" })
+				}
+				className={cn(
+					"shrink-0 text-muted-foreground hover:text-foreground group-hover:flex group-focus-within:flex",
+					refresh.isPending || refresh.error ? "flex" : "hidden",
+					refresh.error && "text-destructive",
+				)}
+			>
+				<LuRefreshCw
+					className={cn("size-3", refresh.isPending && "animate-spin")}
+				/>
+			</button>
 			<button
 				type="button"
 				onClick={onUnlink}

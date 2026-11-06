@@ -1,9 +1,10 @@
 import { Trans, useLingui } from "@lingui/react/macro";
 import { Button } from "@superset/ui/button";
 import { Input } from "@superset/ui/input";
+import { cn } from "@superset/ui/utils";
 import { workspaceTrpc } from "@superset/workspace-client";
 import { useState } from "react";
-import { LuGitPullRequest } from "react-icons/lu";
+import { LuGitPullRequest, LuRefreshCw } from "react-icons/lu";
 import { pullRequestClickProps } from "renderer/lib/github/pullRequestClickProps";
 import {
 	type PullRequestRef,
@@ -33,14 +34,37 @@ export function PullRequestsTabContent({
 			void refresh();
 		},
 	});
+	const refreshBranches =
+		workspaceTrpc.pullRequests.refreshByWorkspaces.useMutation();
+	const refreshLinked =
+		workspaceTrpc.pullRequests.refreshPullRequests.useMutation();
 	const unlink = workspaceTrpc.pullRequests.unlinkPullRequest.useMutation({
 		onSuccess: () => void refresh(),
 	});
 
-	const pullRequests = sections.flatMap((section) => section.pullRequests);
+	const seen = new Set<string>();
+	const pullRequests = sections.flatMap((section) =>
+		section.pullRequests.flatMap((pullRequest) => {
+			if (seen.has(pullRequest.id)) return [];
+			seen.add(pullRequest.id);
+			return [{ pullRequest, workspaceId: section.id }];
+		}),
+	);
 	const linkedCount = pullRequests.length;
+	const isRefreshing = refreshBranches.isPending || refreshLinked.isPending;
+	const refreshError = refreshBranches.error ?? refreshLinked.error;
+	const refreshAll = () =>
+		void Promise.allSettled([
+			refreshBranches.mutateAsync({
+				workspaceIds: sections.map((section) => section.id),
+			}),
+			refreshLinked.mutateAsync({
+				pullRequestIds: pullRequests.map(({ pullRequest }) => pullRequest.id),
+			}),
+		]).then(refresh);
 	const openCount = pullRequests.filter(
-		(pr) => pr.state !== "merged" && pr.state !== "closed",
+		({ pullRequest }) =>
+			pullRequest.state !== "merged" && pullRequest.state !== "closed",
 	).length;
 	const open = (url: string) => {
 		const ref = pullRequestRefFromUrl(url);
@@ -65,32 +89,21 @@ export function PullRequestsTabContent({
 						</p>
 					</div>
 				) : (
-					sections
-						.filter((section) => section.pullRequests.length > 0)
-						.map((section) => (
-							<div key={section.id}>
-								{section.id !== workspaceId && (
-									<p className="truncate px-2 pt-2 pb-0.5 text-[11px] text-muted-foreground">
-										{section.name}
-									</p>
-								)}
-								{section.pullRequests.map((pullRequest) => (
-									<PullRequestLinkRow
-										key={pullRequest.id}
-										pullRequest={pullRequest}
-										openProps={pullRequestClickProps(pullRequest.url, () =>
-											open(pullRequest.url),
-										)}
-										onUnlink={() =>
-											unlink.mutate({
-												workspaceId: section.id,
-												pullRequestId: pullRequest.id,
-											})
-										}
-									/>
-								))}
-							</div>
-						))
+					pullRequests.map(({ pullRequest, workspaceId: ownerId }) => (
+						<PullRequestLinkRow
+							key={pullRequest.id}
+							pullRequest={pullRequest}
+							openProps={pullRequestClickProps(pullRequest.url, () =>
+								open(pullRequest.url),
+							)}
+							onUnlink={() =>
+								unlink.mutate({
+									workspaceId: ownerId,
+									pullRequestId: pullRequest.id,
+								})
+							}
+						/>
+					))
 				)}
 			</div>
 			<form
@@ -120,11 +133,32 @@ export function PullRequestsTabContent({
 				{link.error && (
 					<p className="text-[11px] text-destructive">{link.error.message}</p>
 				)}
-				<p className="text-[11px] text-muted-foreground">
-					<Trans>
-						{openCount} open · {linkedCount} linked
-					</Trans>
-				</p>
+				<div className="flex items-center justify-between gap-1.5">
+					<p className="text-[11px] text-muted-foreground">
+						<Trans>
+							{openCount} open · {linkedCount} linked
+						</Trans>
+					</p>
+					<button
+						type="button"
+						onClick={refreshAll}
+						disabled={isRefreshing}
+						aria-label={t({ message: "Refresh pull requests" })}
+						title={
+							refreshError
+								? refreshError.message
+								: t({ message: "Refresh pull requests" })
+						}
+						className={cn(
+							"shrink-0 text-muted-foreground hover:text-foreground",
+							refreshError && "text-destructive",
+						)}
+					>
+						<LuRefreshCw
+							className={cn("size-3", isRefreshing && "animate-spin")}
+						/>
+					</button>
+				</div>
 			</form>
 		</div>
 	);
