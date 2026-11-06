@@ -30,6 +30,7 @@ export interface V2UserPreferencesApi {
 	toggleShowPresetsBar: () => void;
 	setChangesViewMode: (next: ChangesViewMode) => void;
 	setDefaultSidebarTabs: (next: WorkspaceSidebarTab[]) => void;
+	setSidebarTabsStacked: (next: boolean) => void;
 	setSidebarProjectSortMode: (next: SidebarProjectSortMode) => void;
 	setBuiltinPresetHidden: (presetId: string, hidden: boolean) => void;
 	/** Hide/show a tag folder in one project without touching anyone's tags. */
@@ -256,6 +257,25 @@ export function useV2UserPreferences(): V2UserPreferencesApi {
 		[collections],
 	);
 
+	const setSidebarTabsStacked = useCallback(
+		(next: boolean) => {
+			const existing = collections.v2UserPreferences.get(
+				V2_USER_PREFERENCES_ID,
+			);
+			if (!existing) {
+				collections.v2UserPreferences.insert({
+					...DEFAULT_V2_USER_PREFERENCES,
+					sidebarTabsStacked: next,
+				});
+				return;
+			}
+			collections.v2UserPreferences.update(V2_USER_PREFERENCES_ID, (draft) => {
+				draft.sidebarTabsStacked = next;
+			});
+		},
+		[collections],
+	);
+
 	const setChangesViewMode = useCallback(
 		(next: ChangesViewMode) => {
 			const existing = collections.v2UserPreferences.get(
@@ -374,6 +394,7 @@ export function useV2UserPreferences(): V2UserPreferencesApi {
 		toggleShowPresetsBar,
 		setChangesViewMode,
 		setDefaultSidebarTabs,
+		setSidebarTabsStacked,
 		setSidebarProjectSortMode,
 		setBuiltinPresetHidden,
 		setTagFolderHidden,

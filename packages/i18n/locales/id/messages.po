@@ -841,6 +841,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "{distance} lalu"
 
+msgid "{doneCount} of {total} done"
+msgstr "{doneCount} dari {total} selesai"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {Berpikir # detik} other {Berpikir # detik}}"
 
@@ -3529,6 +3532,10 @@ msgstr "Memeriksa…"
 
 msgid "Checklist"
 msgstr "Daftar centang"
+
+msgctxt "workspace sidebar tab"
+msgid "Checklist"
+msgstr "Daftar periksa"
 
 msgid "Checkout: {label}"
 msgstr "Checkout: {label}"
@@ -10514,6 +10521,9 @@ msgstr "Belum ada perubahan di branch ini."
 msgid "No changes to display."
 msgstr "Tidak ada perubahan untuk ditampilkan."
 
+msgid "No checklist yet"
+msgstr "Belum ada daftar periksa"
+
 msgid "No checks"
 msgstr "Tidak ada check"
 
@@ -15579,6 +15589,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "Peningkatan stabilitas"
 
+msgid "Stack tabs vertically"
+msgstr "Tumpuk tab secara vertikal"
+
 msgid "Stacked"
 msgstr "Bertumpuk"
 
@@ -16605,6 +16618,9 @@ msgstr "Agen menyalin percakapan; cabang terbuka di sini"
 
 msgid "The agent follows the plugin's skills and calls its tools. The issue shows up in Linear."
 msgstr "Agen mengikuti skill plugin dan memanggil tool-nya. Issue muncul di Linear."
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "Agen di workspace ini dapat membuatnya dengan <0>superset ws checklist set</0>"
 
 msgid "The agent owns a task from ticket to diff. The human reviews the result, not the keystrokes. Attention shifts from writing code to specifying work and judging it. One engineer runs several agents at once in isolated workspaces."
 msgstr "Agen memegang tugas dari tiket sampai diff. Manusia mereview hasilnya, bukan tiap ketukan tombolnya. Perhatian bergeser dari menulis kode ke menentukan pekerjaan dan menilainya. Satu engineer menjalankan beberapa agen sekaligus di workspace terisolasi."

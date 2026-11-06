@@ -841,6 +841,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "před {distance}"
 
+msgid "{doneCount} of {total} done"
+msgstr "Hotovo {doneCount} z {total}"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {Přemýšlel # sekundu} few {Přemýšlel # sekundy} many {Přemýšlel # sekundy} other {Přemýšlel # sekund}}"
 
@@ -3529,6 +3532,10 @@ msgstr "Kontroluji…"
 
 msgid "Checklist"
 msgstr "Zaškrtávací seznam"
+
+msgctxt "workspace sidebar tab"
+msgid "Checklist"
+msgstr "Kontrolní seznam"
 
 msgid "Checkout: {label}"
 msgstr "Checkout: {label}"
@@ -10514,6 +10521,9 @@ msgstr "V této větvi zatím nejsou žádné změny."
 msgid "No changes to display."
 msgstr "Žádné změny k zobrazení."
 
+msgid "No checklist yet"
+msgstr "Zatím žádný kontrolní seznam"
+
 msgid "No checks"
 msgstr "Žádné kontroly"
 
@@ -15579,6 +15589,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "Vylepšení stability"
 
+msgid "Stack tabs vertically"
+msgstr "Skládat karty svisle"
+
 msgid "Stacked"
 msgstr "Nad sebou"
 
@@ -16605,6 +16618,9 @@ msgstr "Agent zkopíruje konverzaci; větev se otevře zde"
 
 msgid "The agent follows the plugin's skills and calls its tools. The issue shows up in Linear."
 msgstr "Agent se řídí skills pluginu a volá jeho nástroje. Issue se objeví v Linear."
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "Agent v tomto pracovním prostoru ho může vést pomocí <0>superset ws checklist set</0>"
 
 msgid "The agent owns a task from ticket to diff. The human reviews the result, not the keystrokes. Attention shifts from writing code to specifying work and judging it. One engineer runs several agents at once in isolated workspaces."
 msgstr "Agent vlastní úkol od ticketu po diff. Člověk reviduje výsledek, ne úhozy. Pozornost se přesouvá od psaní kódu k zadávání práce a jejímu posuzování. Jeden inženýr běží několik agentů naráz v izolovaných pracovních prostorech."

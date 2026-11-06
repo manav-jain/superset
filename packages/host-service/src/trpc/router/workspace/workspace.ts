@@ -1,10 +1,14 @@
 import { basename } from "node:path";
+import {
+	type WorkspaceChecklistItem,
+	workspaceChecklistSchema,
+} from "@superset/shared/workspace-checklist";
 import { workspaceTagsInputSchema } from "@superset/shared/workspace-tags";
 import { TRPCError } from "@trpc/server";
 import { eq, isNotNull, isNull } from "drizzle-orm";
 import { z } from "zod";
 import type { HostDb } from "../../../db";
-import { projects, workspaces } from "../../../db/schema";
+import { projects, workspaceChecklists, workspaces } from "../../../db/schema";
 import { isMissingPath } from "../../../runtime/path-state";
 import {
 	getLocalWorkspace,
@@ -37,6 +41,23 @@ function assertValidParent(db: HostDb, id: string, parentId: string) {
 		}
 		cursor = row.parentWorkspaceId;
 	}
+}
+
+function readChecklist(
+	db: HostDb,
+	workspaceId: string,
+): { items: WorkspaceChecklistItem[]; updatedAt: number | null } {
+	const row = db
+		.select()
+		.from(workspaceChecklists)
+		.where(eq(workspaceChecklists.workspaceId, workspaceId))
+		.get();
+	if (!row) return { items: [], updatedAt: null };
+	const parsed = workspaceChecklistSchema.safeParse(JSON.parse(row.itemsJson));
+	return {
+		items: parsed.success ? parsed.data : [],
+		updatedAt: row.updatedAt,
+	};
 }
 
 export const workspaceRouter = router({
@@ -208,6 +229,53 @@ export const workspaceRouter = router({
 				...toCloudShape(updated, ctx.organizationId),
 				tags: getWorkspaceTags(ctx.db, updated.id, ctx.userId),
 			};
+		}),
+
+	checklist: protectedProcedure
+		.input(z.object({ id: z.string() }))
+		.query(({ ctx, input }) => readChecklist(ctx.db, input.id)),
+
+	/**
+	 * Replaces the workspace's checklist. `baseUpdatedAt` makes the write
+	 * fail if the list changed since the caller read it.
+	 */
+	setChecklist: protectedProcedure
+		.input(
+			z.object({
+				id: z.string().uuid(),
+				items: workspaceChecklistSchema,
+				baseUpdatedAt: z.number().nullable().optional(),
+			}),
+		)
+		.mutation(({ ctx, input }) => {
+			if (!getLocalWorkspace(ctx.db, input.id)) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "Workspace not found",
+				});
+			}
+			if (
+				input.baseUpdatedAt !== undefined &&
+				input.baseUpdatedAt !== readChecklist(ctx.db, input.id).updatedAt
+			) {
+				throw new TRPCError({
+					code: "CONFLICT",
+					message: "The checklist changed since it was read",
+				});
+			}
+			const row = {
+				itemsJson: JSON.stringify(input.items),
+				updatedAt: Date.now(),
+			};
+			ctx.db
+				.insert(workspaceChecklists)
+				.values({ workspaceId: input.id, ...row })
+				.onConflictDoUpdate({
+					target: workspaceChecklists.workspaceId,
+					set: row,
+				})
+				.run();
+			return { items: input.items, updatedAt: row.updatedAt };
 		}),
 
 	// Workspaces are host-owned now; the cloud list it proxied is gone. Kept as

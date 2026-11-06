@@ -841,6 +841,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "{distance}前"
 
+msgid "{doneCount} of {total} done"
+msgstr "已完成 {doneCount}/{total}"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {思考了#秒} other {思考了#秒}}"
 
@@ -3527,6 +3530,10 @@ msgstr "正在檢查..."
 msgid "Checking…"
 msgstr "正在檢查…"
 
+msgid "Checklist"
+msgstr "清單"
+
+msgctxt "workspace sidebar tab"
 msgid "Checklist"
 msgstr "清單"
 
@@ -10514,6 +10521,9 @@ msgstr "此分支上還沒有改動。"
 msgid "No changes to display."
 msgstr "沒有可顯示的改動。"
 
+msgid "No checklist yet"
+msgstr "還沒有清單"
+
 msgid "No checks"
 msgstr "無檢查"
 
@@ -15579,6 +15589,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "穩定性改進"
 
+msgid "Stack tabs vertically"
+msgstr "垂直堆疊分頁"
+
 msgid "Stacked"
 msgstr "堆疊"
 
@@ -16605,6 +16618,9 @@ msgstr "代理複製該對話，分支在此開啟"
 
 msgid "The agent follows the plugin's skills and calls its tools. The issue shows up in Linear."
 msgstr "代理程式遵循外掛的技能並呼叫其工具。issue 就會出現在 Linear 中。"
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "此工作區中的代理程式可以用 <0>superset ws checklist set</0> 維護清單"
 
 msgid "The agent owns a task from ticket to diff. The human reviews the result, not the keystrokes. Attention shifts from writing code to specifying work and judging it. One engineer runs several agents at once in isolated workspaces."
 msgstr "代理程式從工單一路負責到差異。人類審查結果，而不是擊鍵過程。注意力從寫程式碼轉向定義工作和判斷成果。一名工程師在隔離工作區裡同時跑好幾個代理程式。"

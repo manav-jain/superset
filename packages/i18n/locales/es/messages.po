@@ -841,6 +841,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "hace {distance}"
 
+msgid "{doneCount} of {total} done"
+msgstr "{doneCount} de {total} hechas"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {Pensó durante # segundo} other {Pensó durante # segundos}}"
 
@@ -3527,6 +3530,10 @@ msgstr "Comprobando..."
 msgid "Checking…"
 msgstr "Comprobando…"
 
+msgid "Checklist"
+msgstr "Lista de tareas"
+
+msgctxt "workspace sidebar tab"
 msgid "Checklist"
 msgstr "Lista de tareas"
 
@@ -10514,6 +10521,9 @@ msgstr "Aún no hay cambios en esta rama."
 msgid "No changes to display."
 msgstr "No hay cambios que mostrar."
 
+msgid "No checklist yet"
+msgstr "Aún no hay lista de tareas"
+
 msgid "No checks"
 msgstr "Sin comprobaciones"
 
@@ -15579,6 +15589,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "Mejoras de estabilidad"
 
+msgid "Stack tabs vertically"
+msgstr "Apilar pestañas verticalmente"
+
 msgid "Stacked"
 msgstr "Apilado"
 
@@ -16605,6 +16618,9 @@ msgstr "El agente copia la conversación; la rama se abre aquí"
 
 msgid "The agent follows the plugin's skills and calls its tools. The issue shows up in Linear."
 msgstr "El agente sigue las skills del plugin y llama a sus herramientas. La incidencia aparece en Linear."
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "El agente de este espacio de trabajo puede llevar una con <0>superset ws checklist set</0>"
 
 msgid "The agent owns a task from ticket to diff. The human reviews the result, not the keystrokes. Attention shifts from writing code to specifying work and judging it. One engineer runs several agents at once in isolated workspaces."
 msgstr "El agente se encarga de una tarea desde el ticket hasta el diff. La persona revisa el resultado, no las pulsaciones. La atención pasa de escribir código a especificar el trabajo y juzgarlo. Un ingeniero ejecuta varios agentes a la vez en espacios de trabajo aislados."

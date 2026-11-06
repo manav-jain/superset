@@ -841,6 +841,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "{distance} назад"
 
+msgid "{doneCount} of {total} done"
+msgstr "Выполнено {doneCount} из {total}"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {Думал # секунду} few {Думал # секунды} many {Думал # секунд} other {Думал # секунды}}"
 
@@ -3527,6 +3530,10 @@ msgstr "Проверка..."
 msgid "Checking…"
 msgstr "Проверка…"
 
+msgid "Checklist"
+msgstr "Чек-лист"
+
+msgctxt "workspace sidebar tab"
 msgid "Checklist"
 msgstr "Чек-лист"
 
@@ -10514,6 +10521,9 @@ msgstr "В этой ветке пока нет изменений."
 msgid "No changes to display."
 msgstr "Нет изменений для показа."
 
+msgid "No checklist yet"
+msgstr "Чек-листа пока нет"
+
 msgid "No checks"
 msgstr "Без проверок"
 
@@ -15579,6 +15589,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "Улучшения стабильности"
 
+msgid "Stack tabs vertically"
+msgstr "Располагать вкладки вертикально"
+
 msgid "Stacked"
 msgstr "Стопкой"
 
@@ -16605,6 +16618,9 @@ msgstr "Агент копирует разговор; ветвь откроет�
 
 msgid "The agent follows the plugin's skills and calls its tools. The issue shows up in Linear."
 msgstr "Агент следует навыкам плагина и вызывает его инструменты. Задача появляется в Linear."
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "Агент в этой рабочей области может вести его командой <0>superset ws checklist set</0>"
 
 msgid "The agent owns a task from ticket to diff. The human reviews the result, not the keystrokes. Attention shifts from writing code to specifying work and judging it. One engineer runs several agents at once in isolated workspaces."
 msgstr "Агент ведёт задачу от тикета до diff. Человек проверяет результат, а не нажатия клавиш. Внимание смещается с написания кода на постановку задач и оценку результата. Один инженер ведёт несколько агентов одновременно в изолированных рабочих областях."

@@ -841,6 +841,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "{distance} önce"
 
+msgid "{doneCount} of {total} done"
+msgstr "{total} öğeden {doneCount} tanesi tamamlandı"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {# saniye düşündü} other {# saniye düşündü}}"
 
@@ -3527,6 +3530,10 @@ msgstr "Denetleniyor..."
 msgid "Checking…"
 msgstr "Denetleniyor…"
 
+msgid "Checklist"
+msgstr "Kontrol listesi"
+
+msgctxt "workspace sidebar tab"
 msgid "Checklist"
 msgstr "Kontrol listesi"
 
@@ -10514,6 +10521,9 @@ msgstr "Bu dalda henüz değişiklik yok."
 msgid "No changes to display."
 msgstr "Gösterilecek değişiklik yok."
 
+msgid "No checklist yet"
+msgstr "Henüz kontrol listesi yok"
+
 msgid "No checks"
 msgstr "Kontrol yok"
 
@@ -15579,6 +15589,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "Kararlılık iyileştirmeleri"
 
+msgid "Stack tabs vertically"
+msgstr "Sekmeleri dikey olarak yığ"
+
 msgid "Stacked"
 msgstr "Üst üste"
 
@@ -16605,6 +16618,9 @@ msgstr "Aracı konuşmayı kopyalar; çatal burada açılır"
 
 msgid "The agent follows the plugin's skills and calls its tools. The issue shows up in Linear."
 msgstr "Ajan eklentinin becerilerini izler ve araçlarını çağırır. Issue Linear'da görünür."
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "Bu çalışma alanındaki ajan <0>superset ws checklist set</0> ile bir liste tutabilir"
 
 msgid "The agent owns a task from ticket to diff. The human reviews the result, not the keystrokes. Attention shifts from writing code to specifying work and judging it. One engineer runs several agents at once in isolated workspaces."
 msgstr "Ajan, bir görevi biletten farka kadar sahiplenir. İnsan tuş vuruşlarını değil, sonucu inceler. Dikkat, kod yazmaktan işi tanımlamaya ve değerlendirmeye kayar. Bir mühendis, yalıtılmış çalışma alanlarında aynı anda birkaç ajan çalıştırır."

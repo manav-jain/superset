@@ -841,6 +841,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "{distance} geleden"
 
+msgid "{doneCount} of {total} done"
+msgstr "{doneCount} van {total} klaar"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {# seconde nagedacht} other {# seconden nagedacht}}"
 
@@ -3527,6 +3530,10 @@ msgstr "Controleren..."
 msgid "Checking…"
 msgstr "Controleren…"
 
+msgid "Checklist"
+msgstr "Checklist"
+
+msgctxt "workspace sidebar tab"
 msgid "Checklist"
 msgstr "Checklist"
 
@@ -10514,6 +10521,9 @@ msgstr "Nog geen wijzigingen op deze branch."
 msgid "No changes to display."
 msgstr "Geen wijzigingen om te tonen."
 
+msgid "No checklist yet"
+msgstr "Nog geen checklist"
+
 msgid "No checks"
 msgstr "Geen checks"
 
@@ -15579,6 +15589,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "Stabiliteitsverbeteringen"
 
+msgid "Stack tabs vertically"
+msgstr "Tabbladen verticaal stapelen"
+
 msgid "Stacked"
 msgstr "Gestapeld"
 
@@ -16605,6 +16618,9 @@ msgstr "De agent kopieert het gesprek; de aftakking opent hier"
 
 msgid "The agent follows the plugin's skills and calls its tools. The issue shows up in Linear."
 msgstr "De agent volgt de skills van de plugin en roept de tools aan. Het issue verschijnt in Linear."
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "De agent in deze werkruimte kan er een bijhouden met <0>superset ws checklist set</0>"
 
 msgid "The agent owns a task from ticket to diff. The human reviews the result, not the keystrokes. Attention shifts from writing code to specifying work and judging it. One engineer runs several agents at once in isolated workspaces."
 msgstr "De agent bezit een taak van ticket tot diff. De mens reviewt het resultaat, niet de toetsaanslagen. De aandacht verschuift van code schrijven naar werk specificeren en beoordelen. Eén engineer laat meerdere agents tegelijk draaien in geïsoleerde werkruimtes."

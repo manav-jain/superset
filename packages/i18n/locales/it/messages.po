@@ -841,6 +841,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "{distance} fa"
 
+msgid "{doneCount} of {total} done"
+msgstr "{doneCount} di {total} completati"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {Ha pensato per # secondo} other {Ha pensato per # secondi}}"
 
@@ -3529,6 +3532,10 @@ msgstr "Verifica…"
 
 msgid "Checklist"
 msgstr "Elenco di controllo"
+
+msgctxt "workspace sidebar tab"
+msgid "Checklist"
+msgstr "Checklist"
 
 msgid "Checkout: {label}"
 msgstr "Checkout: {label}"
@@ -10514,6 +10521,9 @@ msgstr "Ancora nessuna modifica su questo branch."
 msgid "No changes to display."
 msgstr "Nessuna modifica da mostrare."
 
+msgid "No checklist yet"
+msgstr "Nessuna checklist per ora"
+
 msgid "No checks"
 msgstr "Nessun controllo"
 
@@ -15579,6 +15589,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "Miglioramenti di stabilità"
 
+msgid "Stack tabs vertically"
+msgstr "Impila le schede in verticale"
+
 msgid "Stacked"
 msgstr "Impilato"
 
@@ -16605,6 +16618,9 @@ msgstr "L'agente copia la conversazione; il ramo si apre qui"
 
 msgid "The agent follows the plugin's skills and calls its tools. The issue shows up in Linear."
 msgstr "L'agente segue le skill del plugin e chiama i suoi strumenti. L'issue compare in Linear."
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "L'agente di questo workspace può tenerne una con <0>superset ws checklist set</0>"
 
 msgid "The agent owns a task from ticket to diff. The human reviews the result, not the keystrokes. Attention shifts from writing code to specifying work and judging it. One engineer runs several agents at once in isolated workspaces."
 msgstr "L'agente prende in carico un task dal ticket al diff. L'umano rivede il risultato, non le battute sulla tastiera. L'attenzione si sposta dallo scrivere codice allo specificare il lavoro e giudicarlo. Un ingegnere fa girare diversi agenti insieme in workspace isolati."

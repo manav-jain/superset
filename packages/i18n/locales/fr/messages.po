@@ -841,6 +841,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "il y a {distance}"
 
+msgid "{doneCount} of {total} done"
+msgstr "{doneCount} sur {total} terminées"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {A réfléchi pendant # seconde} other {A réfléchi pendant # secondes}}"
 
@@ -3529,6 +3532,10 @@ msgstr "Vérification…"
 
 msgid "Checklist"
 msgstr "Liste de cases à cocher"
+
+msgctxt "workspace sidebar tab"
+msgid "Checklist"
+msgstr "Checklist"
 
 msgid "Checkout: {label}"
 msgstr "Checkout : {label}"
@@ -10514,6 +10521,9 @@ msgstr "Aucune modification sur cette branche pour l'instant."
 msgid "No changes to display."
 msgstr "Aucune modification à afficher."
 
+msgid "No checklist yet"
+msgstr "Pas encore de checklist"
+
 msgid "No checks"
 msgstr "Aucune vérification"
 
@@ -15579,6 +15589,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "Améliorations de la stabilité"
 
+msgid "Stack tabs vertically"
+msgstr "Empiler les onglets verticalement"
+
 msgid "Stacked"
 msgstr "Empilé"
 
@@ -16605,6 +16618,9 @@ msgstr "L'agent copie la conversation ; la branche s'ouvre ici"
 
 msgid "The agent follows the plugin's skills and calls its tools. The issue shows up in Linear."
 msgstr "L'agent suit les compétences du plugin et appelle ses outils. Le ticket apparaît dans Linear."
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "L'agent de cet espace de travail peut en tenir une avec <0>superset ws checklist set</0>"
 
 msgid "The agent owns a task from ticket to diff. The human reviews the result, not the keystrokes. Attention shifts from writing code to specifying work and judging it. One engineer runs several agents at once in isolated workspaces."
 msgstr "L'agent prend en charge une tâche du ticket au diff. L'humain relit le résultat, pas les frappes au clavier. L'attention passe de l'écriture du code à la spécification du travail et à son évaluation. Un ingénieur fait tourner plusieurs agents à la fois dans des espaces de travail isolés."

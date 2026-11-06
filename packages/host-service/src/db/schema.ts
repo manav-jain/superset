@@ -402,3 +402,11 @@ export const workspacePullRequests = sqliteTable(
 		index("workspace_pull_requests_workspace_idx").on(table.workspaceId),
 	],
 );
+
+export const workspaceChecklists = sqliteTable("workspace_checklists", {
+	workspaceId: text("workspace_id")
+		.primaryKey()
+		.references(() => workspaces.id, { onDelete: "cascade" }),
+	itemsJson: text("items_json").notNull().default("[]"),
+	updatedAt: integer("updated_at").notNull(),
+});

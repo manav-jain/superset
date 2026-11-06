@@ -841,6 +841,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "{distance} ago"
 
+msgid "{doneCount} of {total} done"
+msgstr "{doneCount} of {total} done"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 
@@ -3527,6 +3530,10 @@ msgstr "Checking..."
 msgid "Checking…"
 msgstr "Checking…"
 
+msgid "Checklist"
+msgstr "Checklist"
+
+msgctxt "workspace sidebar tab"
 msgid "Checklist"
 msgstr "Checklist"
 
@@ -10514,6 +10521,9 @@ msgstr "No changes on this branch yet."
 msgid "No changes to display."
 msgstr "No changes to display."
 
+msgid "No checklist yet"
+msgstr "No checklist yet"
+
 msgid "No checks"
 msgstr "No checks"
 
@@ -15579,6 +15589,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "Stability improvements"
 
+msgid "Stack tabs vertically"
+msgstr "Stack tabs vertically"
+
 msgid "Stacked"
 msgstr "Stacked"
 
@@ -16605,6 +16618,9 @@ msgstr "The agent copies the conversation; the branch opens here"
 
 msgid "The agent follows the plugin's skills and calls its tools. The issue shows up in Linear."
 msgstr "The agent follows the plugin's skills and calls its tools. The issue shows up in Linear."
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
 
 msgid "The agent owns a task from ticket to diff. The human reviews the result, not the keystrokes. Attention shifts from writing code to specifying work and judging it. One engineer runs several agents at once in isolated workspaces."
 msgstr "The agent owns a task from ticket to diff. The human reviews the result, not the keystrokes. Attention shifts from writing code to specifying work and judging it. One engineer runs several agents at once in isolated workspaces."

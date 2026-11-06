@@ -841,6 +841,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "{distance} trước"
 
+msgid "{doneCount} of {total} done"
+msgstr "Đã xong {doneCount}/{total}"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {Đã suy nghĩ # giây} other {Đã suy nghĩ # giây}}"
 
@@ -3529,6 +3532,10 @@ msgstr "Đang kiểm tra…"
 
 msgid "Checklist"
 msgstr "Danh sách kiểm"
+
+msgctxt "workspace sidebar tab"
+msgid "Checklist"
+msgstr "Danh sách kiểm tra"
 
 msgid "Checkout: {label}"
 msgstr "Checkout: {label}"
@@ -10514,6 +10521,9 @@ msgstr "Chưa có thay đổi nào trên nhánh này."
 msgid "No changes to display."
 msgstr "Không có thay đổi nào để hiển thị."
 
+msgid "No checklist yet"
+msgstr "Chưa có danh sách kiểm tra"
+
 msgid "No checks"
 msgstr "Không có check"
 
@@ -15579,6 +15589,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "Cải thiện độ ổn định"
 
+msgid "Stack tabs vertically"
+msgstr "Xếp các tab theo chiều dọc"
+
 msgid "Stacked"
 msgstr "Xếp chồng"
 
@@ -16605,6 +16618,9 @@ msgstr "Tác nhân sao chép hội thoại; nhánh mở tại đây"
 
 msgid "The agent follows the plugin's skills and calls its tools. The issue shows up in Linear."
 msgstr "Agent làm theo skill của plugin và gọi các công cụ của nó. Issue xuất hiện trong Linear."
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "Agent trong workspace này có thể duy trì danh sách bằng <0>superset ws checklist set</0>"
 
 msgid "The agent owns a task from ticket to diff. The human reviews the result, not the keystrokes. Attention shifts from writing code to specifying work and judging it. One engineer runs several agents at once in isolated workspaces."
 msgstr "Agent làm chủ một tác vụ từ ticket đến diff. Con người review kết quả, không phải từng thao tác gõ. Sự chú ý dịch từ viết code sang đặc tả công việc và đánh giá nó. Một kỹ sư chạy nhiều agent cùng lúc trong các workspace tách biệt."

@@ -841,6 +841,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "{distance}前"
 
+msgid "{doneCount} of {total} done"
+msgstr "{total} 件中 {doneCount} 件完了"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {#秒間思考しました} other {#秒間思考しました}}"
 
@@ -3527,6 +3530,10 @@ msgstr "確認中..."
 msgid "Checking…"
 msgstr "確認中…"
 
+msgid "Checklist"
+msgstr "チェックリスト"
+
+msgctxt "workspace sidebar tab"
 msgid "Checklist"
 msgstr "チェックリスト"
 
@@ -10514,6 +10521,9 @@ msgstr "このブランチにはまだ変更がありません。"
 msgid "No changes to display."
 msgstr "表示する変更がありません。"
 
+msgid "No checklist yet"
+msgstr "チェックリストはまだありません"
+
 msgid "No checks"
 msgstr "チェックなし"
 
@@ -15579,6 +15589,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "安定性の改善"
 
+msgid "Stack tabs vertically"
+msgstr "タブを縦に並べる"
+
 msgid "Stacked"
 msgstr "積み重ね"
 
@@ -16605,6 +16618,9 @@ msgstr "エージェントが会話を複製し、分岐はここで開きます
 
 msgid "The agent follows the plugin's skills and calls its tools. The issue shows up in Linear."
 msgstr "エージェントはプラグインのスキルに従い、そのツールを呼び出します。Issueは Linear に作成されます。"
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "このワークスペースのエージェントは <0>superset ws checklist set</0> でチェックリストを管理できます"
 
 msgid "The agent owns a task from ticket to diff. The human reviews the result, not the keystrokes. Attention shifts from writing code to specifying work and judging it. One engineer runs several agents at once in isolated workspaces."
 msgstr "エージェントがチケットから差分までタスクを引き受けます。人間はキー入力ではなく結果をレビューします。関心はコードを書くことから、作業を仕様化し判断することへ移ります。エンジニア1人が独立したワークスペースで複数のエージェントを同時に動かします。"

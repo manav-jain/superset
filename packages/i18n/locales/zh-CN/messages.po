@@ -841,6 +841,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "{distance}前"
 
+msgid "{doneCount} of {total} done"
+msgstr "已完成 {doneCount}/{total}"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {思考了#秒} other {思考了#秒}}"
 
@@ -3527,6 +3530,10 @@ msgstr "正在检查..."
 msgid "Checking…"
 msgstr "正在检查…"
 
+msgid "Checklist"
+msgstr "清单"
+
+msgctxt "workspace sidebar tab"
 msgid "Checklist"
 msgstr "清单"
 
@@ -10514,6 +10521,9 @@ msgstr "此分支上还没有改动。"
 msgid "No changes to display."
 msgstr "没有可显示的改动。"
 
+msgid "No checklist yet"
+msgstr "还没有清单"
+
 msgid "No checks"
 msgstr "无检查"
 
@@ -15579,6 +15589,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "稳定性改进"
 
+msgid "Stack tabs vertically"
+msgstr "垂直堆叠标签页"
+
 msgid "Stacked"
 msgstr "堆叠"
 
@@ -16605,6 +16618,9 @@ msgstr "智能体复制该对话，分支在此打开"
 
 msgid "The agent follows the plugin's skills and calls its tools. The issue shows up in Linear."
 msgstr "智能体遵循插件的技能并调用其工具。issue 就会出现在 Linear 中。"
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "此工作区中的智能体可以用 <0>superset ws checklist set</0> 维护清单"
 
 msgid "The agent owns a task from ticket to diff. The human reviews the result, not the keystrokes. Attention shifts from writing code to specifying work and judging it. One engineer runs several agents at once in isolated workspaces."
 msgstr "智能体从工单一路负责到差异。人类审查结果，而不是击键过程。注意力从写代码转向定义工作和判断成果。一名工程师在隔离工作区里同时跑好几个智能体。"

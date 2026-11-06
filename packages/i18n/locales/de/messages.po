@@ -841,6 +841,9 @@ msgstr "{developerCount}+"
 msgid "{distance} ago"
 msgstr "vor {distance}"
 
+msgid "{doneCount} of {total} done"
+msgstr "{doneCount} von {total} erledigt"
+
 msgid "{duration, plural, one {Thought for # second} other {Thought for # seconds}}"
 msgstr "{duration, plural, one {# Sekunde nachgedacht} other {# Sekunden nachgedacht}}"
 
@@ -3527,6 +3530,10 @@ msgstr "Wird geprüft..."
 msgid "Checking…"
 msgstr "Wird geprüft…"
 
+msgid "Checklist"
+msgstr "Checkliste"
+
+msgctxt "workspace sidebar tab"
 msgid "Checklist"
 msgstr "Checkliste"
 
@@ -10514,6 +10521,9 @@ msgstr "Noch keine Änderungen auf diesem Branch."
 msgid "No changes to display."
 msgstr "Keine Änderungen zum Anzeigen."
 
+msgid "No checklist yet"
+msgstr "Noch keine Checkliste"
+
 msgid "No checks"
 msgstr "Keine Prüfungen"
 
@@ -15579,6 +15589,9 @@ msgstr "SSO/SAML"
 msgid "Stability improvements"
 msgstr "Stabilitätsverbesserungen"
 
+msgid "Stack tabs vertically"
+msgstr "Tabs vertikal stapeln"
+
 msgid "Stacked"
 msgstr "Gestapelt"
 
@@ -16605,6 +16618,9 @@ msgstr "Der Agent kopiert die Unterhaltung; der Zweig öffnet sich hier"
 
 msgid "The agent follows the plugin's skills and calls its tools. The issue shows up in Linear."
 msgstr "Der Agent folgt den Skills des Plugins und ruft dessen Tools auf. Das Issue erscheint in Linear."
+
+msgid "The agent in this workspace can keep one with <0>superset ws checklist set</0>"
+msgstr "Der Agent in diesem Arbeitsbereich kann eine mit <0>superset ws checklist set</0> führen"
 
 msgid "The agent owns a task from ticket to diff. The human reviews the result, not the keystrokes. Attention shifts from writing code to specifying work and judging it. One engineer runs several agents at once in isolated workspaces."
 msgstr "Der Agent verantwortet eine Aufgabe vom Ticket bis zum Diff. Der Mensch reviewt das Ergebnis, nicht die Tastenanschläge. Die Aufmerksamkeit verlagert sich vom Schreiben von Code zum Spezifizieren und Beurteilen von Arbeit. Eine Ingenieurin betreibt mehrere Agenten gleichzeitig in isolierten Arbeitsbereichen."
