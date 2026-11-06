@@ -54,7 +54,7 @@ export interface SidebarWorkspaceInput {
 	projectId: string | null;
 	hostId: string;
 	type: DashboardSidebarWorkspaceType;
-	hostIsOnline: boolean;
+	hostIsOnline: boolean | null;
 	name: string;
 	branch: string;
 	taskId: string | null;
@@ -127,6 +127,8 @@ function decorateSidebarWorkspace(
 		parentWorkspaceId: workspace.parentWorkspaceId ?? null,
 		isPinned: workspace.pinnedAt != null,
 		pendingTransaction: workspace.pendingTransaction,
+		isMine: null,
+		sandboxStatus: null,
 	};
 }
 
