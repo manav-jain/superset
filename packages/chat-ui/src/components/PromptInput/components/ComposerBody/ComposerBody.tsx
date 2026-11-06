@@ -108,7 +108,6 @@ import { registerHistoryNavigation } from "../../utils/historyNavigation";
 import { registerInlineCodeExit } from "../../utils/inlineCodeExit";
 import { $insertTranscript } from "../../utils/insertTranscript";
 import { $isInCode } from "../../utils/isInCode";
-import { $continueList } from "../../utils/listContinuation";
 import { rankCommands } from "../../utils/rankCommands";
 import { tablesToMarkdown } from "../../utils/tablesToMarkdown";
 import { registerTrailingParagraph } from "../../utils/trailingParagraph";
@@ -698,8 +697,7 @@ export function ComposerBody({
 				if (event?.isComposing || event?.keyCode === 229) return false;
 				if (event?.shiftKey) {
 					event.preventDefault();
-					if (!$continueList())
-						editor.dispatchCommand(INSERT_PARAGRAPH_COMMAND, undefined);
+					editor.dispatchCommand(INSERT_PARAGRAPH_COMMAND, undefined);
 					return true;
 				}
 				const steer = Boolean(event?.metaKey || event?.ctrlKey);
