@@ -19,6 +19,7 @@ import {
 	GitPullRequest,
 	GitPullRequestArrow,
 	Globe,
+	ListChecks,
 	MessageSquare,
 	Monitor,
 	Plus,
@@ -53,6 +54,7 @@ import { getV2NotificationSourcesForPane } from "renderer/stores/v2-notification
 import type { StoreApi } from "zustand/vanilla";
 import { RightPaneNewTab } from "../../components/RightPaneNewTab";
 import { V2NotificationStatusIndicator } from "../../components/V2NotificationStatusIndicator";
+import { WorkspaceChecklist } from "../../components/WorkspaceChecklist";
 import {
 	getDocument,
 	useSharedFileDocument,
@@ -814,6 +816,12 @@ export function usePaneRegistry({
 						onSearch={onSearch}
 					/>
 				),
+			},
+			checklist: {
+				getIcon: () => <ListChecks className="size-3.5" />,
+				getTitle: () =>
+					t({ message: "Checklist", context: "workspace sidebar tab" }),
+				renderPane: () => <WorkspaceChecklist workspaceId={workspaceId} />,
 			},
 			"changes-list": {
 				getIcon: () => <Files className="size-3.5" />,

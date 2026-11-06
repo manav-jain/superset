@@ -11,3 +11,21 @@ export function newestPullRequests<
 		return true;
 	});
 }
+
+/**
+ * Workers can sit in other repositories, so across workspaces the URL names a
+ * PR; within one, the number does (see newestPullRequests).
+ */
+export function newestPullRequestsAcrossWorkspaces<
+	T extends { number: number; linkedAt: number; url: string },
+>(workspaces: readonly { pullRequests: readonly T[] }[]): T[] {
+	const seen = new Set<string>();
+	return workspaces
+		.flatMap((workspace) => newestPullRequests(workspace.pullRequests))
+		.sort((a, b) => b.linkedAt - a.linkedAt)
+		.filter((pr) => {
+			if (seen.has(pr.url)) return false;
+			seen.add(pr.url);
+			return true;
+		});
+}

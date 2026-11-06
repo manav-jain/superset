@@ -1,17 +1,10 @@
 import { Trans } from "@lingui/react/macro";
-import type { WorkspaceChecklistItem } from "@superset/shared/workspace-checklist";
 import { workspaceTrpc } from "@superset/workspace-client";
 import { ChecklistRow } from "./components/ChecklistRow";
 
-interface ChecklistTabContentProps {
-	workspaceId: string;
-	checklist?: { items: WorkspaceChecklistItem[]; updatedAt: number | null };
-}
-
-export function ChecklistTabContent({
-	workspaceId,
-	checklist,
-}: ChecklistTabContentProps) {
+/** The checklist the workspace's agent keeps with `superset ws checklist set`. */
+export function WorkspaceChecklist({ workspaceId }: { workspaceId: string }) {
+	const { data: checklist } = useWorkspaceChecklist(workspaceId);
 	const utils = workspaceTrpc.useUtils();
 	const save = workspaceTrpc.workspace.setChecklist.useMutation({
 		onSuccess: (saved) =>
@@ -90,5 +83,12 @@ export function ChecklistTabContent({
 				))}
 			</ul>
 		</div>
+	);
+}
+
+export function useWorkspaceChecklist(workspaceId: string) {
+	return workspaceTrpc.workspace.checklist.useQuery(
+		{ id: workspaceId },
+		{ refetchInterval: 3_000, refetchOnWindowFocus: true },
 	);
 }
