@@ -806,6 +806,7 @@ project id when the host does not know the project's name.
 		{ flag: "--command <cmd>", description: "Shell command to run in the new workspace after creation." },
 		{ flag: "--attachment <path>", description: "Local file to upload for the spawned agent. Repeatable. Up to 25 MB a file on a host, 200 MB in the cloud." },
 		{ flag: "--tag <tag>", description: "Workspace tag. Repeatable. Each tag groups the workspace into a sidebar folder of the same name." },
+		{ flag: "--parent <id>", description: "Workspace to nest this one under in the sidebar, e.g. the master workspace whose agent spawns it ($SUPERSET_WORKSPACE_ID). Host workspaces only." },
 	]}
 	output={`{ workspace: Workspace; alreadyExists: boolean; url: string; webUrl: string }`}
 >
@@ -1033,6 +1034,8 @@ superset workspaces get --field branch   # inside a workspace
 		{ flag: "--clear-task", description: "Unlink the workspace from its current task. Mutually exclusive with --task-id." },
 		{ flag: "--tag <tag>", description: "Replace the workspace's tag set. Repeatable. Each tag groups the workspace into a sidebar folder of the same name." },
 		{ flag: "--clear-tags", description: "Remove every tag. Mutually exclusive with --tag." },
+		{ flag: "--parent <id>", description: "Nest the workspace under this one in the sidebar." },
+		{ flag: "--clear-parent", description: "Stop nesting the workspace. Mutually exclusive with --parent." },
 		{ flag: "--visibility <just_me|org>", description: "Who sees a cloud workspace. Only its creator can change it." },
 		{ flag: "--add-label <name>", description: "Add a label to a cloud workspace, creating it when new. Repeatable." },
 		{ flag: "--remove-label <name>", description: "Remove a label from a cloud workspace. Repeatable." },

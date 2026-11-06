@@ -31,6 +31,8 @@ export default command({
 				"Replace the workspace's tag set. Repeatable. Each tag files the workspace into a sidebar folder of the same name",
 			),
 		clearTags: boolean().desc("Remove every tag from the workspace"),
+		parent: string().desc("Workspace ID to nest this one under in the sidebar"),
+		clearParent: boolean().desc("Stop nesting the workspace under a parent"),
 		visibility: string()
 			.enum("just_me", "org")
 			.desc(
@@ -70,6 +72,14 @@ export default command({
 			);
 		}
 
+		if (options.parent !== undefined && options.clearParent) {
+			throw new CLIError(
+				"Cannot combine --parent and --clear-parent",
+				"Pass one or the other",
+			);
+		}
+		const parentWorkspaceId = options.clearParent ? null : options.parent;
+
 		const taskId = options.clearTask
 			? null
 			: options.taskId !== undefined
@@ -95,11 +105,12 @@ export default command({
 			options.name === undefined &&
 			taskId === undefined &&
 			tags === undefined &&
+			parentWorkspaceId === undefined &&
 			Object.values(cloudOnly).every((value) => value === undefined)
 		) {
 			throw new CLIError(
 				"No fields to update",
-				"Pass --name, --task-id, --clear-task, --tag, --clear-tags, --machine-size, --visibility, --add-label, or --remove-label",
+				"Pass --name, --task-id, --clear-task, --tag, --clear-tags, --parent, --clear-parent, --machine-size, --visibility, --add-label, or --remove-label",
 			);
 		}
 
@@ -109,6 +120,12 @@ export default command({
 			organizationId,
 		);
 		if (!hostId) {
+			if (parentWorkspaceId !== undefined) {
+				throw new CLIError(
+					"--parent and --clear-parent apply to host workspaces only",
+					"Pass --local or --host <id> to nest a host workspace",
+				);
+			}
 			const data = await updateCloudWorkspace(ctx.api, id, {
 				name: options.name ?? undefined,
 				tags,
@@ -146,6 +163,7 @@ export default command({
 			...(options.name !== undefined ? { name: options.name } : {}),
 			...(taskId !== undefined ? { taskId } : {}),
 			...(tags !== undefined ? { tags } : {}),
+			...(parentWorkspaceId !== undefined ? { parentWorkspaceId } : {}),
 		});
 
 		return {

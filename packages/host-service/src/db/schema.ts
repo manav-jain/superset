@@ -264,6 +264,9 @@ export const workspaces = sqliteTable(
 			.notNull()
 			.default("worktree"),
 		taskId: text("task_id"),
+		// The workspace whose agent spawned this one (a master and its
+		// workers). The sidebar nests it under that row.
+		parentWorkspaceId: text("parent_workspace_id"),
 		createdByUserId: text("created_by_user_id"),
 		createdAt: integer("created_at")
 			.notNull()

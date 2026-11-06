@@ -125,6 +125,7 @@ export function toWorkspaceSnapshot(
 		createdAt: row.createdAt,
 		updatedAt: row.updatedAt || row.createdAt,
 		lastActivityAt: row.lastActivityAt,
+		parentWorkspaceId: row.parentWorkspaceId,
 		// A broadcast reaches every connected client, whoever they are, so
 		// the snapshot carries who applied each tag and each client keeps its
 		// own. `tags` stays the full union for consumers that predate that.
@@ -310,6 +311,7 @@ export interface UpdateLocalWorkspacePatch {
 	autoNaming?: WorkspaceNamingState | null;
 	worktreePath?: string;
 	taskId?: string | null;
+	parentWorkspaceId?: string | null;
 	projectId?: string;
 	/**
 	 * Full replacement of the acting user's tag set (`ctx.userId`); already-

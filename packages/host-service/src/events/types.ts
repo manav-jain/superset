@@ -109,6 +109,8 @@ export interface WorkspaceSnapshot {
 	 * writes (rename, tags, PR link).
 	 */
 	lastActivityAt: number | null;
+	/** The workspace that spawned this one; absent from older hosts. */
+	parentWorkspaceId?: string | null;
 	/**
 	 * Every tag on the workspace, normalized and sorted, whoever applied it.
 	 * Consumers that know who they are read `tagAssignments` instead.

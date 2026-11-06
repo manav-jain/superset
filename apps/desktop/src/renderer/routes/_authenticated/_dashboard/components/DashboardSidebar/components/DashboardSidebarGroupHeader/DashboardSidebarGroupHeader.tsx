@@ -19,7 +19,10 @@ interface DashboardSidebarGroupHeaderProps
 	 * Column the header's chevron sits in: the same one the lane's ungrouped
 	 * rows use, so a folder reads as a sibling of the rows around it.
 	 */
-	indentation?: Exclude<DashboardSidebarWorkspaceIndentation, "grouped">;
+	indentation?: Exclude<
+		DashboardSidebarWorkspaceIndentation,
+		"grouped" | "nested"
+	>;
 }
 
 /** Shared visual and interaction shell for every nested sidebar group. */
